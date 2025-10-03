@@ -1,0 +1,50 @@
+/* Introduction text container */
+.introduction-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.intro,
+.name,
+.tagline {
+  margin: 0;
+  padding: 0;
+}
+
+/* Text styles */
+.intro {
+  font-size: 1.25rem;
+  color: #e6c200; /* slightly darker yellow */
+}
+
+.name {
+  font-size: 3.125rem;
+  color: #FFFF99;
+}
+
+.tagline {
+  font-size: 1.5rem;
+  color: #e6c200;
+}
+
+/* Social links container */
+.socials-wrapper {
+  width: 100%;
+  display: flex;
+  justify-content: left;
+  margin-top: 0rem;
+}
+
+.socials-container {
+  display: flex;
+  justify-content: center;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+  max-width: 800px;  
+}
+
+.social-box {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

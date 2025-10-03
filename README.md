@@ -1,3 +1,5 @@
-# Website Under Construction
+# Predrag Milanović – Personal Website
 
-🚧  Page in Preparation  🚧
+This is my personal website, built to showcase my work, blog posts, and professional links.
+
+🚧 Ongoing development – more pages and features coming soon.
