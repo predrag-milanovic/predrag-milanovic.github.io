@@ -30,12 +30,12 @@
 /* Each post */
 .blog-post {
   padding: 1rem;
-  border-left: 3px solid #e6c200;
+  border-left: 3px solid #CCAA22;
 }
 
 .post-date {
   font-size: 0.9rem;
-  color: #e6c200;
+  color: #CCAA22;
 }
 
 .post-title {
@@ -46,5 +46,5 @@
 
 .post-desc {
   font-size: 1rem;
-  color: #e6c200;
+  color: #CCAA22;
 }

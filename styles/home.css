@@ -1,7 +1,11 @@
+/* === HOME PAGE STYLING === */
+
 /* Introduction text container */
 .introduction-container {
   display: flex;
   flex-direction: column;
+  position: relative; /* ensures text sits above animation */
+  z-index: 5; /* increased to ensure it's clearly above animation */
 }
 
 .intro,
@@ -14,7 +18,7 @@
 /* Text styles */
 .intro {
   font-size: 1.25rem;
-  color: #e6c200; /* slightly darker yellow */
+  color: #CCAA22; /* slightly darker yellow */
 }
 
 .name {
@@ -24,10 +28,22 @@
 
 .tagline {
   font-size: 1.5rem;
-  color: #e6c200;
+  color: #CCAA22;
 }
 
-/* Social links container */
+/* === Animation Layer Control === */
+.home-portal-animation {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 1; /* stays behind text but above background */
+  width: 340px;
+  height: 340px;
+  pointer-events: none; /* ignore mouse clicks */
+}
+
+/* === Social links container === */
 .socials-wrapper {
   width: 100%;
   display: flex;
@@ -40,11 +56,29 @@
   justify-content: center;
   gap: 1.5rem;
   flex-wrap: wrap;
-  max-width: 800px;  
+  max-width: 800px;
+  position: relative; /* keeps it above animation */
+  z-index: 5; /* same layer as text */
 }
 
 .social-box {
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+/* === Responsive Design === */
+@media (max-width: 768px) {
+  .name {
+    font-size: 2.5rem;
+  }
+
+  .tagline {
+    font-size: 1.25rem;
+  }
+
+  .home-portal-animation {
+    width: 250px;
+    height: 250px;
+  }
 }

@@ -1,26 +1,37 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title id="page-title">Predrag Milanović</title>
 
-  <!-- Favicon links -->
+  <!-- Favicon -->
   <link rel="icon" type="image/png" sizes="32x32" href="assets/icons/favicon-32.png">
   <link rel="icon" type="image/png" sizes="512x512" href="assets/icons/favicon-512.png">
   <link rel="shortcut icon" href="assets/icons/favicon.ico" type="image/x-icon">
 
-  <!-- Global CSS -->
+  <!-- Global + dynamic CSS -->
   <link id="global-style" href="styles/globals.css" rel="stylesheet">
-  <link id="page-style" rel="stylesheet"> <!-- dynamic per-page CSS -->
+  <link id="page-style" rel="stylesheet">
+  <link id="anim-style" rel="stylesheet">
 
   <!-- Scripts -->
   <script src="scripts/pagesConfig.js"></script>
   <script src="scripts/main.js" defer></script>
 </head>
 <body>
-  <main id="page-content">
-    Loading content...
-  </main>
+
+  <!-- HOME PORTAL ANIMATION (never replaced) -->
+  <div id="portal-animation-container" class="portal-hidden">
+    <div class="home-portal-animation">
+      <img src="assets/img/animations/home-portal/bearing-outer-shell.svg" alt="Outer Shell" class="portal-bearing-outer">
+      <img src="assets/img/animations/home-portal/bearing-inner-shell.svg" alt="Inner Shell" class="portal-bearing-inner">
+      <img src="assets/img/animations/home-portal/bearing-balls.svg" alt="Bearing Balls" class="portal-bearing-balls">
+      <img src="assets/img/animations/home-portal/cogwheel.svg" class="portal-cogwheel" alt="Cogwheel">
+    </div>
+  </div>
+
+  <!-- Dynamic page content (replaced per route) -->
+  <main id="page-content">Loading content...</main>
 </body>
 </html>

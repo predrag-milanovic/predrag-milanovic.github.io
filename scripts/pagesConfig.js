@@ -4,7 +4,8 @@ const pages = {
     title: "Predrag Milanović - Official Website",
     path: "pages/home.html",
     css: "styles/home.css",
-    route: "#home"
+    route: "#home",
+    animation: "styles/animation-home-portal.css"
   },
   blog: {
     title: "Predrag Milanović - Blog",

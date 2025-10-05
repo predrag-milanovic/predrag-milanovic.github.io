@@ -1,0 +1,71 @@
+/* === HOME PORTAL ANIMATION === */
+
+/* Main animation wrapper */
+.home-portal-animation {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 1; /* stays behind everything */
+  width: 625px;
+  height: 625px;
+  pointer-events: none; /* ignore mouse clicks */
+}
+
+/* Each image inside the animation */
+.home-portal-animation img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  opacity: 0.9;
+}
+
+/* Bearing shells (static) */
+.portal-bearing-inner,
+.portal-bearing-outer {
+  filter: drop-shadow(0 0 5px #CCAA22)
+          invert(29%) sepia(7%) saturate(1286%)
+          hue-rotate(175deg) brightness(90%) contrast(85%);
+  z-index: 2; /* above the bearing balls */
+  position: relative;
+}
+
+/* Bearing balls (rotate anticlockwise) */
+.portal-bearing-balls {
+  animation: rotate-counter 10s linear infinite;
+  filter: drop-shadow(0 0 1px #FFFF99)
+          invert(29%) sepia(7%) saturate(1286%)
+          hue-rotate(175deg) brightness(90%) contrast(85%) opacity(0.25);
+          /* #335577 Steel blue-gray color */
+  z-index: 1; /* behind inner & outer shells */
+  position: relative;
+}
+
+/* Cogwheel */
+.portal-cogwheel {
+  animation: rotate-clockwise 20s linear infinite;
+  filter: invert(29%) sepia(7%) saturate(1286%)
+          hue-rotate(175deg) brightness(90%) contrast(85%) opacity(1);
+  z-index: 3; /* top of bearing group */
+  position: relative;
+}
+
+/* Keyframes for rotation */
+@keyframes rotate-clockwise {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+@keyframes rotate-counter {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(-360deg); }
+}
+
+/* Slower rotation for the shadow cogwheel */
+@keyframes rotate-clockwise-slow {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
