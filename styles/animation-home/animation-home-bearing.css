@@ -1,0 +1,80 @@
+/* ==================================== */
+/* HOME PORTAL - BEARING + COGWHEEL     */
+/* ==================================== */
+
+/* All bearing images fill the wrapper from top-left */
+.portal-bearing-outer,
+.portal-bearing-inner,
+.portal-bearing-balls,
+.portal-cogwheel {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  transform-origin: center;
+  z-index: 1; /* baseline; we'll raise where needed below */
+}
+
+/* Bearing shells (static look) */
+.portal-bearing-inner,
+.portal-bearing-outer {
+  filter:
+    drop-shadow(0 0 5px #CCAA22)
+    invert(29%) sepia(7%) saturate(1286%)
+    hue-rotate(175deg) brightness(90%) contrast(85%);
+  z-index: 2; /* above the balls */
+  opacity: 0.95;
+}
+
+/* Bearing balls (rotate anticlockwise) */
+.portal-bearing-balls {
+  animation: rotate-bearing-balls 10s linear infinite;
+  filter:
+    drop-shadow(0 0 1px #FFFF99)
+    invert(29%) sepia(7%) saturate(1286%)
+    hue-rotate(175deg) brightness(90%) contrast(85%);
+  opacity: 0.25;
+  z-index: 1;
+}
+
+/* Cogwheel (front) */
+.portal-cogwheel {
+  animation: rotate-cogwheel 20s linear infinite;
+  filter:
+    invert(29%) sepia(7%) saturate(1286%)
+    hue-rotate(175deg) brightness(90%) contrast(85%);
+  z-index: 3; /* top of bearing group */
+}
+
+/* ==================================== */
+/* KEYFRAMES (include full transform)   */
+/* ==================================== */
+
+@keyframes rotate-cogwheel {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+@keyframes rotate-bearing-balls {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(-360deg); }
+}
+
+/* Optional slower variant kept for future */
+@keyframes rotate-cogwheel-slow {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+/* ==================================== */
+/* RESPONSIVE                           */
+/* ==================================== */
+@media (max-width: 768px) {
+  .home-portal-animation {
+    width: 340px;
+    height: 340px;
+  }
+  .portal-bearing-balls { animation-duration: 12s; }
+  .portal-cogwheel { animation-duration: 25s; }
+}

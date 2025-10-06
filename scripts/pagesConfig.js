@@ -5,7 +5,7 @@ const pages = {
     path: "pages/home.html",
     css: "styles/home.css",
     route: "#home",
-    animation: "styles/animation-home-portal.css"
+    animation: "styles/animation-home/animation-home-portal.css"
   },
   blog: {
     title: "Predrag Milanović - Blog",

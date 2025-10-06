@@ -1,0 +1,153 @@
+/* ==================================== */
+/* HOME PORTAL - MOTION OUTLINE SYSTEM  */
+/* ==================================== */
+
+/* --- Base outline setup (aligned with bearings) --- */
+.portal-outline {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  transform-origin: center;
+  object-fit: contain;
+  pointer-events: none;
+  z-index: 0;
+  mix-blend-mode: screen;
+}
+
+/* --- Independent scaling via CSS variables --- */
+:root {
+  --scale-blue: 1.15;
+  --scale-green: 0.1;
+  --scale-orange: 0.25;
+  --scale-red: 0.63;
+  --scale-yellow: 0.99;
+}
+
+/* ================================================== */
+/* ===  BLUE GROUP                                  === */
+/* ================================================== */
+.portal-blue,
+.portal-blue-semi {
+  transform: scale(var(--scale-blue));
+  animation: rotate-blue 15s linear infinite reverse;
+}
+
+.portal-blue {
+  opacity: 0.45;
+}
+.portal-blue-semi {
+  animation-duration: 8s;
+  opacity: 0.25;
+}
+
+@keyframes rotate-blue {
+  from { transform: scale(var(--scale-blue)) rotate(0deg); }
+  to   { transform: scale(var(--scale-blue)) rotate(360deg); }
+}
+
+/* ================================================== */
+/* ===  GREEN GROUP                                 === */
+/* ================================================== */
+.portal-green,
+.portal-green-semi {
+  transform: scale(var(--scale-green));
+  animation: rotate-green linear infinite;
+}
+
+.portal-green {
+  animation-duration: 9s;
+  opacity: 0.45;
+}
+.portal-green-semi {
+  animation-duration: 12s;
+  opacity: 0.25;
+}
+
+@keyframes rotate-green {
+  from { transform: scale(var(--scale-green)) rotate(0deg); }
+  to   { transform: scale(var(--scale-green)) rotate(-360deg); } /* counter rotation */
+}
+
+/* ================================================== */
+/* ===  ORANGE GROUP                                === */
+/* ================================================== */
+.portal-orange,
+.portal-orange-semi {
+  transform: scale(var(--scale-orange));
+  animation: rotate-orange linear infinite;
+}
+
+.portal-orange {
+  animation-duration: 14s;
+  opacity: 0.45;
+}
+.portal-orange-semi {
+  animation-duration: 18s;
+  opacity: 0.25;
+}
+
+@keyframes rotate-orange {
+  from { transform: scale(var(--scale-orange)) rotate(0deg); }
+  to   { transform: scale(var(--scale-orange)) rotate(360deg); }
+}
+
+/* ================================================== */
+/* ===  RED GROUP                                   === */
+/* ================================================== */
+.portal-red,
+.portal-red-semi {
+  transform: scale(var(--scale-red));
+  animation: rotate-red linear infinite;
+}
+
+.portal-red {
+  animation-duration: 20s;
+  opacity: 0.45;
+}
+.portal-red-semi {
+  animation-duration: 25s;
+  opacity: 0.25;
+}
+
+@keyframes rotate-red {
+  from { transform: scale(var(--scale-red)) rotate(0deg); }
+  to   { transform: scale(var(--scale-red)) rotate(-360deg); } /* counter rotation */
+}
+
+/* ================================================== */
+/* ===  YELLOW GROUP                                === */
+/* ================================================== */
+.portal-yellow,
+.portal-yellow-semi {
+  transform: scale(var(--scale-yellow));
+  animation: rotate-yellow linear infinite;
+}
+
+.portal-yellow {
+  animation-duration: 28s;
+  opacity: 0.45;
+}
+.portal-yellow-semi {
+  animation-duration: 35s;
+  opacity: 0.25;
+}
+
+@keyframes rotate-yellow {
+  from { transform: scale(var(--scale-yellow)) rotate(0deg); }
+  to   { transform: scale(var(--scale-yellow)) rotate(360deg); }
+}
+
+/* ================================================== */
+/* ===  RESPONSIVE SCALING (optional)               === */
+/* ================================================== */
+@media (max-width: 768px) {
+  :root {
+    --scale-blue: 0.85;
+    --scale-green: 0.9;
+    --scale-orange: 0.8;
+    --scale-red: 0.85;
+    --scale-yellow: 0.95;
+  }
+}

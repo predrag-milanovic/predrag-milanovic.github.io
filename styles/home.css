@@ -31,18 +31,6 @@
   color: #CCAA22;
 }
 
-/* === Animation Layer Control === */
-.home-portal-animation {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  z-index: 1; /* stays behind text but above background */
-  width: 340px;
-  height: 340px;
-  pointer-events: none; /* ignore mouse clicks */
-}
-
 /* === Social links container === */
 .socials-wrapper {
   width: 100%;
@@ -75,10 +63,5 @@
 
   .tagline {
     font-size: 1.25rem;
-  }
-
-  .home-portal-animation {
-    width: 250px;
-    height: 250px;
   }
 }
