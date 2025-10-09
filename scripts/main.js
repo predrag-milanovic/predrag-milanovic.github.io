@@ -7,6 +7,7 @@
     const hash = window.location.hash || "#home";
     let currentPage = "home";
 
+    // Determine which page should load
     for (const key in pages) {
       if (hash === pages[key].route) {
         currentPage = key;
@@ -21,34 +22,34 @@
 
     document.title = pages[currentPage].title;
 
-    // Step 1: Start fading out old page
+    // --- Step 1: Fade out old content ---
     container.classList.remove("loaded");
 
-    // Step 2: Wait until fade-out finishes before changing anything
+    // --- Step 2: Wait for fade-out before replacing content ---
     setTimeout(() => {
-      // --- Hide portal AFTER fade-out, not before ---
+      // Hide the portal after fade-out
       if (portal) {
         portal.classList.add("portal-hidden");
         portal.style.display = "none";
         document.body.classList.remove("home-active");
       }
 
-      // --- Now remove old animation CSS (after portal is gone) ---
+      // Remove any previous animation stylesheet
       const existingAnim = document.getElementById(animLinkId);
       if (existingAnim) existingAnim.remove();
 
-      // --- Load new page content ---
+      // --- Step 3: Load new page content ---
       fetch(pages[currentPage].path)
         .then((r) => r.text())
         .then((html) => {
           container.innerHTML = html;
 
-          // Helper for showing new content
+          // Helper: fade in new content
           const fadeIn = () => {
             setTimeout(() => container.classList.add("loaded"), INSERT_DELAY_MS);
           };
 
-          // If this page has animation (e.g., home), re-add it and show portal
+          // --- Step 4: Handle portal animation for Home page ---
           if (currentPage === "home" && portal) {
             const enablePortal = () => {
               portal.style.display = "block";
@@ -56,19 +57,29 @@
               setTimeout(() => document.body.classList.add("home-active"), 100);
             };
 
+            // Load animation CSS dynamically (if defined)
             if (pages[currentPage].animation) {
               const animLink = document.createElement("link");
               animLink.rel = "stylesheet";
               animLink.id = animLinkId;
               animLink.href = pages[currentPage].animation;
-              animLink.onload = enablePortal;
+              animLink.onload = () => {
+                enablePortal();
+
+                // Ensure responsive.css always cascades last
+                const responsiveLink = document.getElementById("responsive-style");
+                if (responsiveLink) {
+                  document.head.removeChild(responsiveLink);
+                  document.head.appendChild(responsiveLink);
+                }
+              };
               document.head.appendChild(animLink);
             } else {
               enablePortal();
             }
           }
 
-          // Page-specific CSS logic
+          // --- Step 5: Apply page-specific CSS ---
           if (pages[currentPage].css) {
             pageStyle.onload = fadeIn;
             pageStyle.href = pages[currentPage].css;
@@ -83,6 +94,7 @@
     }, FADE_OUT_MS);
   }
 
+  // --- Step 6: Event listeners ---
   window.addEventListener("DOMContentLoaded", loadPage);
   window.addEventListener("hashchange", loadPage);
 })();

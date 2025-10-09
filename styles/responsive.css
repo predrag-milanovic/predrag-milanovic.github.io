@@ -1,0 +1,162 @@
+/* ========================================================= */
+/*  GLOBAL RESPONSIVE BASE SYSTEM                            */
+/*  Applies across pages (home, blog, future pages)           */
+/* ========================================================= */
+
+/* --------------------------------------------------------- */
+/*  1. VARIABLES - Breakpoints & Global Scales               */
+/* --------------------------------------------------------- */
+
+:root {
+  /* Core breakpoints (mobile-first) */
+  --bp-mobile: 480px;   /* phones (portrait) */
+  --bp-tablet: 768px;   /* tablets + small landscape phones */
+  --bp-laptop: 1024px;  /* small laptops, iPads landscape */
+  --bp-desktop: 1440px; /* large desktop monitors */
+
+  /* Font size scaling (root ems) */
+  --font-size-base: 16px;
+  --font-scale-mobile: 0.95;
+  --font-scale-tablet: 1.0;
+  --font-scale-laptop: 1.05;
+  --font-scale-desktop: 1.1;
+
+  /* Container widths */
+  --container-max-mobile: 90%;
+  --container-max-tablet: 85%;
+  --container-max-laptop: 80%;
+  --container-max-desktop: 70%;
+}
+
+/* --------------------------------------------------------- */
+/*  2. BASE RESPONSIVE TYPOGRAPHY                            */
+/* --------------------------------------------------------- */
+
+html {
+  font-size: var(--font-size-base);
+}
+
+@media (max-width: var(--bp-mobile)) {
+  html { font-size: calc(var(--font-size-base) * var(--font-scale-mobile)); }
+}
+@media (min-width: var(--bp-tablet)) {
+  html { font-size: calc(var(--font-size-base) * var(--font-scale-tablet)); }
+}
+@media (min-width: var(--bp-laptop)) {
+  html { font-size: calc(var(--font-size-base) * var(--font-scale-laptop)); }
+}
+@media (min-width: var(--bp-desktop)) {
+  html { font-size: calc(var(--font-size-base) * var(--font-scale-desktop)); }
+}
+
+/* --------------------------------------------------------- */
+/*  3. SHARED LAYOUT SYSTEM                                  */
+/* --------------------------------------------------------- */
+
+.page-container {
+  width: var(--container-max-mobile);
+  margin: 0 auto;
+}
+
+@media (min-width: var(--bp-tablet)) {
+  .page-container { width: var(--container-max-tablet); }
+}
+@media (min-width: var(--bp-laptop)) {
+  .page-container { width: var(--container-max-laptop); }
+}
+@media (min-width: var(--bp-desktop)) {
+  .page-container { width: var(--container-max-desktop); }
+}
+
+/* --------------------------------------------------------- */
+/*  4. UNIVERSAL RESPONSIVE BEHAVIORS                        */
+/* --------------------------------------------------------- */
+
+/* Prevent overflow on tiny devices */
+body {
+  overflow-x: hidden;
+}
+
+/* Flexible images & icons */
+img, svg {
+  max-width: 100%;
+  height: auto;
+}
+
+/* Social links wrapping */
+@media (max-width: var(--bp-tablet)) {
+  .socials-container {
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 1rem;
+  }
+}
+
+/* Headings responsiveness */
+@media (max-width: var(--bp-tablet)) {
+  .name {
+    font-size: 2.2rem;
+  }
+  .tagline {
+    font-size: 1.2rem;
+  }
+}
+
+/* Blog readability on small screens */
+@media (max-width: var(--bp-mobile)) {
+  .blog-post {
+    padding: 0.75rem;
+    font-size: 0.9rem;
+  }
+  .post-title {
+    font-size: 1.25rem;
+  }
+}
+
+/* Animation scaling */
+@media (max-width: var(--bp-tablet)) {
+  .home-portal-animation {
+    width: 340px;
+    height: 340px;
+  }
+}
+@media (max-width: var(--bp-mobile)) {
+  .home-portal-animation {
+    width: 250px;
+    height: 250px;
+  }
+}
+
+/* ================================================== */
+/* ===  RESPONSIVE MOTION RING SCALING               === */
+/* ================================================== */
+
+@media (max-width: 1024px) { /* tablets / small laptops */
+  :root {
+    --scale-blue: 1.15;
+    --scale-green: 0.13;
+    --scale-orange: 0.28;
+    --scale-red: 0.63;
+    --scale-yellow: 0.99;
+  }
+}
+
+@media (max-width: 768px) { /* tablets & large phones */
+  :root {
+    --scale-blue: 1.15;
+    --scale-green: 0.13;
+    --scale-orange: 0.28;
+    --scale-red: 0.9;
+    --scale-yellow: 0.99;
+  }
+}
+
+@media (max-width: 480px) { /* small phones (portrait) */
+  :root {
+    --scale-blue: 1.1;
+    --scale-green: 0.15;
+    --scale-orange: 0.29;
+    --scale-red: 0.63;
+    --scale-yellow: 0.99; 
+  }
+}
