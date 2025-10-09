@@ -1,0 +1,40 @@
+/* ====================================== */
+/*  FOOTER LAYOUT                        */
+/*  Author: Predrag Milanović             */
+/*  Description: Persistent site footer   */
+/* ====================================== */
+
+#site-footer {
+  width: 100%;
+  text-align: center;
+  color: #ffff99;
+  background-color: #2f2f2f; /* same as body background */
+  text-shadow: 2px 2px 2px #000;
+  font-size: 0.95rem;
+  padding: 0.75rem 0;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  z-index: 10;
+}
+
+#site-footer p {
+  margin: 0;
+  line-height: 1.2;
+}
+
+/* Optional footer links */
+#site-footer a {
+  color: #ccaa22;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+#site-footer a:hover {
+  color: #ffffff;
+}
+
+.divider {
+  color: rgba(255, 255, 153, 0.3);
+  margin: 0 0.5rem;
+}

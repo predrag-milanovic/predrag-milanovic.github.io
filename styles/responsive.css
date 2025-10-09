@@ -1,6 +1,6 @@
 /* ========================================================= */
 /*  GLOBAL RESPONSIVE BASE SYSTEM                            */
-/*  Applies across pages (home, blog, future pages)           */
+/*  Applies across pages (home, blog, future pages)          */
 /* ========================================================= */
 
 /* --------------------------------------------------------- */
@@ -22,35 +22,70 @@
   --font-scale-desktop: 1.1;
 
   /* Container widths */
-  --container-max-mobile: 90%;
+  --container-max-mobile: 100%;
   --container-max-tablet: 85%;
   --container-max-laptop: 80%;
   --container-max-desktop: 70%;
+
+  /* === Independent scaling systems === */
+  --scale-global: 1.0;       /* affects layout + text */
+  --scale-portal: 1.0;       /* affects animation only */
+  --portal-size: 625px;      /* base animation container */
+  --portal-y-offset: 0vh;    /* vertical offset for animation centering */
+  --portal-x-offset: 0vw;    /* horizontal offset (optional, default centered) */
 }
 
 /* --------------------------------------------------------- */
-/*  2. BASE RESPONSIVE TYPOGRAPHY                            */
+/*  2. BASE RESPONSIVE TYPOGRAPHY (fluid + scaled)           */
 /* --------------------------------------------------------- */
 
 html {
-  font-size: var(--font-size-base);
+  font-size: calc(var(--font-size-base) * var(--scale-global));
 }
 
 @media (max-width: var(--bp-mobile)) {
-  html { font-size: calc(var(--font-size-base) * var(--font-scale-mobile)); }
+  html {
+    font-size: calc(var(--font-size-base) * var(--font-scale-mobile) * var(--scale-global));
+  }
 }
 @media (min-width: var(--bp-tablet)) {
-  html { font-size: calc(var(--font-size-base) * var(--font-scale-tablet)); }
+  html {
+    font-size: calc(var(--font-size-base) * var(--font-scale-tablet) * var(--scale-global));
+  }
 }
 @media (min-width: var(--bp-laptop)) {
-  html { font-size: calc(var(--font-size-base) * var(--font-scale-laptop)); }
+  html {
+    font-size: calc(var(--font-size-base) * var(--font-scale-laptop) * var(--scale-global));
+  }
 }
 @media (min-width: var(--bp-desktop)) {
-  html { font-size: calc(var(--font-size-base) * var(--font-scale-desktop)); }
+  html {
+    font-size: calc(var(--font-size-base) * var(--font-scale-desktop) * var(--scale-global));
+  }
 }
 
 /* --------------------------------------------------------- */
-/*  3. SHARED LAYOUT SYSTEM                                  */
+/*  3. FLUID HEADINGS + TEXT                                 */
+/* --------------------------------------------------------- */
+
+.name {
+  font-size: clamp(2rem, 6vw, 3.125rem);
+  line-height: 1.1;
+}
+
+.tagline {
+  font-size: clamp(1rem, 3.5vw, 1.5rem);
+  line-height: 1.3;
+}
+
+.intro,
+.section-text {
+  font-size: clamp(1rem, 3vw, 1.25rem);
+  line-height: 1.5;
+}
+
+/* --------------------------------------------------------- */
+/*  4. SHARED LAYOUT SYSTEM                                  */
 /* --------------------------------------------------------- */
 
 .page-container {
@@ -69,36 +104,24 @@ html {
 }
 
 /* --------------------------------------------------------- */
-/*  4. UNIVERSAL RESPONSIVE BEHAVIORS                        */
+/*  5. UNIVERSAL RESPONSIVE BEHAVIORS                        */
 /* --------------------------------------------------------- */
 
-/* Prevent overflow on tiny devices */
 body {
   overflow-x: hidden;
 }
 
-/* Flexible images & icons */
 img, svg {
   max-width: 100%;
   height: auto;
 }
 
-/* Social links wrapping */
+/* Social links layout */
 @media (max-width: var(--bp-tablet)) {
   .socials-container {
     flex-wrap: wrap;
     justify-content: center;
     gap: 1rem;
-  }
-}
-
-/* Headings responsiveness */
-@media (max-width: var(--bp-tablet)) {
-  .name {
-    font-size: 2.2rem;
-  }
-  .tagline {
-    font-size: 1.2rem;
   }
 }
 
@@ -113,50 +136,145 @@ img, svg {
   }
 }
 
-/* Animation scaling */
-@media (max-width: var(--bp-tablet)) {
-  .home-portal-animation {
-    width: 340px;
-    height: 340px;
+/* --------------------------------------------------------- */
+/*  6. HOME ANIMATION SCALING SYSTEM                         */
+/* --------------------------------------------------------- */
+
+.home-portal-animation {
+  width: var(--portal-size);
+  height: var(--portal-size);
+  top: 50%;
+  left: 50%;
+  transform: translate(
+      calc(-50% + var(--portal-x-offset)),
+      calc(-50% + var(--portal-y-offset))
+    )
+    scale(var(--scale-portal));
+  transform-origin: center center;
+  transition:
+    transform 0.3s ease-in-out,
+    width 0.3s ease-in-out;
+}
+
+/* ================================================== */
+/* ===  RESPONSIVE GLOBAL + ANIMATION SCALING     === */
+/* ================================================== */
+
+/* 💻 Small laptops & tablets (≤1024px) */
+@media (max-width: 1024px) {
+  :root {
+    --scale-global: 1.0;
+    --scale-portal: 0.95;
+    --portal-size: 900px;
+    --portal-y-offset: -0.5vh;
+    --portal-x-offset: 0vw;
   }
 }
-@media (max-width: var(--bp-mobile)) {
-  .home-portal-animation {
-    width: 250px;
-    height: 250px;
+
+/* 📱 Tablets & large phones (≤768px) */
+@media (max-width: 768px) {
+  :root {
+    --scale-global: 1.0;
+    --scale-portal: 0.85;
+    --portal-size: 750px;
+    --portal-y-offset: -0.5vh;
+    --portal-x-offset: 0vw;
+  }
+}
+
+/* 📞 Small phones (≤480px) */
+@media (max-width: 480px) {
+  :root {
+    --scale-global: 0.95;
+    --scale-portal: 0.75;
+    --portal-size: 600px;
+    --portal-y-offset: -0.5vh;
+    --portal-x-offset: 0vw;
   }
 }
 
 /* ================================================== */
-/* ===  RESPONSIVE MOTION RING SCALING               === */
+/* ===  RESPONSIVE MOTION RING FINE-TUNING        === */
 /* ================================================== */
 
-@media (max-width: 1024px) { /* tablets / small laptops */
+@media (max-width: 1024px) {
   :root {
-    --scale-blue: 1.15;
-    --scale-green: 0.13;
-    --scale-orange: 0.28;
-    --scale-red: 0.63;
+    --scale-blue:   1.15;
+    --scale-green:  0.15;
+    --scale-orange: 0.30;
+    --scale-red:    0.62;
     --scale-yellow: 0.99;
   }
 }
 
-@media (max-width: 768px) { /* tablets & large phones */
+@media (max-width: 768px) {
   :root {
-    --scale-blue: 1.15;
-    --scale-green: 0.13;
-    --scale-orange: 0.28;
-    --scale-red: 0.9;
+    --scale-blue:   1.15;
+    --scale-green:  0.15;
+    --scale-orange: 0.30;
+    --scale-red:    0.63;
     --scale-yellow: 0.99;
   }
 }
 
-@media (max-width: 480px) { /* small phones (portrait) */
+@media (max-width: 480px) {
   :root {
-    --scale-blue: 1.1;
-    --scale-green: 0.15;
-    --scale-orange: 0.29;
-    --scale-red: 0.63;
-    --scale-yellow: 0.99; 
+    --scale-blue:   1.15;
+    --scale-green:  0.15;
+    --scale-orange: 0.30;
+    --scale-red:    0.63;
+    --scale-yellow: 0.99;
+  }
+}
+
+/* --------------------------------------------------------- */
+/*  7. SOCIAL LINK + ICON SCALING                            */
+/* --------------------------------------------------------- */
+
+@media (max-width: 1024px) {
+  .social-link { font-size: 1.1rem; }
+  .icon { width: 26px; height: 26px; }
+}
+@media (max-width: 768px) {
+  .social-link { font-size: 1rem; }
+  .icon { width: 24px; height: 24px; }
+}
+@media (max-width: 480px) {
+  .social-link { font-size: 0.9rem; }
+  .icon { width: 22px; height: 22px; }
+}
+
+/* --------------------------------------------------------- */
+/*  8. RESPONSIVE FOOTER                                     */
+/* --------------------------------------------------------- */
+
+/* Global footer style — scales with --scale-global */
+#site-footer {
+  font-size: calc(0.95rem * var(--scale-global));
+  padding: calc(0.75rem * var(--scale-global)) 0;
+  transition: font-size 0.3s ease, padding 0.3s ease;
+  text-align: center;
+  color: #ffff99;
+  text-shadow: 2px 2px 2px #000;
+  background: #2f2f2f;
+}
+
+/* Fine-tuned footer adjustments per breakpoint */
+@media (max-width: 1024px) {
+  #site-footer {
+    font-size: 1.05rem;
+    padding: 0.7rem 0;
+  }
+}
+@media (max-width: 768px) {
+  #site-footer {
+    font-size: 0.9rem;
+    padding: 0.65rem 0;
+  }
+}
+@media (max-width: 480px) {
+  #site-footer {
+    font-size: 0.80rem;
+    padding: 0.6rem 0;
   }
 }
