@@ -129,6 +129,17 @@ body.home-active #portal-animation-container {
   opacity: 0;
 }
 
+#site-header,
+#site-footer {
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+
+#site-header.loaded,
+#site-footer.loaded {
+  opacity: 1;
+}
+
 /* 📱 Responsive Design */
 @media (max-width: 768px) {
   .page-container {

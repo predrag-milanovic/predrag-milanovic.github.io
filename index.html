@@ -14,14 +14,50 @@
   <link id="global-style" href="styles/globals.css" rel="stylesheet">
   <link id="page-style" rel="stylesheet">
   <link id="footer-style" href="styles/layout-footer.css" rel="stylesheet">
-   <link id="anim-style" rel="stylesheet">
+  <link id="header-style" href="styles/layout-header.css" rel="stylesheet">
+  <link id="anim-style" rel="stylesheet">
   <link id="responsive-style" href="styles/responsive.css" rel="stylesheet">
   
   <!-- Scripts -->
   <script src="scripts/pagesConfig.js"></script>
   <script src="scripts/main.js" defer></script>
 </head>
+
 <body>
+    <!-- === HEADER === -->
+  <header id="site-header">
+    <div class="header-right">
+      <div class="language-switcher">
+        <button id="language-btn" class="language-btn" aria-label="Change language">
+          <svg class="language-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="12" cy="12" r="10" fill="none" stroke="currentColor" stroke-width="2"/>
+            <path d="M2 12h20M12 2a15 15 0 010 20M12 2a15 15 0 000 20" stroke="currentColor" stroke-width="1.5" fill="none"/>
+          </svg>
+        </button>
+
+        <ul id="language-menu" class="language-menu hidden">
+          <li data-lang="en">
+            <img src="assets/icons/flags/en.svg" alt="English" class="flag-icon">
+            <span>English</span>
+          </li>
+          <li data-lang="de">
+            <img src="assets/icons/flags/de.svg" alt="Deutsch" class="flag-icon">
+            <span>Deutsch</span>
+          </li>
+          <!-- Temporarily disabled 
+          <li data-lang="af">
+            <img src="assets/icons/flags/za.svg" alt="Afrikaans" class="flag-icon">
+            <span>Afrikaans</span>
+          </li>
+          <li data-lang="sr">
+            <img src="assets/icons/flags/sr-ba.svg" alt="Serbian (Latin)" class="flag-icon">
+            <span>Srpski</span>
+          </li>
+          -->
+        </ul>
+      </div>
+    </div>
+  </header>
 
   <!-- HOME PORTAL ANIMATION (never replaced) -->
   <div id="portal-animation-container" class="portal-hidden">

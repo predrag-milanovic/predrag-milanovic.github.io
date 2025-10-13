@@ -15,19 +15,24 @@
       }
     }
 
+    // === Elements ===
     const container = document.getElementById("page-content");
     const pageStyle = document.getElementById("page-style");
     const portal = document.getElementById("portal-animation-container");
+    const header = document.getElementById("site-header");
+    const footer = document.getElementById("site-footer");
     const animLinkId = "anim-style";
 
     document.title = pages[currentPage].title;
 
-    // --- Step 1: Fade out old content ---
-    container.classList.remove("loaded");
+    // --- Step 1: Fade out old content + header/footer ---
+    [container, header, footer].forEach(el => {
+      if (el) el.classList.remove("loaded");
+    });
 
     // --- Step 2: Wait for fade-out before replacing content ---
     setTimeout(() => {
-      // Hide the portal after fade-out
+      // Hide portal animation when not on home
       if (portal) {
         portal.classList.add("portal-hidden");
         portal.style.display = "none";
@@ -40,13 +45,17 @@
 
       // --- Step 3: Load new page content ---
       fetch(pages[currentPage].path)
-        .then((r) => r.text())
-        .then((html) => {
+        .then(r => r.text())
+        .then(html => {
           container.innerHTML = html;
 
-          // Helper: fade in new content
-          const fadeIn = () => {
-            setTimeout(() => container.classList.add("loaded"), INSERT_DELAY_MS);
+          // --- Helper: Fade everything in ---
+          const fadeInAll = () => {
+            setTimeout(() => {
+              [container, header, footer].forEach(el => {
+                if (el) el.classList.add("loaded");
+              });
+            }, INSERT_DELAY_MS);
           };
 
           // --- Step 4: Handle portal animation for Home page ---
@@ -79,15 +88,15 @@
             }
           }
 
-          // --- Step 5: Apply page-specific CSS ---
+          // --- Step 5: Apply page-specific CSS then fade in ---
           if (pages[currentPage].css) {
-            pageStyle.onload = fadeIn;
+            pageStyle.onload = fadeInAll;
             pageStyle.href = pages[currentPage].css;
           } else {
-            fadeIn();
+            fadeInAll();
           }
         })
-        .catch((err) => {
+        .catch(err => {
           console.error("Error loading page:", err);
           container.innerHTML = "<h1>Error loading page</h1>";
         });
@@ -95,6 +104,36 @@
   }
 
   // --- Step 6: Event listeners ---
-  window.addEventListener("DOMContentLoaded", loadPage);
+  window.addEventListener("DOMContentLoaded", () => {
+    loadPage();
+    initLanguageSwitcher();
+  });
   window.addEventListener("hashchange", loadPage);
+
+  // === LANGUAGE SWITCHER LOGIC ===
+  function initLanguageSwitcher() {
+    const langBtn = document.getElementById("language-btn");
+    const langMenu = document.getElementById("language-menu");
+    if (!langBtn || !langMenu) return;
+
+    langBtn.addEventListener("click", e => {
+      e.stopPropagation();
+      langMenu.classList.toggle("hidden");
+    });
+
+    document.addEventListener("click", e => {
+      if (!langMenu.classList.contains("hidden") && !langBtn.contains(e.target)) {
+        langMenu.classList.add("hidden");
+      }
+    });
+
+    langMenu.querySelectorAll("li").forEach(item => {
+      item.addEventListener("click", () => {
+        const lang = item.dataset.lang;
+        console.log(`Selected language: ${lang}`);
+        langMenu.classList.add("hidden");
+        // TODO: translation logic later
+      });
+    });
+  }
 })();
