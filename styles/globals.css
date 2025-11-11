@@ -18,6 +18,183 @@ body {
   padding: 1rem;
   -webkit-font-smoothing: antialiased;
   overflow: hidden; /* avoid scroll from fixed animation */
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* === LIGHT THEME - MINT WITH WHITE TEXT VARIATIONS === */
+body.light-theme {
+  background: #d0d0d0; /* Keep original background */
+  color: #f8fff9; /* Mint-tinted white for primary text */
+}
+
+/* Text shadows - mint variations */
+body.light-theme h1, 
+body.light-theme h2, 
+body.light-theme p, 
+body.light-theme span, 
+body.light-theme a {
+  text-shadow: 1px 1px 3px rgba(45, 90, 74, 0.3); /* Light mint shadow for regular text */
+}
+
+/* Name color - pure white with strong mint shadow */
+body.light-theme .name {
+  color: #ffffff; /* Pure white for the main name */
+  text-shadow: 2px 2px 6px rgba(45, 90, 74, 0.7); /* Strong mint shadow */
+}
+
+/* Intro and tagline colors - off-white with light mint shadow */
+body.light-theme .intro,
+body.light-theme .tagline {
+  color: #f5faf7; /* Subtle mint-tinted white */
+  text-shadow: 1px 1px 3px rgba(45, 90, 74, 0.4); /* Light mint shadow */
+}
+
+/* Social links - mint-tinted white with strong mint shadow for buttons */
+body.light-theme .social-link {
+  color: #f8fff9; /* Mint-tinted white */
+  text-shadow: 1px 1px 4px rgba(45, 90, 74, 0.6); /* Strong mint shadow for buttons */
+}
+
+body.light-theme .social-link:hover {
+  color: #ffffff; /* Pure white on hover */
+  text-shadow: 2px 2px 5px rgba(45, 90, 74, 0.8); /* Stronger mint shadow on hover */
+}
+
+/* Icons - mint-themed filters */
+body.light-theme .icon {
+  filter: brightness(0) saturate(100%)
+          invert(25%) sepia(35%) saturate(3500%)
+          hue-rotate(120deg) brightness(85%) contrast(90%);
+}
+
+body.light-theme .social-link:hover .icon {
+  filter: brightness(0) saturate(100%)
+          invert(15%) sepia(45%) saturate(4000%)
+          hue-rotate(125deg) brightness(75%) contrast(95%);
+}
+
+/* Footer - same background as main */
+body.light-theme #site-footer {
+  background-color: #d0d0d0; /* Same as main background */
+  color: #f8fff9; /* Mint-tinted white */
+  text-shadow: 1px 1px 3px rgba(45, 90, 74, 0.3); /* Light mint shadow */
+}
+
+/* Back link - mint-tinted white */
+body.light-theme .back-link {
+  color: #f8fff9; /* Mint-tinted white */
+  text-shadow: 1px 1px 4px rgba(45, 90, 74, 0.6); /* Strong mint shadow */
+}
+
+body.light-theme .back-link:hover {
+  color: #ffffff; /* Pure white on hover */
+  text-shadow: 2px 2px 5px rgba(45, 90, 74, 0.8); /* Stronger mint shadow */
+}
+
+/* Blog post title - pure white */
+body.light-theme .post-title {
+  color: #ffffff; /* Pure white for titles */
+  text-shadow: 2px 2px 6px rgba(45, 90, 74, 0.7); /* Strong mint shadow */
+}
+
+/* Blog post date and description - off-white */
+body.light-theme .post-date,
+body.light-theme .post-desc {
+  color: #f5faf7; /* Subtle mint-tinted white */
+  text-shadow: 1px 1px 3px rgba(45, 90, 74, 0.4); /* Light mint shadow */
+}
+
+/* Blog post border - mint accent */
+body.light-theme .blog-post {
+  border-left-color: #6b9080; /* Muted mint accent */
+}
+
+/* Portal animation - purple and green motion rings */
+body.light-theme #portal-animation-container {
+  filter: brightness(1.1) contrast(1.0) 
+          hue-rotate(260deg) saturate(1.2)
+          sepia(15%);
+}
+
+/* === LANGUAGE-SPECIFIC STYLING === */
+
+/* German language adjustments */
+body.lang-de .tagline {
+  font-size: clamp(0.95rem, 3.2vw, 1.4rem); /* Slightly smaller for longer German text */
+  line-height: 1.4; /* Better line spacing for German compound words */
+}
+
+/* Responsive adjustments for German */
+@media (max-width: 768px) {
+  body.lang-de .tagline {
+    font-size: clamp(0.9rem, 3vw, 1.25rem);
+    text-align: center; /* Center align for consistency */
+  }
+  
+  body.lang-de .introduction-container {
+    align-items: center; /* Center align text */
+    text-align: center;
+  }
+  
+  body.lang-de .socials-container {
+    justify-content: center !important; /* Center align like English */
+    gap: 1rem !important;
+    max-width: none !important; /* Remove max-width constraint for 3 buttons */
+  }
+  
+  /* German 3-button layout - keep them in a row */
+  body.lang-de .socials-container .social-box {
+    flex: none !important;
+    margin-left: 0 !important;
+  }
+}
+
+@media (max-width: 480px) {
+  body.lang-de .tagline {
+    font-size: clamp(0.75rem, 2.6vw, 1rem);
+    line-height: 1.3; /* Better line spacing for small screens */
+    text-align: center; /* Center align */
+  }
+  
+  body.lang-de .introduction-container {
+    align-items: center; /* Center align */
+    text-align: center;
+  }
+  
+  body.lang-de .socials-container {
+    gap: 0.8rem !important;
+    max-width: none !important;
+    justify-content: center !important; /* Center align */
+  }
+  
+  body.lang-de .social-link {
+    font-size: 0.8rem;
+  }
+}
+
+@media (max-width: 360px) {
+  body.lang-de .tagline {
+    font-size: clamp(0.7rem, 2.3vw, 0.95rem);
+    line-height: 1.4;
+    word-break: break-word; /* Prevent overflow of long German words */
+    hyphens: auto; /* Enable hyphenation for German compound words */
+    text-align: center; /* Center align */
+  }
+  
+  body.lang-de .introduction-container {
+    align-items: center; /* Center align */
+    text-align: center;
+  }
+  
+  body.lang-de .socials-container {
+    gap: 0.6rem !important;
+    justify-content: center !important; /* Center align */
+  }
+  
+  body.lang-de .social-link {
+    font-size: 0.75rem;
+    padding: 0.2rem 0.3rem;
+  }
 }
 
 /* Shared page container */
@@ -30,11 +207,26 @@ body {
   width: 100%;
   position: relative;
   z-index: 1; /* content above animation */
+  transition: max-width 0.3s ease; /* Smooth transition when switching languages */
 }
 
 /* Shared text outline */
 h1, h2, p, span, a {
   text-shadow: 2px 2px 2px #000;
+}
+
+/* ========================= */
+/* Language Transition Effects */
+/* ========================= */
+
+/* Smooth text transitions for language switching */
+.intro, .name, .tagline, .social-link span, .social-link .icon {
+  transition: opacity 0.3s ease;
+}
+
+/* Introduction container smooth transitions */
+.introduction-container {
+  transition: margin-bottom 0.3s ease, gap 0.3s ease;
 }
 
 /* ========================= */
@@ -72,12 +264,14 @@ body.home-active #portal-animation-container {
   align-items: center;
   gap: 1.5rem;
   flex-wrap: nowrap;
+  transition: gap 0.3s ease, justify-content 0.3s ease; /* Smooth transitions */
 }
 
 .social-box {
   display: flex;
   align-items: center;
   justify-content: center;
+  transition: opacity 0.3s ease; /* Smooth fade for blog button hide/show */
 }
 
 .social-link {
@@ -144,10 +338,77 @@ body.home-active #portal-animation-container {
 @media (max-width: 768px) {
   .page-container {
     max-width: 100%;
+    padding: 0 1rem;
+    align-items: center; /* Center alignment for consistency */
+  }
+
+  .introduction-container {
+    align-items: center; /* Center the introduction */
+    text-align: center; /* Center the text */
   }
 
   .socials-container {
-    flex-wrap: wrap;
-    justify-content: flex-start;
+    align-self: center; /* Center align socials */
+    justify-content: center; /* Center the social buttons */
+  }
+}
+
+@media (max-width: 480px) {
+  .page-container {
+    padding: 0 0.75rem;
+    gap: 0.8rem;
+    align-items: center; /* Center alignment */
+  }
+
+  .introduction-container {
+    gap: 0.5rem;
+    align-items: center; /* Center the introduction */
+    text-align: center; /* Center the text */
+  }
+
+  .socials-container {
+    align-self: center; /* Center align socials */
+    justify-content: center; /* Center the social buttons */
+  }
+
+  .tagline {
+    font-size: clamp(0.75rem, 2.6vw, 1rem);
+  }
+
+  .intro {
+    font-size: clamp(0.8rem, 2.4vw, 0.95rem);
+  }
+}
+
+@media (max-width: 360px) {
+  .page-container {
+    padding: 0 0.5rem;
+    gap: 0.6rem;
+    align-items: center; /* Center alignment for both languages */
+  }
+
+  .introduction-container {
+    gap: 0.4rem;
+    width: 100%; /* Full width to match socials */
+    align-items: center; /* Center the introduction */
+    text-align: center; /* Center the text */
+  }
+
+  .socials-container {
+    align-self: center; /* Center align socials */
+    width: 100%; /* Full width */
+    justify-content: center; /* Center the social buttons */
+  }
+
+  .tagline {
+    font-size: clamp(0.7rem, 2.3vw, 0.9rem);
+  }
+
+  .intro {
+    font-size: clamp(0.75rem, 2.1vw, 0.85rem);
+  }
+
+  body {
+    padding: 0.5rem;
   }
 }

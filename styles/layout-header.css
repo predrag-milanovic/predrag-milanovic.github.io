@@ -1,5 +1,5 @@
 /* ====================================== */
-/*  HEADER: Language + Future Mode Button */
+/*  HEADER: Theme + Language Switcher     */
 /* ====================================== */
 
 #site-header {
@@ -11,6 +11,45 @@
   align-items: center;
   gap: 1rem;
   z-index: 20;
+}
+
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+/* === Theme Switcher === */
+.theme-switcher {
+  position: relative;
+}
+
+.theme-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #ffff99;
+  transition: color 0.3s ease, transform 0.2s ease;
+  padding: 0.25rem;
+}
+
+.theme-btn:hover {
+  color: #ffffff;
+  transform: scale(1.05);
+}
+
+.theme-icon {
+  width: 30px;
+  height: 30px;
+  fill: currentColor;
+  stroke: currentColor;
+  transition: transform 0.3s ease, fill 0.3s ease, stroke 0.3s ease;
+}
+
+.theme-btn:hover .theme-icon {
+  transform: scale(1.2);
+  fill: #ffffff;
+  stroke: #ffffff;
 }
 
 /* === Language Switcher === */
@@ -87,6 +126,53 @@
   border-radius: 2px;
 }
 
+/* === LIGHT THEME - MINT COLORS WITH WHITE TEXT === */
+body.light-theme #site-header .theme-btn,
+body.light-theme #site-header .language-btn {
+  color: #000000; /* Mint-tinted white */
+}
+
+body.light-theme #site-header .theme-btn:hover,
+body.light-theme #site-header .language-btn:hover {
+  color: #ffffff; /* Pure white on hover */
+}
+
+body.light-theme .theme-btn,
+body.light-theme .language-btn {
+  filter: drop-shadow(1px 1px 4px rgba(45, 90, 74, 0.6)); /* Strong mint shadow for buttons */
+}
+
+body.light-theme .theme-btn:hover,
+body.light-theme .language-btn:hover {
+  filter: drop-shadow(2px 2px 6px rgba(45, 90, 74, 0.8)); /* Stronger mint shadow on hover */
+}
+
+body.light-theme .theme-btn:hover .theme-icon {
+  fill: #ffffff; /* Pure white */
+  stroke: #ffffff;
+}
+
+body.light-theme .language-btn:hover .language-icon {
+  stroke: #ffffff; /* Pure white */
+}
+
+body.light-theme .language-menu {
+  background-color: #d0d0d0; /* Same as main background */
+  border-color: rgba(45, 90, 74, 0.3); /* Mint border */
+  box-shadow: 0 4px 10px rgba(45, 90, 74, 0.2); /* Mint shadow */
+}
+
+body.light-theme .language-menu li {
+  color: #f8fff9; /* Mint-tinted white */
+  text-shadow: 1px 1px 3px rgba(45, 90, 74, 0.4); /* Light mint shadow */
+}
+
+body.light-theme .language-menu li:hover {
+  background: rgba(107, 144, 128, 0.2); /* Mint accent hover */
+  color: #ffffff; /* Pure white on hover */
+  text-shadow: 2px 2px 4px rgba(45, 90, 74, 0.6); /* Stronger mint shadow */
+}
+
 /* 📱 Responsive */
 @media (max-width: 768px) {
   #site-header {
@@ -94,6 +180,7 @@
     right: 1rem;
   }
 
+  .theme-icon,
   .language-icon {
     width: 26px;
     height: 26px;
@@ -101,5 +188,61 @@
 
   .language-menu li {
     font-size: 0.9rem;
+  }
+}
+
+@media (max-width: 480px) {
+  #site-header {
+    top: 0.3rem;
+    right: 0.5rem;
+  }
+
+  .theme-icon,
+  .language-icon {
+    width: 22px;
+    height: 22px;
+  }
+
+  .language-menu {
+    min-width: 140px;
+    right: -0.5rem; /* Adjust to prevent overflow */
+  }
+
+  .language-menu li {
+    font-size: 0.85rem;
+    padding: 0.3rem 0.6rem;
+  }
+
+  .flag-icon {
+    width: 18px;
+    height: 13px;
+  }
+}
+
+@media (max-width: 360px) {
+  #site-header {
+    top: 0.25rem;
+    right: 0.25rem;
+  }
+
+  .theme-icon,
+  .language-icon {
+    width: 20px;
+    height: 20px;
+  }
+
+  .language-menu {
+    min-width: 130px;
+    right: -0.75rem;
+  }
+
+  .language-menu li {
+    font-size: 0.8rem;
+    padding: 0.25rem 0.5rem;
+  }
+
+  .flag-icon {
+    width: 16px;
+    height: 12px;
   }
 }

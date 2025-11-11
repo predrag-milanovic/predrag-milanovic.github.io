@@ -47,6 +47,29 @@
   z-index: 3; /* top of bearing group */
 }
 
+/* === LIGHT THEME - PURPLE BEARING GLOWS === */
+body.light-theme .portal-bearing-inner,
+body.light-theme .portal-bearing-outer {
+  filter:
+    drop-shadow(0 0 8px #8b5fbf) /* Purple glow */
+    invert(20%) sepia(25%) saturate(2000%)
+    hue-rotate(280deg) brightness(85%) contrast(90%);
+}
+
+body.light-theme .portal-bearing-balls {
+  filter:
+    drop-shadow(0 0 4px #9d73d1) /* Light purple glow */
+    invert(20%) sepia(25%) saturate(2000%)
+    hue-rotate(280deg) brightness(85%) contrast(90%);
+}
+
+body.light-theme .portal-cogwheel {
+  filter:
+    drop-shadow(0 0 6px #7a4ca8) /* Deep purple glow */
+    invert(20%) sepia(25%) saturate(2000%)
+    hue-rotate(280deg) brightness(85%) contrast(90%);
+}
+
 /* ==================================== */
 /* KEYFRAMES (include full transform)   */
 /* ==================================== */

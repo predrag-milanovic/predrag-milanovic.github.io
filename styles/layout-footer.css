@@ -16,6 +16,7 @@
   bottom: 0;
   left: 0;
   z-index: 10;
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 #site-footer p {
@@ -37,4 +38,25 @@
 .divider {
   color: rgba(255, 255, 153, 0.3);
   margin: 0 0.5rem;
+}
+
+/* === LIGHT THEME - SAME BACKGROUND AS MAIN === */
+body.light-theme #site-footer {
+  color: #f8fff9; /* Mint-tinted white */
+  background-color: #d0d0d0; /* Same as main background */
+  text-shadow: 1px 1px 3px rgba(45, 90, 74, 0.3); /* Light mint shadow */
+}
+
+body.light-theme #site-footer a {
+  color: #f5faf7; /* Subtle mint-tinted white for links */
+  text-shadow: 1px 1px 3px rgba(45, 90, 74, 0.4); /* Light mint shadow */
+}
+
+body.light-theme #site-footer a:hover {
+  color: #ffffff; /* Pure white on hover */
+  text-shadow: 2px 2px 4px rgba(45, 90, 74, 0.6); /* Stronger mint shadow */
+}
+
+body.light-theme .divider {
+  color: rgba(45, 90, 74, 0.4); /* Mint divider */
 }

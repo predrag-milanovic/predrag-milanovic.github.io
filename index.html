@@ -5,12 +5,12 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title id="page-title">Predrag Milanović</title>
 
-  <!-- Favicon -->
+  <!-- Favicon (keep only necessary sizes/types) -->
   <link rel="icon" type="image/png" sizes="32x32" href="assets/icons/favicon-32.png">
   <link rel="icon" type="image/png" sizes="512x512" href="assets/icons/favicon-512.png">
   <link rel="shortcut icon" href="assets/icons/favicon.ico" type="image/x-icon">
 
-  <!-- Global + dynamic CSS -->
+  <!-- Global + dynamic CSS (remove duplicates) -->
   <link id="global-style" href="styles/globals.css" rel="stylesheet">
   <link id="page-style" rel="stylesheet">
   <link id="footer-style" href="styles/layout-footer.css" rel="stylesheet">
@@ -18,7 +18,7 @@
   <link id="anim-style" rel="stylesheet">
   <link id="responsive-style" href="styles/responsive.css" rel="stylesheet">
   
-  <!-- Scripts -->
+  <!-- Scripts (no duplicates) -->
   <script src="scripts/pagesConfig.js"></script>
   <script src="scripts/main.js" defer></script>
 </head>
@@ -27,6 +27,20 @@
     <!-- === HEADER === -->
   <header id="site-header">
     <div class="header-right">
+      <!-- Theme Switcher - TEMPORARILY DISABLED -->
+      <!-- 
+      <div class="theme-switcher">
+        <button id="theme-btn" class="theme-btn" aria-label="Toggle theme">
+          <svg class="theme-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path class="moon-icon" d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z" fill="currentColor"/>
+            <circle class="sun-icon" cx="12" cy="12" r="5" fill="currentColor" style="display: none;"/>
+            <path class="sun-icon" d="M12 1v2m0 18v2M4.22 4.22l1.42 1.42m12.72 12.72l1.42 1.42M1 12h2m18 0h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42" stroke="currentColor" stroke-width="2" fill="none" style="display: none;"/>
+          </svg>
+        </button>
+      </div>
+      -->
+
+      <!-- Language Switcher -->
       <div class="language-switcher">
         <button id="language-btn" class="language-btn" aria-label="Change language">
           <svg class="language-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">

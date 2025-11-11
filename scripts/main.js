@@ -2,6 +2,34 @@
 (function () {
   const FADE_OUT_MS = 320;
   const INSERT_DELAY_MS = 50;
+  const LANGUAGE_TRANSITION_MS = 300; // Duration for language text transitions
+  let currentLanguage = "en"; // Default language
+
+  // Translation object
+  const translations = {
+    en: {
+      name: "Predrag Milanović",
+      intro: "Hi, my name is",
+      tagline: "and I'm a Mechanical and IT Engineer",
+      linkedin: "LinkedIn",
+      github: "GitHub",
+      cv: "CV",
+      blog: "Blog",
+      cvPath: "assets/cv/predrag-milanovic-cv.pdf",
+      showBlog: true
+    },
+    de: {
+      name: "Predrag Milanović",
+      intro: "Hallo, mein Name ist",
+      tagline: "ich bin Maschinenbau- und IT-Ingenieur",
+      linkedin: "LinkedIn",
+      github: "GitHub",
+      cv: "Lebenslauf",
+      blog: "Blog",
+      cvPath: "assets/cv/predrag-milanovic-lebenslauf.pdf",
+      showBlog: false
+    }
+  };
 
   function loadPage() {
     const hash = window.location.hash || "#home";
@@ -48,6 +76,9 @@
         .then(r => r.text())
         .then(html => {
           container.innerHTML = html;
+
+          // Apply translations after content is loaded
+          applyTranslations(currentLanguage, false); // No animation on initial load
 
           // --- Helper: Fade everything in ---
           const fadeInAll = () => {
@@ -103,12 +134,211 @@
     }, FADE_OUT_MS);
   }
 
-  // --- Step 6: Event listeners ---
+  // Apply translations to the current page with smooth transitions
+  function applyTranslations(language, withAnimation = true) {
+    const trans = translations[language];
+    if (!trans) return;
+
+    // Get elements that will be translated
+    const textElements = [
+      { el: document.querySelector('.name'), text: trans.name },
+      { el: document.querySelector('.intro'), text: trans.intro },
+      { el: document.querySelector('.tagline'), text: trans.tagline }
+    ];
+
+    const socialElements = [
+      { el: document.querySelector('a[href*="linkedin"] span'), text: trans.linkedin },
+      { el: document.querySelector('a[href*="github"] span'), text: trans.github },
+      { el: document.querySelector('a[href*="cv"] span'), text: trans.cv }
+    ];
+
+    // Get icon elements
+    const iconElements = [
+      document.querySelector('a[href*="linkedin"] .icon'),
+      document.querySelector('a[href*="github"] .icon'),
+      document.querySelector('a[href*="cv"] .icon'),
+      document.querySelector('a[href="#blog"] .icon')
+    ].filter(Boolean);
+
+    // Get other elements
+    const cvLink = document.querySelector('a[href*="cv"]');
+    const blogBox = document.querySelector('a[href="#blog"]')?.closest('.social-box');
+    const socialsContainer = document.querySelector('.socials-container');
+
+    if (withAnimation) {
+      // Fade out all text elements and icons
+      const allElements = [...textElements, ...socialElements].map(item => item.el).filter(Boolean);
+      const allAnimatedElements = [...allElements, ...iconElements];
+      
+      allAnimatedElements.forEach(el => {
+        if (el) {
+          el.style.transition = `opacity ${LANGUAGE_TRANSITION_MS}ms ease`;
+          el.style.opacity = '0';
+        }
+      });
+
+      // Also fade out the blog button if it needs to be hidden
+      if (blogBox && !trans.showBlog) {
+        blogBox.style.transition = `opacity ${LANGUAGE_TRANSITION_MS}ms ease`;
+        blogBox.style.opacity = '0';
+      }
+
+      // Wait for fade out, then update content and fade in
+      setTimeout(() => {
+        // Update text content
+        textElements.forEach(({ el, text }) => {
+          if (el) el.textContent = text;
+        });
+
+        socialElements.forEach(({ el, text }) => {
+          if (el) el.textContent = text;
+        });
+
+        // Update CV link
+        if (cvLink) {
+          cvLink.href = trans.cvPath;
+        }
+
+        // Handle blog button visibility
+        if (blogBox) {
+          if (trans.showBlog) {
+            blogBox.style.display = 'flex';
+            setTimeout(() => {
+              blogBox.style.opacity = '1';
+            }, 50);
+          } else {
+            blogBox.style.display = 'none';
+          }
+        }
+
+        // Apply language-specific styling
+        applyLanguageSpecificStyling(language, socialsContainer);
+
+        // Fade in all elements
+        setTimeout(() => {
+          allAnimatedElements.forEach(el => {
+            if (el) {
+              el.style.opacity = '1';
+            }
+          });
+
+          // Show blog button if needed
+          if (blogBox && trans.showBlog) {
+            blogBox.style.opacity = '1';
+          }
+        }, 50);
+
+      }, LANGUAGE_TRANSITION_MS);
+
+    } else {
+      // No animation - direct update
+      textElements.forEach(({ el, text }) => {
+        if (el) el.textContent = text;
+      });
+
+      socialElements.forEach(({ el, text }) => {
+        if (el) el.textContent = text;
+      });
+
+      // Update CV link
+      if (cvLink) {
+        cvLink.href = trans.cvPath;
+      }
+
+      // Handle blog button visibility
+      if (blogBox) {
+        blogBox.style.display = trans.showBlog ? 'flex' : 'none';
+      }
+
+      // Apply language-specific styling
+      applyLanguageSpecificStyling(language, socialsContainer);
+    }
+  }
+
+  // Apply language-specific styling adjustments
+  function applyLanguageSpecificStyling(language, socialsContainer) {
+    const body = document.body;
+    const introContainer = document.querySelector('.introduction-container');
+    const pageContainer = document.querySelector('.page-container');
+
+    // Remove existing language classes
+    body.classList.remove('lang-en', 'lang-de');
+    
+    // Add current language class
+    body.classList.add(`lang-${language}`);
+
+    if (language === 'de') {
+      // German-specific adjustments
+      if (socialsContainer) {
+        socialsContainer.style.transition = 'gap 0.3s ease, justify-content 0.3s ease';
+        socialsContainer.style.justifyContent = 'center';
+        socialsContainer.style.gap = '2rem';
+      }
+
+      if (pageContainer) {
+        pageContainer.style.transition = 'max-width 0.3s ease';
+        pageContainer.style.maxWidth = '700px';
+      }
+    } else {
+      // English (default) - reset to original styles
+      if (socialsContainer) {
+        socialsContainer.style.transition = 'gap 0.3s ease, justify-content 0.3s ease';
+        socialsContainer.style.justifyContent = '';
+        socialsContainer.style.gap = '';
+      }
+
+      if (pageContainer) {
+        pageContainer.style.transition = 'max-width 0.3s ease';
+        pageContainer.style.maxWidth = '';
+      }
+    }
+  }
+
+  // --- Event listeners ---
   window.addEventListener("DOMContentLoaded", () => {
+    // Load saved language preference
+    const savedLanguage = localStorage.getItem("language") || "en";
+    currentLanguage = savedLanguage;
+    
     loadPage();
     initLanguageSwitcher();
+    initThemeSwitcher();
   });
   window.addEventListener("hashchange", loadPage);
+
+  // === THEME SWITCHER LOGIC ===
+  function initThemeSwitcher() {
+    const themeBtn = document.getElementById("theme-btn");
+    const moonIcon = document.querySelector(".moon-icon");
+    const sunIcons = document.querySelectorAll(".sun-icon");
+    
+    if (!themeBtn) return;
+
+    // Load saved theme preference
+    const savedTheme = localStorage.getItem("theme") || "dark";
+    applyTheme(savedTheme);
+
+    themeBtn.addEventListener("click", () => {
+      const currentTheme = document.body.classList.contains("light-theme") ? "light" : "dark";
+      const newTheme = currentTheme === "dark" ? "light" : "dark";
+      applyTheme(newTheme);
+      localStorage.setItem("theme", newTheme);
+    });
+
+    function applyTheme(theme) {
+      if (theme === "light") {
+        document.body.classList.add("light-theme");
+        // Show sun icon, hide moon icon
+        if (moonIcon) moonIcon.style.display = "none";
+        sunIcons.forEach(icon => icon.style.display = "block");
+      } else {
+        document.body.classList.remove("light-theme");
+        // Show moon icon, hide sun icon
+        if (moonIcon) moonIcon.style.display = "block";
+        sunIcons.forEach(icon => icon.style.display = "none");
+      }
+    }
+  }
 
   // === LANGUAGE SWITCHER LOGIC ===
   function initLanguageSwitcher() {
@@ -129,11 +359,21 @@
 
     langMenu.querySelectorAll("li").forEach(item => {
       item.addEventListener("click", () => {
-        const lang = item.dataset.lang;
-        console.log(`Selected language: ${lang}`);
+        const selectedLang = item.dataset.lang;
+        if (selectedLang && selectedLang !== currentLanguage) {
+          currentLanguage = selectedLang;
+          localStorage.setItem("language", selectedLang);
+          
+          // Apply translations with smooth animation
+          applyTranslations(currentLanguage, true);
+          
+          console.log(`Language changed to: ${selectedLang}`);
+        }
         langMenu.classList.add("hidden");
-        // TODO: translation logic later
       });
     });
+
+    // Apply initial translations without animation
+    applyTranslations(currentLanguage, false);
   }
 })();
