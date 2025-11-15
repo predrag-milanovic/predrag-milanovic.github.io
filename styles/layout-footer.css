@@ -16,7 +16,8 @@
   bottom: 0;
   left: 0;
   z-index: 10;
-  transition: background-color 0.3s ease, color 0.3s ease;
+  /* transitions for background/color removed here to avoid duplicate/conflicting
+     timing — unified transition is defined in `globals.css` */
 }
 
 #site-footer p {
@@ -28,7 +29,6 @@
 #site-footer a {
   color: #ccaa22;
   text-decoration: none;
-  transition: color 0.3s ease;
 }
 
 #site-footer a:hover {
@@ -42,21 +42,30 @@
 
 /* === LIGHT THEME - SAME BACKGROUND AS MAIN === */
 body.light-theme #site-footer {
-  color: #f8fff9; /* Mint-tinted white */
-  background-color: #d0d0d0; /* Same as main background */
-  text-shadow: 1px 1px 3px rgba(45, 90, 74, 0.3); /* Light mint shadow */
+  /* keep same text color as dark theme and match text shadow */
+  color: #ffff99; /* same as dark-mode primary text */
+  background-color: #d0d0d0; /* light grayish background */
+  text-shadow: 2px 2px 2px #000; /* same shadow as dark-mode text */
 }
 
 body.light-theme #site-footer a {
-  color: #f5faf7; /* Subtle mint-tinted white for links */
-  text-shadow: 1px 1px 3px rgba(45, 90, 74, 0.4); /* Light mint shadow */
+  color: #ffff99; /* same as dark theme links */
+  text-shadow: 2px 2px 2px #000; /* keep text drop-shadow */
+}
+
+/* Footer icons in light theme: apply a black glow behind the icon
+   (use drop-shadow with zero offset + blur) instead of the usual drop-shadow */
+body.light-theme #site-footer .icon,
+body.light-theme #site-footer a .icon {
+  filter: drop-shadow(0 0 10px rgba(0,0,0,0.85)); /* black glow */
+  fill: currentColor;
+  stroke: currentColor;
 }
 
 body.light-theme #site-footer a:hover {
-  color: #ffffff; /* Pure white on hover */
-  text-shadow: 2px 2px 4px rgba(45, 90, 74, 0.6); /* Stronger mint shadow */
+  color: #ffffff; /* hover white */
 }
 
 body.light-theme .divider {
-  color: rgba(45, 90, 74, 0.4); /* Mint divider */
+  color: rgba(255, 255, 153, 0.3);
 }

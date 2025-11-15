@@ -328,14 +328,14 @@
     function applyTheme(theme) {
       if (theme === "light") {
         document.body.classList.add("light-theme");
-        // Show sun icon, hide moon icon
-        if (moonIcon) moonIcon.style.display = "none";
-        sunIcons.forEach(icon => icon.style.display = "block");
-      } else {
-        document.body.classList.remove("light-theme");
-        // Show moon icon, hide sun icon
+        // When in light mode show the moon icon (so clicking it switches to dark)
         if (moonIcon) moonIcon.style.display = "block";
         sunIcons.forEach(icon => icon.style.display = "none");
+      } else {
+        document.body.classList.remove("light-theme");
+        // When in dark mode show the sun icon (so clicking it switches to light)
+        if (moonIcon) moonIcon.style.display = "none";
+        sunIcons.forEach(icon => icon.style.display = "block");
       }
     }
   }

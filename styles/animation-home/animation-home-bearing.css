@@ -47,27 +47,25 @@
   z-index: 3; /* top of bearing group */
 }
 
-/* === LIGHT THEME - PURPLE BEARING GLOWS === */
+/* Light theme: keep bearing and cogwheel visuals identical to dark theme
+   except make the shells and cogwheel a little brighter so they read
+   better on the light gray background. The rotating balls are intentionally
+   left unchanged (no brightening) so they maintain their subtle look. */
+
 body.light-theme .portal-bearing-inner,
 body.light-theme .portal-bearing-outer {
   filter:
-    drop-shadow(0 0 8px #8b5fbf) /* Purple glow */
-    invert(20%) sepia(25%) saturate(2000%)
-    hue-rotate(280deg) brightness(85%) contrast(90%);
-}
-
-body.light-theme .portal-bearing-balls {
-  filter:
-    drop-shadow(0 0 4px #9d73d1) /* Light purple glow */
-    invert(20%) sepia(25%) saturate(2000%)
-    hue-rotate(280deg) brightness(85%) contrast(90%);
+    drop-shadow(0 0 6px #FFD966) /* slightly warmer/brighter glow */
+    invert(39%) sepia(7%) saturate(1286%)
+    hue-rotate(175deg) brightness(110%) contrast(95%);
+  transition: filter 300ms ease, opacity 300ms ease;
 }
 
 body.light-theme .portal-cogwheel {
   filter:
-    drop-shadow(0 0 6px #7a4ca8) /* Deep purple glow */
-    invert(20%) sepia(25%) saturate(2000%)
-    hue-rotate(280deg) brightness(85%) contrast(90%);
+    invert(39%) sepia(7%) saturate(1286%)
+    hue-rotate(175deg) brightness(110%) contrast(95%);
+  transition: filter 300ms ease, opacity 300ms ease;
 }
 
 /* ==================================== */

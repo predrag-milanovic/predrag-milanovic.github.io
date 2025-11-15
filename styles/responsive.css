@@ -313,7 +313,7 @@ img, svg {
   :root {
     --scale-blue:   1.15;
     --scale-green:  0.15;
-    --scale-orange: 0.30;
+    --scale-orange: 0.31;
     --scale-red:    0.62;
     --scale-yellow: 0.99;
   }
@@ -368,7 +368,8 @@ img, svg {
 #site-footer {
   font-size: calc(0.95rem * var(--scale-global));
   padding: calc(0.75rem * var(--scale-global)) 0;
-  transition: font-size 0.3s ease, padding 0.3s ease;
+    /* font-size and padding changes are instantaneous for footer to keep
+      header/footer/body transitions controlled by the unified rule */
   text-align: center;
   color: #ffff99;
   text-shadow: 2px 2px 2px #000;

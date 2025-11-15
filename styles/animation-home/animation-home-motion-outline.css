@@ -19,8 +19,8 @@
 /* --- Independent scaling via CSS variables --- */
 :root {
   --scale-blue: 1.15;
-  --scale-green: 0.1;
-  --scale-orange: 0.25;
+  --scale-green: 0.15;
+  --scale-orange: 0.30;
   --scale-red: 0.63;
   --scale-yellow: 0.99;
 }

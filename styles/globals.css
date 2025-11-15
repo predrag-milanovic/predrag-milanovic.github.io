@@ -18,102 +18,51 @@ body {
   padding: 1rem;
   -webkit-font-smoothing: antialiased;
   overflow: hidden; /* avoid scroll from fixed animation */
-  transition: background-color 0.3s ease, color 0.3s ease;
+  /* per-request: remove per-selector transitions here so a single unified
+     transition rule can control timing for body/header/footer together */
 }
 
-/* === LIGHT THEME - MINT WITH WHITE TEXT VARIATIONS === */
+/* Ensure all primary visible layers transition their backgrounds/colors
+   with the exact same timing so mode changes feel synchronous. */
+/* Unified transition block below controls timing for all primary layers. */
+/* Unified transition: a single rule controlling body/header/footer timing.
+   This replaces individual `transition` properties on those selectors so
+   they all change at the exact same speed. */
+/* Remove transitions from the page-level containers that the user asked
+   to be instantaneous: html, body, header and footer. This prevents
+   per-element timing mismatches. */
+/* Unified transition for the primary page layers. This ensures the
+   header, footer, body and main content animate together with identical
+   timing and avoids the perception of mismatched speeds. Tuned to 0.18s. */
+html, body, #site-header, #site-footer, #page-content, .page-container, #portal-animation-container {
+  transition: background 0.18s ease, color 0.18s ease, opacity 0.18s ease;
+  will-change: background, color, opacity;
+}
+
+/* Ensure page wrapper elements visually follow the body background when
+   theme class is toggled. Some pages render their own containers above the
+   body background; make them inherit so the background change is visible. */
+/* Ensure page content and container are transparent so the `body`
+   background is visible in both dark and light mode. This prevents
+   their own backgrounds from masking the body background. */
+#page-content,
+.page-container {
+  background: transparent;
+}
+
+/* Remove any inherited background setting for theme toggles; body
+   background controls the visible page color. */
+body.light-theme #page-content,
+body.light-theme .page-container {
+  background: transparent;
+}
+/* Make the body background itself switch to a light gray in light mode. */
 body.light-theme {
-  background: #d0d0d0; /* Keep original background */
-  color: #f8fff9; /* Mint-tinted white for primary text */
+  background: #d0d0d0;
 }
-
-/* Text shadows - mint variations */
-body.light-theme h1, 
-body.light-theme h2, 
-body.light-theme p, 
-body.light-theme span, 
-body.light-theme a {
-  text-shadow: 1px 1px 3px rgba(45, 90, 74, 0.3); /* Light mint shadow for regular text */
-}
-
-/* Name color - pure white with strong mint shadow */
-body.light-theme .name {
-  color: #ffffff; /* Pure white for the main name */
-  text-shadow: 2px 2px 6px rgba(45, 90, 74, 0.7); /* Strong mint shadow */
-}
-
-/* Intro and tagline colors - off-white with light mint shadow */
-body.light-theme .intro,
-body.light-theme .tagline {
-  color: #f5faf7; /* Subtle mint-tinted white */
-  text-shadow: 1px 1px 3px rgba(45, 90, 74, 0.4); /* Light mint shadow */
-}
-
-/* Social links - mint-tinted white with strong mint shadow for buttons */
-body.light-theme .social-link {
-  color: #f8fff9; /* Mint-tinted white */
-  text-shadow: 1px 1px 4px rgba(45, 90, 74, 0.6); /* Strong mint shadow for buttons */
-}
-
-body.light-theme .social-link:hover {
-  color: #ffffff; /* Pure white on hover */
-  text-shadow: 2px 2px 5px rgba(45, 90, 74, 0.8); /* Stronger mint shadow on hover */
-}
-
-/* Icons - mint-themed filters */
-body.light-theme .icon {
-  filter: brightness(0) saturate(100%)
-          invert(25%) sepia(35%) saturate(3500%)
-          hue-rotate(120deg) brightness(85%) contrast(90%);
-}
-
-body.light-theme .social-link:hover .icon {
-  filter: brightness(0) saturate(100%)
-          invert(15%) sepia(45%) saturate(4000%)
-          hue-rotate(125deg) brightness(75%) contrast(95%);
-}
-
-/* Footer - same background as main */
+/* Ensure footer background matches page background in light mode */
 body.light-theme #site-footer {
-  background-color: #d0d0d0; /* Same as main background */
-  color: #f8fff9; /* Mint-tinted white */
-  text-shadow: 1px 1px 3px rgba(45, 90, 74, 0.3); /* Light mint shadow */
-}
-
-/* Back link - mint-tinted white */
-body.light-theme .back-link {
-  color: #f8fff9; /* Mint-tinted white */
-  text-shadow: 1px 1px 4px rgba(45, 90, 74, 0.6); /* Strong mint shadow */
-}
-
-body.light-theme .back-link:hover {
-  color: #ffffff; /* Pure white on hover */
-  text-shadow: 2px 2px 5px rgba(45, 90, 74, 0.8); /* Stronger mint shadow */
-}
-
-/* Blog post title - pure white */
-body.light-theme .post-title {
-  color: #ffffff; /* Pure white for titles */
-  text-shadow: 2px 2px 6px rgba(45, 90, 74, 0.7); /* Strong mint shadow */
-}
-
-/* Blog post date and description - off-white */
-body.light-theme .post-date,
-body.light-theme .post-desc {
-  color: #f5faf7; /* Subtle mint-tinted white */
-  text-shadow: 1px 1px 3px rgba(45, 90, 74, 0.4); /* Light mint shadow */
-}
-
-/* Blog post border - mint accent */
-body.light-theme .blog-post {
-  border-left-color: #6b9080; /* Muted mint accent */
-}
-
-/* Portal animation - purple and green motion rings */
-body.light-theme #portal-animation-container {
-  filter: brightness(1.1) contrast(1.0) 
-          hue-rotate(260deg) saturate(1.2)
-          sepia(15%);
+  background-color: #d0d0d0;
 }
 
 /* === LANGUAGE-SPECIFIC STYLING === */
@@ -207,7 +156,6 @@ body.lang-de .tagline {
   width: 100%;
   position: relative;
   z-index: 1; /* content above animation */
-  transition: max-width 0.3s ease; /* Smooth transition when switching languages */
 }
 
 /* Shared text outline */
@@ -242,7 +190,8 @@ h1, h2, p, span, a {
   overflow: hidden;
   z-index: 0;
   opacity: 0;                 /* default invisible */
-  transition: opacity 0.6s ease;/* smooth fade when shown */
+    /* portal opacity is controlled by the unified transition above so
+      remove the separate timing here to avoid mismatched durations. */
 }
 
 /* Immediate hard-hide class (used on non-home) */
@@ -302,7 +251,36 @@ body.home-active #portal-animation-container {
   transition: transform 0.3s ease, filter 0.3s ease;
 }
 
+/* Make social icons cast a shadow matching the site's text shadow */
+.icon {
+  filter: brightness(0) saturate(100%)
+          invert(88%) sepia(37%) saturate(528%)
+          hue-rotate(7deg) brightness(108%) contrast(104%)
+          drop-shadow(2px 2px 2px #000);
+}
+
 .social-link:hover .icon {
+  transform: scale(1.2);
+  filter: brightness(0) saturate(100%) invert(100%); /* white on hover */
+}
+
+/* Light theme: make social icons use the same color and shadow as social text */
+body.light-theme .social-link {
+  color: #ffff99; /* same as dark-theme social text */
+  text-shadow: 2px 2px 2px #000;
+}
+
+body.light-theme .social-link .icon {
+  /* Match dark-mode icon properties so social icons look identical */
+  filter: brightness(0) saturate(100%)
+          invert(88%) sepia(37%) saturate(528%)
+          hue-rotate(7deg) brightness(108%) contrast(104%)
+          drop-shadow(2px 2px 2px #000);
+  transition: transform 0.3s ease, filter 0.3s ease;
+}
+
+/* Preserve hover behavior (turn icon white) even in light theme */
+body.light-theme .social-link:hover .icon {
   transform: scale(1.2);
   filter: brightness(0) saturate(100%) invert(100%); /* white on hover */
 }
@@ -312,7 +290,6 @@ body.home-active #portal-animation-container {
 /* ========================= */
 #page-content {
   opacity: 0;
-  transition: opacity 0.3s ease;
   z-index: 1;
   position: relative;
 }
@@ -326,8 +303,12 @@ body.home-active #portal-animation-container {
 #site-header,
 #site-footer {
   opacity: 0;
-  transition: opacity 0.4s ease;
 }
+
+/* Ensure the footer background and text color transition exactly like the
+   `body` background/color (0.3s ease). Use `background` shorthand here to
+   match the body's transition and avoid shorthand vs longhand timing mismatch. */
+
 
 #site-header.loaded,
 #site-footer.loaded {
