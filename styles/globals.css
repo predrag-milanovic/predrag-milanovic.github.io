@@ -80,78 +80,9 @@ body.lang-de .tagline {
   line-height: 1.4; /* Better line spacing for German compound words */
 }
 
-/* Responsive adjustments for German */
-@media (max-width: 768px) {
-  body.lang-de .tagline {
-    font-size: clamp(0.9rem, 3vw, 1.25rem);
-    text-align: center; /* Center align for consistency */
-  }
-  
-  body.lang-de .introduction-container {
-    align-items: center; /* Center align text */
-    text-align: center;
-  }
-  
-  body.lang-de .socials-container {
-    justify-content: center !important; /* Center align like English */
-    gap: 1rem !important;
-    max-width: none !important; /* Remove max-width constraint for 3 buttons */
-  }
-  
-  /* German 3-button layout - keep them in a row */
-  body.lang-de .socials-container .social-box {
-    flex: none !important;
-    margin-left: 0 !important;
-  }
-}
-
-@media (max-width: 480px) {
-  body.lang-de .tagline {
-    font-size: clamp(0.75rem, 2.6vw, 1rem);
-    line-height: 1.3; /* Better line spacing for small screens */
-    text-align: center; /* Center align */
-  }
-  
-  body.lang-de .introduction-container {
-    align-items: center; /* Center align */
-    text-align: center;
-  }
-  
-  body.lang-de .socials-container {
-    gap: 0.8rem !important;
-    max-width: none !important;
-    justify-content: center !important; /* Center align */
-  }
-  
-  body.lang-de .social-link {
-    font-size: 0.8rem;
-  }
-}
-
-@media (max-width: 360px) {
-  body.lang-de .tagline {
-    font-size: clamp(0.7rem, 2.3vw, 0.95rem);
-    line-height: 1.4;
-    word-break: break-word; /* Prevent overflow of long German words */
-    hyphens: auto; /* Enable hyphenation for German compound words */
-    text-align: center; /* Center align */
-  }
-  
-  body.lang-de .introduction-container {
-    align-items: center; /* Center align */
-    text-align: center;
-  }
-  
-  body.lang-de .socials-container {
-    gap: 0.6rem !important;
-    justify-content: center !important; /* Center align */
-  }
-  
-  body.lang-de .social-link {
-    font-size: 0.75rem;
-    padding: 0.2rem 0.3rem;
-  }
-}
+/* Responsive adjustments for German keep using the global responsive
+   typography and layout rules. Additional breakpoint-specific overrides
+   are no longer necessary and were removed to simplify behavior. */
 
 /* Shared page container */
 .page-container {

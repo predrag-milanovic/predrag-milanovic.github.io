@@ -330,30 +330,6 @@ img, svg {
   background: #2f2f2f;
 }
 
-/* Fine-tuned footer adjustments per breakpoint */
-@media (max-width: 1024px) {
-  #site-footer {
-    font-size: 1.05rem;
-    padding: 0.7rem 0;
-  }
-}
-@media (max-width: 768px) {
-  #site-footer {
-    font-size: 0.9rem;
-    padding: 0.65rem 0;
-  }
-}
-@media (max-width: 480px) {
-  #site-footer {
-    font-size: 0.75rem;
-    padding: 0.5rem 0;
-  }
-}
-
-@media (max-width: 360px) {
-  #site-footer {
-    font-size: 0.7rem;
-    padding: 0.4rem 0;
-    line-height: 1.2;
-  }
-}
+/* Fine-tuned footer adjustments per breakpoint are no longer needed;
+   the base rule above scales using --scale-global so the footer stays
+   consistent with the rest of the layout across 1024/768/480/360px. */

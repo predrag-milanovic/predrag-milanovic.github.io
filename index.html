@@ -13,6 +13,30 @@
 
   <title id="page-title">Predrag Milanović</title>
 
+  <!-- Critical base styles inline so Safari has correct colors/icons
+       even before external stylesheets finish loading (reduces the
+       brief black flash on slow or mobile loads). -->
+  <style>
+    body {
+      background: #2f2f2f;
+      color: #ffff99;
+    }
+
+    .social-link {
+      color: #ffff99;
+      text-decoration: none;
+    }
+
+    .icon {
+      width: 30px;
+      height: 30px;
+      filter: brightness(0) saturate(100%)
+              invert(88%) sepia(37%) saturate(528%)
+              hue-rotate(7deg) brightness(108%) contrast(104%)
+              drop-shadow(2px 2px 2px #000);
+    }
+  </style>
+
   <!-- Favicon (keep only necessary sizes/types) -->
   <link rel="icon" type="image/png" sizes="32x32" href="assets/icons/favicon-32x32.png">
   <link rel="icon" type="image/png" sizes="512x512" href="assets/icons/favicon-512x512.png">

@@ -68,6 +68,26 @@ body.light-theme .portal-cogwheel {
   transition: filter 300ms ease, opacity 300ms ease;
 }
 
+/* On small screens (phones), slightly soften the bearing glow so it
+   doesn't look over-saturated on high-density displays like iPhone. */
+@media (max-width: 480px) {
+  .portal-bearing-inner,
+  .portal-bearing-outer {
+    filter:
+      drop-shadow(0 0 4px #CCAA22)
+      invert(29%) sepia(7%) saturate(1100%)
+      hue-rotate(175deg) brightness(94%) contrast(88%);
+  }
+
+  body.light-theme .portal-bearing-inner,
+  body.light-theme .portal-bearing-outer {
+    filter:
+      drop-shadow(0 0 4px #FFD966)
+      invert(39%) sepia(7%) saturate(1100%)
+      hue-rotate(175deg) brightness(106%) contrast(92%);
+  }
+}
+
 /* ==================================== */
 /* KEYFRAMES (include full transform)   */
 /* ==================================== */
