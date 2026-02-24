@@ -1,0 +1,62 @@
+<!-- CAD Portfolio Page (Predrag Milanović) -->
+<!--
+	This page showcases my mechanical engineering CAD models using the
+	<model-viewer> web component. Models are loaded dynamically from
+	JSON via scripts/cad-model-viewer.js.
+
+	How to add a new model:
+	1) Export your CAD part/assembly to GLB and place it in:
+			 assets/cad/models/
+	2) Add a new entry to assets/cad/models.json with:
+			 - id, title, description
+			 - software (e.g. "SolidWorks", "Inventor", "NX")
+			 - tags (array of keywords)
+			 - file (relative GLB path under /assets/cad/models/)
+			 - metadata (e.g. material, year, category)
+	3) The page will pick it up automatically on next load.
+-->
+
+
+<section class="page-container">
+	<section class="cad-page" aria-labelledby="cad-page-title">
+	<!-- header with back navigation -->
+	<header class="cad-header">
+		<div class="cad-header-main">
+			<h1 id="cad-page-title">CAD Portfolio</h1>
+			<p class="cad-subtitle">
+				A selection of 3D CAD models developed throughout my engineering career.
+			</p>
+		</div>
+
+		<!-- Back to home -->
+		<nav aria-label="Primary">
+			<a href="#home" class="back-link cad-back-link">Home</a>
+		</nav>
+	</header>
+
+	<!-- Main grid of models -->
+	<main class="cad-grid-wrapper">
+		<section
+			id="cad-grid"
+			class="cad-grid"
+			aria-label="CAD model gallery"
+		>
+			<!-- Cards are injected dynamically from JSON by scripts/cad-model-viewer.js -->
+		</section>
+	</main>
+
+	<!-- Model-viewer web component (loaded once here for the page) -->
+	<!--
+		The script below loads the official <model-viewer> web component
+		from Google's CDN. It is optimized for modern browsers and supports
+		interaction (orbit, zoom) and environment lighting.
+	-->
+	<script
+		type="module"
+		src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"
+	></script>
+
+	<!-- CAD page logic: filtering, search, and dynamic model cards -->
+	<script src="scripts/cad-model-viewer.js" defer></script>
+	</section>
+</section>
