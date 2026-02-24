@@ -1,0 +1,553 @@
+/* =============================================
+	 CAD Portfolio Styles (Predrag Milanović)
+	 - Builds on globals.css (layout, typography, theme)
+	 - Navy / white palette with subtle gradients
+	 - Glassmorphism cards, responsive CSS Grid
+	 - Custom scrollbar, smooth interactions
+	 ============================================= */
+
+/* Root-level custom properties for CAD page */
+:root {
+	/* Core surfaces & radii used across CAD cards */
+	--cad-surface-glass: rgba(47, 47, 47, 0.96);
+	--cad-surface-glass-light: rgba(255, 255, 255, 0.98);
+	--cad-border-glass: rgba(255, 255, 153, 0.4);
+	--cad-radius-lg: 1.2rem;
+	--cad-radius-md: 0.9rem;
+	--cad-radius-pill: 999px;
+	--cad-shadow-soft: 0 12px 32px rgba(0, 0, 0, 0.8);
+	--cad-shadow-soft-light: 0 10px 28px rgba(0, 0, 0, 0.18);
+	--cad-transition-fast: 180ms ease-out;
+	--cad-transition-med: 230ms ease-out;
+}
+
+/* Page-level background now follows global body theme; CAD only tweaks
+	specific components so overall coloring matches the rest of the site. */
+
+/* Ensure the main CAD section stretches nicely */
+.cad-page {
+	max-width: 1320px;
+	margin: 0 auto;
+	padding: 2.5rem 1.5rem 3.5rem;
+	display: flex;
+	flex-direction: column;
+	gap: 0.75rem;
+	text-align: justify;
+}
+
+/* In CAD mode, keep the page as a fixed viewport and scroll only
+	the models grid area so the header never moves. */
+body.cad-active {
+	overflow-y: hidden;
+}
+
+body.cad-active #page-content {
+	height: 100vh;
+	display: flex;
+	justify-content: center;
+	align-items: flex-start;
+}
+
+body.cad-active #page-content .page-container,
+body.cad-active #page-content .cad-page {
+	height: 100%;
+}
+
+/* Allow a slightly wider content area specifically on the CAD page */
+body.cad-active .page-container {
+	max-width: 1320px;
+}
+
+@media (max-width: 768px) {
+	.cad-page {
+		padding: 1.75rem 1.25rem 2.5rem;
+	}
+}
+
+@media (max-width: 480px) {
+	.cad-page {
+		padding: 1.5rem 1rem 2rem;
+	}
+
+	/* Tighten header + text for small phones */
+	.cad-header {
+		gap: 0;
+		padding: 0.6rem 0.7rem;
+	}
+
+	.cad-header-main h1 {
+		font-size: 1.4rem;
+	}
+
+	.cad-subtitle {
+		font-size: 0.86rem;
+		max-width: 100%;
+	}
+
+	/* Make cards a bit more compact while staying touch-friendly */
+	.cad-card {
+		padding: 0.9rem 0.9rem 1rem;
+	}
+
+	.cad-description {
+		font-size: 0.82rem;
+	}
+
+	.cad-meta-chip,
+	.cad-tag,
+	.cad-size-indicator {
+		font-size: 0.68rem;
+	}
+
+	/* Reorder header so Home link appears above the title */
+	.cad-header {
+		flex-direction: column;
+	}
+
+	.cad-header nav {
+		order: 0;
+		align-self: flex-start;
+	}
+
+	.cad-header-main {
+		order: 1;
+	}
+
+	/* Remove extra margin on the button itself so it touches the title block */
+	.cad-header .cad-back-link {
+		margin-top: 0;
+	}
+}
+
+@media (max-width: 360px) {
+	.cad-page {
+		padding: 1.25rem 0.75rem 1.75rem;
+		gap: 0.6rem;
+	}
+
+	.cad-header {
+		gap: 0;
+	}
+
+	.cad-header-main h1 {
+		font-size: 1.25rem;
+	}
+
+	.cad-subtitle {
+		font-size: 0.8rem;
+	}
+
+	.cad-card {
+		padding: 0.8rem 0.8rem 0.9rem;
+	}
+
+	.cad-viewer-wrapper {
+		margin-bottom: 0.55rem;
+	}
+
+	.cad-footer-row {
+		flex-direction: column;
+		align-items: flex-start;
+		gap: 0.45rem;
+	}
+}
+
+/* =====================
+	 Header / Back link
+	 ===================== */
+
+.cad-header {
+	display: flex;
+	justify-content: flex-start;
+	align-items: flex-start;
+	gap: 1.5rem;
+	padding: 0.75rem;
+	z-index: 2;
+	background: #2f2f2f;
+	box-shadow: 0 15px 5px #2f2f2f; /* soft fade at bottom edge */
+}
+
+body.light-theme .cad-header {
+	background: #d0d0d0;
+	border-bottom-color: rgba(148, 163, 184, 0.5);
+	box-shadow: 0 15px 5px #d0d0d0; /* soft fade at bottom edge */
+}
+
+/* In light theme, replace the heavy global text-shadow on the CAD page
+	with a very subtle shadow so text stays clear on the light background. */
+body.light-theme .cad-page,
+body.light-theme .cad-page * {
+	text-shadow: 0 1px 1px rgba(0, 0, 0, 0.28);
+}
+
+/* Light-theme color refinements for better contrast on CAD page */
+body.light-theme .cad-title {
+	color: #111827; /* deep slate for strong contrast on light gray */
+}
+
+body.light-theme .cad-subtitle {
+	color: #4b4b00; /* match description tone while remaining readable */
+}
+
+body.light-theme .cad-back-link {
+	color: #111827;
+	background: rgba(255, 255, 224, 0.96);
+	border: 1px solid rgba(148, 163, 184, 0.7);
+}
+
+.cad-header nav {
+	margin-top: 0.1rem;
+	margin-left: auto; /* push back-link to the far right */
+}
+
+.cad-header-main {
+	flex: 1; /* allow title area to grow so nav sits at far right */
+}
+
+.cad-header-main h1 {
+	font-size: clamp(1.9rem, 3vw, 2.25rem);
+	letter-spacing: 0.03em;
+	margin-bottom: 0.4rem;
+}
+
+.cad-subtitle {
+	max-width: 40rem;
+	font-size: 0.93rem;
+	text-align: justify;
+	color: #ccaa22;
+}
+
+/* CAD-specific tweak for the shared back-link: keep it compact,
+	on one line, with an outline echoing the header controls. */
+.cad-back-link {
+	font-size: 0.9rem;
+	padding: 0.3rem 0.9rem;
+	border-radius: 999px;
+	background: #2f2f2f;
+	border: 1px solid rgba(255, 255, 153, 0.7);
+	white-space: nowrap;
+	line-height: 1;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.cad-back-link:hover,
+.cad-back-link:focus-visible {
+	transform: translateX(-3px);
+}
+
+@media (max-width: 640px) {
+	.cad-header {
+		flex-direction: column;
+		align-items: flex-start;
+	}
+
+	.cad-back-link {
+		margin-top: 0.35rem;
+	}
+}
+
+/* =====================
+	 Inline viewer spinner
+	 ===================== */
+
+.spinner {
+	width: 0.95rem;
+	height: 0.95rem;
+	border-radius: 999px;
+	border: 2px solid rgba(148, 163, 184, 0.6);
+	border-top-color: #60a5fa;
+	animation: cad-spin 0.75s linear infinite;
+}
+
+@keyframes cad-spin {
+	to {
+		transform: rotate(360deg);
+	}
+}
+
+	/* =====================
+		 Grid layout
+		 ===================== */
+
+.cad-grid-wrapper {
+	margin-top: 0.1rem;
+	flex: 1;
+	min-height: 0;
+	overflow-y: auto;
+}
+
+.cad-grid {
+	display: flex;
+	flex-direction: column;
+	gap: 0.75rem;
+	padding: 0.35rem 0.35rem 0.5rem;
+}
+
+
+/* =====================
+	 Model card (glassmorphism)
+	 ===================== */
+
+.cad-card {
+	position: relative;
+	display: flex;
+	flex-direction: column;
+	border-radius: var(--cad-radius-lg);
+	padding: 1.1rem 1.15rem 1.15rem;
+	background: var(--cad-surface-glass);
+	border: 1px solid var(--cad-border-glass);
+	box-shadow: none;
+	backdrop-filter: blur(10px);
+	overflow: hidden;
+	transition: transform var(--cad-transition-med),
+							box-shadow var(--cad-transition-med),
+							border-color var(--cad-transition-med),
+							background var(--cad-transition-med);
+}
+
+.cad-card::before {
+	content: "";
+	position: absolute;
+	inset: -40%;
+	background: radial-gradient(circle at top, rgba(255, 255, 153, 0.18), transparent 60%);
+	opacity: 0;
+	pointer-events: none;
+	transition: opacity var(--cad-transition-med);
+}
+
+.cad-card:hover {
+	transform: translateY(-4px) translateZ(0);
+	border-color: rgba(255, 255, 153, 0.9);
+}
+
+.cad-card:hover::before {
+	opacity: 1;
+}
+
+body.light-theme .cad-card {
+	background: #d0d0d0;
+	box-shadow: none;
+	border: 1px solid #000000b0;
+}
+
+/* Model viewer wrapper */
+.cad-viewer-wrapper {
+	position: relative;
+	border-radius: calc(var(--cad-radius-lg) - 0.3rem);
+	overflow: hidden;
+	aspect-ratio: 4 / 3;
+	margin-bottom: 0.7rem;
+}
+
+.cad-viewer-wrapper model-viewer {
+	width: 100%;
+	height: 100%;
+	display: block;
+	background: radial-gradient(circle at top, #ffff9975, #2f2f2f 55%, #000 100%);
+}
+
+body.light-theme .cad-viewer-wrapper model-viewer {
+	background: radial-gradient(circle at top, #ffffe0, #d0d0d0 55%, #b0b0b0 100%);
+}
+
+.cad-viewer-overlay {
+	position: absolute;
+	inset: 0;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	background:
+		linear-gradient(135deg, rgba(47, 47, 47, 0.96), rgba(0, 0, 0, 0.9));
+	color: #ffff99;
+	font-size: 0.85rem;
+	gap: 0.4rem;
+	padding: 0.6rem 0.9rem;
+	opacity: 1;
+	pointer-events: none;
+	transition: opacity var(--cad-transition-med);
+}
+
+.cad-viewer-overlay.hidden {
+	opacity: 0;
+}
+
+.cad-viewer-error {
+	position: absolute;
+	inset: 0;
+	display: none;
+	align-items: center;
+	justify-content: center;
+	padding: 0.75rem;
+	text-align: center;
+	font-size: 0.82rem;
+	background: rgba(127, 29, 29, 0.92);
+	color: #fee2e2;
+}
+
+.cad-viewer-error.visible {
+	display: flex;
+}
+
+body.light-theme .cad-viewer-overlay {
+	background:
+		linear-gradient(135deg, rgba(208, 208, 208, 0.96), rgba(128, 128, 128, 0.9));
+	color: #ccaa22;
+}
+
+body.light-theme .cad-viewer-error {
+	background: rgba(185, 28, 28, 0.95);
+}
+
+.cad-viewer-hint {
+	font-size: 0.8rem;
+	opacity: 0.85;
+}
+
+/* Text content inside card */
+
+.cad-card-header {
+	display: flex;
+	justify-content: space-between;
+	align-items: flex-start;
+	padding: 0.25rem;
+}
+
+.cad-title {
+	font-size: 1.02rem;
+	font-weight: 600;
+	color: #ffff99;
+}
+
+.cad-software-badge {
+	padding: 0.25rem 0.7rem;
+	border-radius: var(--cad-radius-pill);
+	font-size: 0.75rem;
+	font-weight: 600;
+	text-transform: uppercase;
+	letter-spacing: 0.04em;
+	background: rgba(47, 47, 47, 0.95);
+	color: #ccaa22;
+	border: 1px solid rgba(255, 255, 153, 0.7);
+}
+
+body.light-theme .cad-software-badge {
+	background: rgba(255, 255, 224, 0.96);
+	color: #4b4b00;
+}
+
+.cad-description {
+	font-size: 0.86rem;
+	color: #f5f5dc;
+	margin-bottom: 0.25rem;
+	padding: 0.25rem;
+}
+
+body.light-theme .cad-description {
+	color: #4b4b00;
+}
+
+.cad-meta {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 0.3rem;
+	padding: 0.25rem;
+}
+
+.cad-meta-chip {
+	font-size: 0.72rem;
+	padding: 0.2rem 0.65rem;
+	border-radius: var(--cad-radius-pill);
+	background: rgba(47, 47, 47, 0.9);
+	color: #ffff99;
+	border: 1px solid rgba(255, 255, 153, 0.6);
+}
+
+body.light-theme .cad-meta-chip {
+	background: rgba(255, 255, 224, 0.95);
+	color: #4b4b00;
+}
+
+.cad-footer-row {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	gap: 0.75rem;
+	padding: 0.25rem;
+}
+
+.cad-tags {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 0.3rem;
+	padding-top: 0.15rem;
+}
+
+.cad-tag {
+	font-size: 0.7rem;
+	padding: 0.1rem 0.5rem;
+	border-radius: var(--cad-radius-pill);
+	background: rgba(47, 47, 47, 0.96);
+	color: #ffff99;
+}
+
+body.light-theme .cad-tag {
+	background: rgba(15, 23, 42, 0.92);
+	color: #ffff99;
+}
+
+.cad-size-indicator {
+	font-size: 0.72rem;
+	color: #e5e5b0;
+	padding: 0.1rem 0.15rem 0.1rem 0;
+}
+
+body.light-theme .cad-size-indicator {
+	color: #7a6a00;
+}
+
+/* =====================
+	 Custom scrollbar (hidden on CAD page)
+	 ===================== */
+
+/* WebKit-based browsers: hide scrollbars but keep scrolling */
+body.cad-active::-webkit-scrollbar {
+	width: 0;
+	height: 0;
+}
+
+body.cad-active::-webkit-scrollbar-track {
+	background: transparent;
+}
+
+body.cad-active::-webkit-scrollbar-thumb {
+	background: transparent;
+	border: none;
+}
+
+/* Explicitly hide the internal scrollbars of the CAD grid/viewer wrappers
+	to avoid a brief scrollbar flash on the right side during page transitions. */
+.cad-grid-wrapper::-webkit-scrollbar,
+.cad-viewer-wrapper::-webkit-scrollbar {
+	width: 0;
+	height: 0;
+}
+
+.cad-grid-wrapper::-webkit-scrollbar-track,
+.cad-viewer-wrapper::-webkit-scrollbar-track {
+	background: transparent;
+}
+
+.cad-grid-wrapper::-webkit-scrollbar-thumb,
+.cad-viewer-wrapper::-webkit-scrollbar-thumb {
+	background: transparent;
+	border: none;
+}
+
+/* Firefox: hide scrollbars on CAD page */
+body.cad-active * {
+	scrollbar-width: none;
+	scrollbar-color: transparent transparent;
+}
+
