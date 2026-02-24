@@ -38,7 +38,7 @@
     <div class="header-right">
       <!-- Theme Switcher -->
       <div class="theme-switcher">
-        <button id="theme-btn" class="theme-btn" aria-label="Toggle theme">
+        <button id="theme-btn" class="theme-btn" aria-label="Toggle theme" aria-pressed="false">
           <svg class="theme-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
             <path class="moon-icon" d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z" fill="currentColor"/>
             <circle class="sun-icon" cx="12" cy="12" r="5" fill="currentColor" style="display: none;"/>
@@ -49,19 +49,19 @@
 
       <!-- Language Switcher -->
       <div class="language-switcher">
-        <button id="language-btn" class="language-btn" aria-label="Change language">
+        <button id="language-btn" class="language-btn" aria-label="Change language" aria-haspopup="true" aria-expanded="false">
           <svg class="language-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
             <circle cx="12" cy="12" r="10" fill="none" stroke="currentColor" stroke-width="2"/>
             <path d="M2 12h20M12 2a15 15 0 010 20M12 2a15 15 0 000 20" stroke="currentColor" stroke-width="1.5" fill="none"/>
           </svg>
         </button>
 
-        <ul id="language-menu" class="language-menu hidden">
-          <li data-lang="en">
+        <ul id="language-menu" class="language-menu hidden" role="menu">
+          <li data-lang="en" role="menuitem">
             <img src="assets/icons/flags/en.svg" alt="English" class="flag-icon">
             <span>English</span>
           </li>
-          <li data-lang="de">
+          <li data-lang="de" role="menuitem">
             <img src="assets/icons/flags/de.svg" alt="Deutsch" class="flag-icon">
             <span>Deutsch</span>
           </li>
@@ -85,22 +85,22 @@
     <div class="home-portal-animation">
 
       <!-- Motion outline layers -->
-      <img src="assets/img/animations/home-portal/index-portal-blue.svg" class="portal-outline portal-blue" alt="">
-      <img src="assets/img/animations/home-portal/index-portal-blue-semi.svg" class="portal-outline portal-blue-semi" alt="">
-      <img src="assets/img/animations/home-portal/index-portal-green.svg" class="portal-outline portal-green" alt="">
-      <img src="assets/img/animations/home-portal/index-portal-green-semi.svg" class="portal-outline portal-green-semi" alt="">
-      <img src="assets/img/animations/home-portal/index-portal-orange.svg" class="portal-outline portal-orange" alt="">
-      <img src="assets/img/animations/home-portal/index-portal-orange-semi.svg" class="portal-outline portal-orange-semi" alt="">
-      <img src="assets/img/animations/home-portal/index-portal-red.svg" class="portal-outline portal-red" alt="">
-      <img src="assets/img/animations/home-portal/index-portal-red-semi.svg" class="portal-outline portal-red-semi" alt="">
-      <img src="assets/img/animations/home-portal/index-portal-yellow.svg" class="portal-outline portal-yellow" alt="">
-      <img src="assets/img/animations/home-portal/index-portal-yellow-semi.svg" class="portal-outline portal-yellow-semi" alt="">
+      <img src="assets/img/animations/home-portal/index-portal-blue.svg" class="portal-outline portal-blue" alt="" loading="lazy" decoding="async">
+      <img src="assets/img/animations/home-portal/index-portal-blue-semi.svg" class="portal-outline portal-blue-semi" alt="" loading="lazy" decoding="async">
+      <img src="assets/img/animations/home-portal/index-portal-green.svg" class="portal-outline portal-green" alt="" loading="lazy" decoding="async">
+      <img src="assets/img/animations/home-portal/index-portal-green-semi.svg" class="portal-outline portal-green-semi" alt="" loading="lazy" decoding="async">
+      <img src="assets/img/animations/home-portal/index-portal-orange.svg" class="portal-outline portal-orange" alt="" loading="lazy" decoding="async">
+      <img src="assets/img/animations/home-portal/index-portal-orange-semi.svg" class="portal-outline portal-orange-semi" alt="" loading="lazy" decoding="async">
+      <img src="assets/img/animations/home-portal/index-portal-red.svg" class="portal-outline portal-red" alt="" loading="lazy" decoding="async">
+      <img src="assets/img/animations/home-portal/index-portal-red-semi.svg" class="portal-outline portal-red-semi" alt="" loading="lazy" decoding="async">
+      <img src="assets/img/animations/home-portal/index-portal-yellow.svg" class="portal-outline portal-yellow" alt="" loading="lazy" decoding="async">
+      <img src="assets/img/animations/home-portal/index-portal-yellow-semi.svg" class="portal-outline portal-yellow-semi" alt="" loading="lazy" decoding="async">
       
       <!-- Bearing & Cogwheel animation -->
-      <img src="assets/img/animations/home-portal/bearing-outer-shell.svg" alt="Outer Shell" class="portal-bearing-outer">
-      <img src="assets/img/animations/home-portal/bearing-inner-shell.svg" alt="Inner Shell" class="portal-bearing-inner">
-      <img src="assets/img/animations/home-portal/bearing-balls.svg" alt="Bearing Balls" class="portal-bearing-balls">
-      <img src="assets/img/animations/home-portal/cogwheel.svg" class="portal-cogwheel" alt="Cogwheel">
+      <img src="assets/img/animations/home-portal/bearing-outer-shell.svg" alt="Outer Shell" class="portal-bearing-outer" loading="lazy" decoding="async">
+      <img src="assets/img/animations/home-portal/bearing-inner-shell.svg" alt="Inner Shell" class="portal-bearing-inner" loading="lazy" decoding="async">
+      <img src="assets/img/animations/home-portal/bearing-balls.svg" alt="Bearing Balls" class="portal-bearing-balls" loading="lazy" decoding="async">
+      <img src="assets/img/animations/home-portal/cogwheel.svg" class="portal-cogwheel" alt="Cogwheel" loading="lazy" decoding="async">
     </div>
   </div>
 
