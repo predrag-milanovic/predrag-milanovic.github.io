@@ -14,6 +14,10 @@
       linkedin: "LinkedIn",
       github: "GitHub",
       cv: "CV",
+      cadPortfolio: "CAD Portfolio",
+      cadHeaderTitle: "CAD Portfolio",
+      cadHeaderSubtitle: "A selection of 3D CAD models developed throughout my engineering career.",
+      cadHeaderHome: "Home",
       blog: "Blog",
       cvPath: "assets/cv/predrag-milanovic-cv.pdf",
       showBlog: true
@@ -25,6 +29,10 @@
       linkedin: "LinkedIn",
       github: "GitHub",
       cv: "Lebenslauf",
+      cadPortfolio: "CAD Portfolio",
+      cadHeaderTitle: "CAD-Portfolio",
+      cadHeaderSubtitle: "Eine Auswahl von 3D-CAD-Modellen aus meiner bisherigen Ingenieurlaufbahn.",
+      cadHeaderHome: "Home",
       blog: "Blog",
       cvPath: "assets/cv/predrag-milanovic-lebenslauf.pdf",
       showBlog: false
@@ -32,14 +40,16 @@
   };
 
   function loadPage() {
-    const hash = window.location.hash || "#home";
-    let currentPage = "home";
+  // Normalize the current hash by stripping a leading '#', so routes
+  // can be defined as plain names like 'home', 'blog', 'cad'.
+  const hash = (window.location.hash || "#home").replace(/^#/, "") || "home";
+  let currentPage = "home";
 
     // Determine which page should load
     for (const key in pages) {
       if (hash === pages[key].route) {
-        currentPage = key;
-        break;
+      currentPage = key;
+      break;
       }
     }
 
@@ -58,14 +68,28 @@
       if (el) el.classList.remove("loaded");
     });
 
+    // If we're leaving the Home page while the portal animation is active,
+    // start fading the portal itself but KEEP `home-active` so the home
+    // layout (centered introduction-container) does not shift before it
+    // disappears. The new CSS class controls only the portal opacity.
+    if (portal && document.body.classList.contains("home-active") && currentPage !== "home") {
+      document.body.classList.add("portal-fade-out");
+    }
+
     // --- Step 2: Wait for fade-out before replacing content ---
     setTimeout(() => {
-      // Hide portal animation when not on home
-      if (portal) {
+      // After fade-out, hide the portal layer when navigating away from home
+      if (portal && currentPage !== "home") {
         portal.classList.add("portal-hidden");
         portal.style.display = "none";
-        document.body.classList.remove("home-active");
+
+        // Now that everything is invisible, we can safely remove the
+        // home-specific classes without causing visible layout shifts.
+        document.body.classList.remove("home-active", "portal-fade-out");
       }
+
+      // Reset CAD page body state before loading new content
+      document.body.classList.remove("cad-active");
 
       // Remove any previous animation stylesheet
       const existingAnim = document.getElementById(animLinkId);
@@ -82,6 +106,15 @@
 
           // --- Helper: Fade everything in ---
           const fadeInAll = () => {
+            // Ensure CAD theming/background + logic are activated
+            if (currentPage === "cad") {
+              document.body.classList.add("cad-active");
+
+              if (typeof window.initCadPortfolio === "function") {
+                window.initCadPortfolio();
+              }
+            }
+
             setTimeout(() => {
               [container, header, footer].forEach(el => {
                 if (el) el.classList.add("loaded");
@@ -92,9 +125,15 @@
           // --- Step 4: Handle portal animation for Home page ---
           if (currentPage === "home" && portal) {
             const enablePortal = () => {
+              // Make the portal layer visible and immediately apply the
+              // home-active class so the home layout (centered intro +
+              // socials) is already in its final position before the
+              // fade-in begins. This prevents any horizontal "jump"
+              // when returning from other pages like CAD.
               portal.style.display = "block";
               portal.classList.remove("portal-hidden");
-              setTimeout(() => document.body.classList.add("home-active"), 100);
+              document.body.classList.add("home-active");
+              document.body.classList.remove("portal-fade-out");
             };
 
             // Load animation CSS dynamically (if defined)
@@ -143,13 +182,18 @@
     const textElements = [
       { el: document.querySelector('.name'), text: trans.name },
       { el: document.querySelector('.intro'), text: trans.intro },
-      { el: document.querySelector('.tagline'), text: trans.tagline }
+      { el: document.querySelector('.tagline'), text: trans.tagline },
+      // CAD page header (only present on CAD Portfolio page)
+      { el: document.querySelector('#cad-page-title'), text: trans.cadHeaderTitle },
+      { el: document.querySelector('.cad-subtitle'), text: trans.cadHeaderSubtitle },
+      { el: document.querySelector('.cad-back-link'), text: trans.cadHeaderHome }
     ];
 
     const socialElements = [
       { el: document.querySelector('a[href*="linkedin"] span'), text: trans.linkedin },
       { el: document.querySelector('a[href*="github"] span'), text: trans.github },
-      { el: document.querySelector('a[href*="cv"] span'), text: trans.cv }
+      { el: document.querySelector('a[href*="cv"] span'), text: trans.cv },
+      { el: document.querySelector('a[href="#cad-portfolio"] span'), text: trans.cadPortfolio }
     ];
 
     // Get icon elements
@@ -157,8 +201,12 @@
       document.querySelector('a[href*="linkedin"] .icon'),
       document.querySelector('a[href*="github"] .icon'),
       document.querySelector('a[href*="cv"] .icon'),
-      document.querySelector('a[href="#blog"] .icon')
+      document.querySelector('a[href="#blog"] .icon'),
+      document.querySelector('a[href="#cad-portfolio"] .icon')
     ].filter(Boolean);
+
+    // CAD content container (used so the CAD page fades with language changes)
+    const cadPage = document.querySelector('.cad-page');
 
     // Get other elements
     const cvLink = document.querySelector('a[href*="cv"]');
@@ -169,8 +217,14 @@
       // Fade out all text elements and icons
       const allElements = [...textElements, ...socialElements].map(item => item.el).filter(Boolean);
       const allAnimatedElements = [...allElements, ...iconElements];
+
+      // Also fade the CAD page container (when present)
+      const fadeTargets = [...allAnimatedElements];
+      if (cadPage && !fadeTargets.includes(cadPage)) {
+        fadeTargets.push(cadPage);
+      }
       
-      allAnimatedElements.forEach(el => {
+      fadeTargets.forEach(el => {
         if (el) {
           el.style.transition = `opacity ${LANGUAGE_TRANSITION_MS}ms ease`;
           el.style.opacity = '0';
@@ -216,7 +270,7 @@
 
         // Fade in all elements
         setTimeout(() => {
-          allAnimatedElements.forEach(el => {
+          fadeTargets.forEach(el => {
             if (el) {
               el.style.opacity = '1';
             }
@@ -331,11 +385,13 @@
         // When in light mode show the moon icon (so clicking it switches to dark)
         if (moonIcon) moonIcon.style.display = "block";
         sunIcons.forEach(icon => icon.style.display = "none");
+        if (themeBtn) themeBtn.setAttribute("aria-pressed", "true");
       } else {
         document.body.classList.remove("light-theme");
         // When in dark mode show the sun icon (so clicking it switches to light)
         if (moonIcon) moonIcon.style.display = "none";
         sunIcons.forEach(icon => icon.style.display = "block");
+        if (themeBtn) themeBtn.setAttribute("aria-pressed", "false");
       }
     }
   }
@@ -348,12 +404,20 @@
 
     langBtn.addEventListener("click", e => {
       e.stopPropagation();
-      langMenu.classList.toggle("hidden");
+      const isOpen = !langMenu.classList.contains("hidden");
+      if (isOpen) {
+        langMenu.classList.add("hidden");
+        langBtn.setAttribute("aria-expanded", "false");
+      } else {
+        langMenu.classList.remove("hidden");
+        langBtn.setAttribute("aria-expanded", "true");
+      }
     });
 
     document.addEventListener("click", e => {
       if (!langMenu.classList.contains("hidden") && !langBtn.contains(e.target)) {
         langMenu.classList.add("hidden");
+        langBtn.setAttribute("aria-expanded", "false");
       }
     });
 
@@ -370,6 +434,7 @@
           console.log(`Language changed to: ${selectedLang}`);
         }
         langMenu.classList.add("hidden");
+        langBtn.setAttribute("aria-expanded", "false");
       });
     });
 
