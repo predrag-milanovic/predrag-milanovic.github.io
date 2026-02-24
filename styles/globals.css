@@ -17,9 +17,16 @@ body {
   min-height: 100vh;
   padding: 1rem;
   -webkit-font-smoothing: antialiased;
-  overflow: hidden; /* avoid scroll from fixed animation */
+	overflow-x: hidden; /* avoid horizontal scroll from fixed animation */
   /* per-request: remove per-selector transitions here so a single unified
      transition rule can control timing for body/header/footer together */
+}
+
+/* Keep the home page as a fixed, non-scrolling viewport so the
+   portal animation behaves as originally designed. Other pages
+   (blog, cad, etc.) can scroll normally. */
+body.home-active {
+	overflow-y: hidden;
 }
 
 /* Ensure all primary visible layers transition their backgrounds/colors
@@ -152,10 +159,16 @@ body.lang-de .tagline {
   flex-direction: column;
   align-items: flex-start;
   gap: 1rem;
-  max-width: 600px;
+  max-width: 960px;
   width: 100%;
   position: relative;
   z-index: 1; /* content above animation */
+}
+
+/* On the home page, center the intro + socials within the container */
+body.home-active .page-container {
+  align-items: center;
+  text-align: center;
 }
 
 /* Shared text outline */
@@ -202,6 +215,12 @@ h1, h2, p, span, a {
 /* Show animation only on Home */
 body.home-active #portal-animation-container {
   opacity: 1;                 /* fade in when home-active is added */
+}
+
+/* When navigating away from Home, fade the portal out while keeping
+   layout centered (home-active remains for the content fade). */
+body.portal-fade-out #portal-animation-container {
+  opacity: 0;
 }
 
 /* ========================= */
@@ -286,6 +305,32 @@ body.light-theme .social-link:hover .icon {
 }
 
 /* ========================= */
+/* Global scrollbar behavior  */
+/* ========================= */
+
+/* Hide scrollbars globally while keeping pages scrollable.
+   This prevents the brief scrollbar flash between page transitions
+   (e.g. switching between Home and CAD Portfolio). */
+body::-webkit-scrollbar {
+  width: 0;
+  height: 0;
+}
+
+body::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+body::-webkit-scrollbar-thumb {
+  background: transparent;
+  border: none;
+}
+
+body {
+  scrollbar-width: none;              /* Firefox */
+  scrollbar-color: transparent transparent;
+}
+
+/* ========================= */
 /* Fade-in / Fade-out effect */
 /* ========================= */
 #page-content {
@@ -313,6 +358,24 @@ body.light-theme .social-link:hover .icon {
 #site-header.loaded,
 #site-footer.loaded {
   opacity: 1;
+}
+
+/* Shared "back" link styling used on multiple pages (e.g. Blog, CAD) */
+.back-link {
+  color: #ffff99;
+  text-decoration: none;
+  font-size: 1.25rem;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  transition: color 0.3s ease, transform 0.2s ease;
+}
+
+.back-link:hover,
+.back-link:focus-visible {
+  color: #ffffff;
+  transform: translateX(-3px);
 }
 
 /* 📱 Responsive Design */

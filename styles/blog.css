@@ -3,23 +3,6 @@
   margin-bottom: 0rem;
 }
 
-/* Back link styling */
-.back-link {
-  color: #FFFF99; /* same bright yellow as titles */
-  text-decoration: none;
-  font-size: 1.25rem;
-  font-weight: 600;
-  display: inline-flex;
-  align-items: center;
-  gap: 0.4rem; /* space between arrow and text */
-  transition: color 0.3s ease, transform 0.2s ease;
-}
-
-.back-link:hover {
-  color: #ffffff;
-  transform: translateX(-3px); /* slight left movement */
-}
-
 /* Blog posts container */
 .blog-posts {
   display: flex;

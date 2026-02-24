@@ -16,8 +16,11 @@
   bottom: 0;
   left: 0;
   z-index: 10;
-  /* transitions for background/color removed here to avoid duplicate/conflicting
-     timing — unified transition is defined in `globals.css` */
+  box-shadow: 0 -5px 5px #2f2f2f; /* soft fade-out at top edge */
+  /* Match the global theme transition timing, including shadow, so
+     background and drop shadow change smoothly together on toggle. */
+  transition: background-color 0.18s ease, color 0.18s ease,
+              opacity 0.18s ease, box-shadow 0.18s ease;
 }
 
 #site-footer p {
@@ -31,21 +34,13 @@
   text-decoration: none;
 }
 
-#site-footer a:hover {
-  color: #ffffff;
-}
-
-.divider {
-  color: rgba(255, 255, 153, 0.3);
-  margin: 0 0.5rem;
-}
-
 /* === LIGHT THEME - SAME BACKGROUND AS MAIN === */
 body.light-theme #site-footer {
   /* keep same text color as dark theme and match text shadow */
   color: #ffff99; /* same as dark-mode primary text */
   background-color: #d0d0d0; /* light grayish background */
   text-shadow: 2px 2px 2px #000; /* same shadow as dark-mode text */
+  box-shadow: 0 -5px 5px #d0d0d0; /* soft fade-out at top edge */
 }
 
 body.light-theme #site-footer a {
@@ -64,8 +59,4 @@ body.light-theme #site-footer a .icon {
 
 body.light-theme #site-footer a:hover {
   color: #ffffff; /* hover white */
-}
-
-body.light-theme .divider {
-  color: rgba(255, 255, 153, 0.3);
 }
