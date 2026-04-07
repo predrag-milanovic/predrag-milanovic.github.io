@@ -125,4 +125,4 @@
   to   { transform: scale(var(--scale-yellow)) rotate(360deg); }
 }
 
-/* Responsive scaling is defined in styles/global-responsive-base-system/responsive.css */
+/* Responsive scaling is defined in styles/animation/animation-home-portal-responsive-system.css */

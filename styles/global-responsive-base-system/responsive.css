@@ -31,6 +31,31 @@ html {
   font-size: calc(var(--font-size-base) * var(--scale-global));
 }
 
+/* Global down-scaling of typography and footer on smaller screens */
+@media (max-width: 1024px) {
+  :root {
+    --scale-global: 0.9;  /* 10% smaller */
+  }
+}
+
+@media (max-width: 768px) {
+  :root {
+    --scale-global: 0.95;  /* 20% smaller vs desktop */
+  }
+}
+
+@media (max-width: 480px) {
+  :root {
+    --scale-global: 0.9;  /* 30% smaller vs desktop */
+  }
+}
+
+@media (max-width: 360px) {
+  :root {
+    --scale-global: 0.85;  /* 40% smaller vs desktop */
+  }
+}
+
 @media (max-width: var(--bp-small)) {
   html {
     font-size: calc(var(--font-size-base) * var(--font-scale-small) * var(--scale-global));
@@ -440,37 +465,5 @@ img, svg {
   }
 }
 
-/* HOME PORTAL - MOTION OUTLINE RESPONSIVE SCALING */
-
-/* Tablet and below (~768px) */
-@media (max-width: var(--bp-tablet)) {
-  :root {
-    --scale-blue: 1.0;
-    --scale-green: 0.8;
-    --scale-orange: 0.7;
-    --scale-red: 0.8;
-    --scale-yellow: 0.9;
-  }
-}
-
-/* Phones (~480px, covers 425px & 375px) */
-@media (max-width: var(--bp-mobile)) {
-  :root {
-    --scale-blue: 0.9;
-    --scale-green: 0.7;
-    --scale-orange: 0.6;
-    --scale-red: 0.75;
-    --scale-yellow: 0.85;
-  }
-}
-
-/* Very small phones (≤360px, covers 320px) */
-@media (max-width: var(--bp-small)) {
-  :root {
-    --scale-blue: 0.8;
-    --scale-green: 0.6;
-    --scale-orange: 0.5;
-    --scale-red: 0.7;
-    --scale-yellow: 0.8;
-  }
-}
+/* (Portal motion ring responsive fine-tuning is defined in
+   styles/animation/animation-home-portal-responsive-system.css) */

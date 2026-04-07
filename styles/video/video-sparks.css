@@ -18,6 +18,43 @@
 	object-position: center 90%;
 }
 
+/* Slight upward shift of background video on smaller breakpoints */
+@media (max-width: 1024px) {
+	#background-video {
+		top: -4vh;
+	}
+	#background-video video {
+		object-position: center 85%;
+	}
+}
+
+@media (max-width: 768px) {
+	#background-video {
+		top: -5vh;
+	}
+	#background-video video {
+		object-position: center 80%;
+	}
+}
+
+@media (max-width: 480px) {
+	#background-video {
+		top: -7vh;
+	}
+	#background-video video {
+		object-position: center 75%;
+	}
+}
+
+@media (max-width: 360px) {
+	#background-video {
+		top: -7vh;
+	}
+	#background-video video {
+		object-position: center 70%;
+	}
+}
+
 body.light-theme #background-video {
 	opacity: 0;
 	pointer-events: none;

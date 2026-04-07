@@ -18,9 +18,9 @@
 
 @media (max-width: 1024px) {
   :root {
-    --scale-global: 1.0;
-    --scale-portal: 0.95;
-    --portal-size: 900px;
+    /* Slightly shrink portal on small laptops */
+    --scale-portal: 0.85;
+    --portal-size: 600px;
     --portal-y-offset: -0.5vh;
     --portal-x-offset: 0vw;
   }
@@ -28,9 +28,9 @@
 
 @media (max-width: 768px) {
   :root {
-    --scale-global: 1.0;
-    --scale-portal: 0.85;
-    --portal-size: 750px;
+    /* Further reduce portal scale for tablets */
+    --scale-portal: 0.75;
+    --portal-size: 520px;
     --portal-y-offset: -0.5vh;
     --portal-x-offset: 0vw;
   }
@@ -38,9 +38,9 @@
 
 @media (max-width: 480px) {
   :root {
-    --scale-global: 0.95;
-    --scale-portal: 0.75;
-    --portal-size: 550px;
+    /* Compact portal layout on mobile phones */
+    --scale-portal: 0.65;
+    --portal-size: 450px;
     --portal-y-offset: -1vh;
     --portal-x-offset: 0vw;
   }
@@ -48,9 +48,9 @@
 
 @media (max-width: 360px) {
   :root {
-    --scale-global: 0.9;
-    --scale-portal: 0.65;
-    --portal-size: 480px;
+    /* Extra small phones: smallest portal scale */
+    --scale-portal: 0.6;
+    --portal-size: 400px;
     --portal-y-offset: -1.5vh;
     --portal-x-offset: 0vw;
   }
