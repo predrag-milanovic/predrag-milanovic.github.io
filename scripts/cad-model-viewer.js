@@ -6,25 +6,21 @@
 // - Handles loading, empty, and error states
 // =============================================
 
-// Public init function, called by main.js after the CAD page content is injected
 window.initCadPortfolio = function () {
 	const grid = document.getElementById('cad-grid');
-	if (!grid) return; // Safety: only execute on CAD page when grid exists
+	if (!grid) return;
 
 	const loadingEl = document.getElementById('cad-loading');
 	const errorEl = document.getElementById('cad-error');
 	const emptyEl = document.getElementById('cad-empty');
-	// Internal state
 	let allModels = [];
 
-	// Helper: update status visibility
 	function setStatus({ loading = false, error = false, empty = false }) {
 		if (loadingEl) loadingEl.hidden = !loading;
 		if (errorEl) errorEl.hidden = !error;
 		if (emptyEl) emptyEl.hidden = !empty;
 	}
 
-	// Helper: sanitize text for safe insertion
 	function escapeHtml(value) {
 		return String(value)
 			.replace(/&/g, '&amp;')
@@ -34,7 +30,6 @@ window.initCadPortfolio = function () {
 			.replace(/'/g, '&#039;');
 	}
 
-	// Fetch model data from JSON file
 	async function loadModels() {
 		try {
 			setStatus({ loading: true, error: false, empty: false });
@@ -50,7 +45,6 @@ window.initCadPortfolio = function () {
 			const data = await response.json();
 			allModels = Array.isArray(data.models) ? data.models : [];
 
-			// Render initial state (no filter, empty search)
 			render();
 		} catch (err) {
 			console.error('Failed to load CAD models:', err);
@@ -60,9 +54,7 @@ window.initCadPortfolio = function () {
 		}
 	}
 
-	// Render all cards into the grid
 	function render() {
-		// Clear previous content
 		grid.innerHTML = '';
 
 		if (!allModels.length) {
@@ -81,7 +73,6 @@ window.initCadPortfolio = function () {
 		grid.appendChild(fragment);
 	}
 
-	// Create a single card node for a model
 	function createCard(model) {
 		const {
 			id,
@@ -109,7 +100,6 @@ window.initCadPortfolio = function () {
 		card.setAttribute('tabindex', '0');
 		card.setAttribute('aria-labelledby', safeId + '-title');
 
-		// Viewer wrapper with loading + error overlays
 		const viewerWrapper = document.createElement('div');
 		viewerWrapper.className = 'cad-viewer-wrapper';
 
@@ -125,20 +115,17 @@ window.initCadPortfolio = function () {
 		modelViewer.setAttribute('ar', '');
 		modelViewer.setAttribute('disable-zoom', '');
 
-		// Per-model loading overlay
 		const overlay = document.createElement('div');
 		overlay.className = 'cad-viewer-overlay';
 		overlay.innerHTML =
 			'<span class="spinner" aria-hidden="true"></span>' +
 			'<span class="cad-viewer-hint">Loading 3D preview…</span>';
 
-		// Error overlay
 		const errorOverlay = document.createElement('div');
 		errorOverlay.className = 'cad-viewer-error';
 		errorOverlay.textContent =
 			'Model preview failed to load. The file may be missing or too large.';
 
-		// Model-viewer events for loading + error handling
 		modelViewer.addEventListener('load', () => {
 			overlay.classList.add('hidden');
 		});
@@ -152,7 +139,6 @@ window.initCadPortfolio = function () {
 		viewerWrapper.appendChild(overlay);
 		viewerWrapper.appendChild(errorOverlay);
 
-		// Text content
 		const header = document.createElement('div');
 		header.className = 'cad-card-header';
 
@@ -175,7 +161,6 @@ window.initCadPortfolio = function () {
 		const metaRow = document.createElement('div');
 		metaRow.className = 'cad-meta';
 
-		// Metadata chips (category, material, year)
 		if (metadata.category) {
 			const chip = document.createElement('span');
 			chip.className = 'cad-meta-chip';
@@ -230,7 +215,6 @@ window.initCadPortfolio = function () {
 		return card;
 	}
 
-	// Initial load
 	loadModels();
 };
 

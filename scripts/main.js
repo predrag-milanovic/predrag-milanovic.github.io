@@ -1,51 +1,12 @@
-// scripts/main.js
-(function () {
-  const FADE_OUT_MS = 320;
-  const INSERT_DELAY_MS = 50;
-  const LANGUAGE_TRANSITION_MS = 300; // Duration for language text transitions
-  let currentLanguage = "en"; // Default language
 
-  // Translation object
-  const translations = {
-    en: {
-      name: "Predrag Milanović",
-      intro: "Hi, my name is",
-      tagline: "and I'm a Mechanical and IT Engineer",
-      linkedin: "LinkedIn",
-      github: "GitHub",
-      cv: "CV",
-      cadPortfolio: "CAD Portfolio",
-      cadHeaderTitle: "CAD Portfolio",
-      cadHeaderSubtitle: "A selection of 3D CAD models developed throughout my engineering career.",
-      cadHeaderHome: "Home",
-      blog: "Blog",
-      cvPath: "assets/cv/predrag-milanovic-cv.pdf",
-      showBlog: true
-    },
-    de: {
-      name: "Predrag Milanović",
-      intro: "Hallo, mein Name ist",
-      tagline: "ich bin Maschinenbau- und IT-Ingenieur",
-      linkedin: "LinkedIn",
-      github: "GitHub",
-      cv: "Lebenslauf",
-      cadPortfolio: "CAD Portfolio",
-      cadHeaderTitle: "CAD-Portfolio",
-      cadHeaderSubtitle: "Eine Auswahl von 3D-CAD-Modellen aus meiner bisherigen Ingenieurlaufbahn.",
-      cadHeaderHome: "Home",
-      blog: "Blog",
-      cvPath: "assets/cv/predrag-milanovic-lebenslauf.pdf",
-      showBlog: false
-    }
-  };
+(function () {
+  const FADE_OUT_MS = 450;
+  let currentLanguage = "en";
 
   function loadPage() {
-  // Normalize the current hash by stripping a leading '#', so routes
-  // can be defined as plain names like 'home', 'blog', 'cad'.
-  const hash = (window.location.hash || "#home").replace(/^#/, "") || "home";
-  let currentPage = "home";
+    const hash = (window.location.hash || "#home").replace(/^#/, "") || "home";
+    let currentPage = "home";
 
-    // Determine which page should load
     for (const key in pages) {
       if (hash === pages[key].route) {
       currentPage = key;
@@ -53,47 +14,42 @@
       }
     }
 
-    // === Elements ===
     const container = document.getElementById("page-content");
     const pageStyle = document.getElementById("page-style");
+    const pageStyleLight = document.getElementById("page-style-light");
     const portal = document.getElementById("portal-animation-container");
     const header = document.getElementById("site-header");
     const footer = document.getElementById("site-footer");
-    const animLinkId = "anim-style";
+
+    if (!container || !pageStyle) {
+      console.error("Required layout elements missing for loadPage; aborting route change.");
+      return;
+    }
 
     document.title = pages[currentPage].title;
 
-    // --- Step 1: Fade out old content + header/footer ---
-    [container, header, footer].forEach(el => {
-      if (el) el.classList.remove("loaded");
-    });
-
-    // If we're leaving the Home page while the portal animation is active,
-    // start fading the portal itself but KEEP `home-active` so the home
-    // layout (centered introduction-container) does not shift before it
-    // disappears. The new CSS class controls only the portal opacity.
-    if (portal && document.body.classList.contains("home-active") && currentPage !== "home") {
-      document.body.classList.add("portal-fade-out");
+    if (window.pageTransition && typeof window.pageTransition.fadeOutShell === "function") {
+      window.pageTransition.fadeOutShell({ container, header, footer });
+    } else {
+      [container, header, footer].forEach(el => {
+        if (el) el.classList.remove("loaded");
+      });
+    }
+    
+    // Delegate portal fade-out + animation stylesheet cleanup to portalAnimation core
+    if (window.portalAnimation && typeof window.portalAnimation.beforePageTransition === "function") {
+      window.portalAnimation.beforePageTransition({ portal, nextPage: currentPage });
     }
 
     // --- Step 2: Wait for fade-out before replacing content ---
     setTimeout(() => {
-      // After fade-out, hide the portal layer when navigating away from home
-      if (portal && currentPage !== "home") {
-        portal.classList.add("portal-hidden");
-        portal.style.display = "none";
-
-        // Now that everything is invisible, we can safely remove the
-        // home-specific classes without causing visible layout shifts.
-        document.body.classList.remove("home-active", "portal-fade-out");
+      // After fade-out, let the portalAnimation core handle hiding the portal
+      if (window.portalAnimation && typeof window.portalAnimation.afterFadeOut === "function") {
+        window.portalAnimation.afterFadeOut({ portal, nextPage: currentPage });
       }
 
       // Reset CAD page body state before loading new content
       document.body.classList.remove("cad-active");
-
-      // Remove any previous animation stylesheet
-      const existingAnim = document.getElementById(animLinkId);
-      if (existingAnim) existingAnim.remove();
 
       // --- Step 3: Load new page content ---
       fetch(pages[currentPage].path)
@@ -101,12 +57,11 @@
         .then(html => {
           container.innerHTML = html;
 
-          // Apply translations after content is loaded
-          applyTranslations(currentLanguage, false); // No animation on initial load
+          if (window.pageTransition && typeof window.pageTransition.applyTranslations === "function") {
+            window.pageTransition.applyTranslations(currentLanguage, false);
+          }
 
-          // --- Helper: Fade everything in ---
           const fadeInAll = () => {
-            // Ensure CAD theming/background + logic are activated
             if (currentPage === "cad") {
               document.body.classList.add("cad-active");
 
@@ -115,47 +70,22 @@
               }
             }
 
-            setTimeout(() => {
+            if (window.pageTransition && typeof window.pageTransition.fadeInShell === "function") {
+              window.pageTransition.fadeInShell({ container, header, footer });
+            } else {
               [container, header, footer].forEach(el => {
                 if (el) el.classList.add("loaded");
               });
-            }, INSERT_DELAY_MS);
+            }
           };
 
-          // --- Step 4: Handle portal animation for Home page ---
-          if (currentPage === "home" && portal) {
-            const enablePortal = () => {
-              // Make the portal layer visible and immediately apply the
-              // home-active class so the home layout (centered intro +
-              // socials) is already in its final position before the
-              // fade-in begins. This prevents any horizontal "jump"
-              // when returning from other pages like CAD.
-              portal.style.display = "block";
-              portal.classList.remove("portal-hidden");
-              document.body.classList.add("home-active");
-              document.body.classList.remove("portal-fade-out");
-            };
-
-            // Load animation CSS dynamically (if defined)
-            if (pages[currentPage].animation) {
-              const animLink = document.createElement("link");
-              animLink.rel = "stylesheet";
-              animLink.id = animLinkId;
-              animLink.href = pages[currentPage].animation;
-              animLink.onload = () => {
-                enablePortal();
-
-                // Ensure responsive.css always cascades last
-                const responsiveLink = document.getElementById("responsive-style");
-                if (responsiveLink) {
-                  document.head.removeChild(responsiveLink);
-                  document.head.appendChild(responsiveLink);
-                }
-              };
-              document.head.appendChild(animLink);
-            } else {
-              enablePortal();
-            }
+          // --- Step 4: Handle portal animation for Home page via portalAnimation core ---
+          if (window.portalAnimation && typeof window.portalAnimation.onHomePageLoaded === "function") {
+            window.portalAnimation.onHomePageLoaded({
+              portal,
+              animationHref: pages[currentPage].animation,
+              nextPage: currentPage
+            });
           }
 
           // --- Step 5: Apply page-specific CSS then fade in ---
@@ -165,6 +95,16 @@
           } else {
             fadeInAll();
           }
+
+          // Apply page-specific light-theme overrides (if configured)
+          if (pageStyleLight) {
+            const lightHref = pages[currentPage].cssLight;
+            if (lightHref) {
+              pageStyleLight.href = lightHref;
+            } else {
+              pageStyleLight.removeAttribute("href");
+            }
+          }
         })
         .catch(err => {
           console.error("Error loading page:", err);
@@ -173,202 +113,25 @@
     }, FADE_OUT_MS);
   }
 
-  // Apply translations to the current page with smooth transitions
-  function applyTranslations(language, withAnimation = true) {
-    const trans = translations[language];
-    if (!trans) return;
 
-    // Get elements that will be translated
-    const textElements = [
-      { el: document.querySelector('.name'), text: trans.name },
-      { el: document.querySelector('.intro'), text: trans.intro },
-      { el: document.querySelector('.tagline'), text: trans.tagline },
-      // CAD page header (only present on CAD Portfolio page)
-      { el: document.querySelector('#cad-page-title'), text: trans.cadHeaderTitle },
-      { el: document.querySelector('.cad-subtitle'), text: trans.cadHeaderSubtitle },
-      { el: document.querySelector('.cad-back-link'), text: trans.cadHeaderHome }
-    ];
-
-    const socialElements = [
-      { el: document.querySelector('a[href*="linkedin"] span'), text: trans.linkedin },
-      { el: document.querySelector('a[href*="github"] span'), text: trans.github },
-      { el: document.querySelector('a[href*="cv"] span'), text: trans.cv },
-      { el: document.querySelector('a[href="#cad-portfolio"] span'), text: trans.cadPortfolio }
-    ];
-
-    // Get icon elements
-    const iconElements = [
-      document.querySelector('a[href*="linkedin"] .icon'),
-      document.querySelector('a[href*="github"] .icon'),
-      document.querySelector('a[href*="cv"] .icon'),
-      document.querySelector('a[href="#blog"] .icon'),
-      document.querySelector('a[href="#cad-portfolio"] .icon')
-    ].filter(Boolean);
-
-    // CAD content container (used so the CAD page fades with language changes)
-    const cadPage = document.querySelector('.cad-page');
-
-    // Get other elements
-    const cvLink = document.querySelector('a[href*="cv"]');
-    const blogBox = document.querySelector('a[href="#blog"]')?.closest('.social-box');
-    const socialsContainer = document.querySelector('.socials-container');
-
-    if (withAnimation) {
-      // Fade out all text elements and icons
-      const allElements = [...textElements, ...socialElements].map(item => item.el).filter(Boolean);
-      const allAnimatedElements = [...allElements, ...iconElements];
-
-      // Also fade the CAD page container (when present)
-      const fadeTargets = [...allAnimatedElements];
-      if (cadPage && !fadeTargets.includes(cadPage)) {
-        fadeTargets.push(cadPage);
-      }
-      
-      fadeTargets.forEach(el => {
-        if (el) {
-          el.style.transition = `opacity ${LANGUAGE_TRANSITION_MS}ms ease`;
-          el.style.opacity = '0';
-        }
-      });
-
-      // Also fade out the blog button if it needs to be hidden
-      if (blogBox && !trans.showBlog) {
-        blogBox.style.transition = `opacity ${LANGUAGE_TRANSITION_MS}ms ease`;
-        blogBox.style.opacity = '0';
-      }
-
-      // Wait for fade out, then update content and fade in
-      setTimeout(() => {
-        // Update text content
-        textElements.forEach(({ el, text }) => {
-          if (el) el.textContent = text;
-        });
-
-        socialElements.forEach(({ el, text }) => {
-          if (el) el.textContent = text;
-        });
-
-        // Update CV link
-        if (cvLink) {
-          cvLink.href = trans.cvPath;
-        }
-
-        // Handle blog button visibility
-        if (blogBox) {
-          if (trans.showBlog) {
-            blogBox.style.display = 'flex';
-            setTimeout(() => {
-              blogBox.style.opacity = '1';
-            }, 50);
-          } else {
-            blogBox.style.display = 'none';
-          }
-        }
-
-        // Apply language-specific styling
-        applyLanguageSpecificStyling(language, socialsContainer);
-
-        // Fade in all elements
-        setTimeout(() => {
-          fadeTargets.forEach(el => {
-            if (el) {
-              el.style.opacity = '1';
-            }
-          });
-
-          // Show blog button if needed
-          if (blogBox && trans.showBlog) {
-            blogBox.style.opacity = '1';
-          }
-        }, 50);
-
-      }, LANGUAGE_TRANSITION_MS);
-
-    } else {
-      // No animation - direct update
-      textElements.forEach(({ el, text }) => {
-        if (el) el.textContent = text;
-      });
-
-      socialElements.forEach(({ el, text }) => {
-        if (el) el.textContent = text;
-      });
-
-      // Update CV link
-      if (cvLink) {
-        cvLink.href = trans.cvPath;
-      }
-
-      // Handle blog button visibility
-      if (blogBox) {
-        blogBox.style.display = trans.showBlog ? 'flex' : 'none';
-      }
-
-      // Apply language-specific styling
-      applyLanguageSpecificStyling(language, socialsContainer);
-    }
-  }
-
-  // Apply language-specific styling adjustments
-  function applyLanguageSpecificStyling(language, socialsContainer) {
-    const body = document.body;
-    const introContainer = document.querySelector('.introduction-container');
-    const pageContainer = document.querySelector('.page-container');
-
-    // Remove existing language classes
-    body.classList.remove('lang-en', 'lang-de');
-    
-    // Add current language class
-    body.classList.add(`lang-${language}`);
-
-    if (language === 'de') {
-      // German-specific adjustments
-      if (socialsContainer) {
-        socialsContainer.style.transition = 'gap 0.3s ease, justify-content 0.3s ease';
-        socialsContainer.style.justifyContent = 'center';
-        socialsContainer.style.gap = '2rem';
-      }
-
-      if (pageContainer) {
-        pageContainer.style.transition = 'max-width 0.3s ease';
-        pageContainer.style.maxWidth = '700px';
-      }
-    } else {
-      // English (default) - reset to original styles
-      if (socialsContainer) {
-        socialsContainer.style.transition = 'gap 0.3s ease, justify-content 0.3s ease';
-        socialsContainer.style.justifyContent = '';
-        socialsContainer.style.gap = '';
-      }
-
-      if (pageContainer) {
-        pageContainer.style.transition = 'max-width 0.3s ease';
-        pageContainer.style.maxWidth = '';
-      }
-    }
-  }
-
-  // --- Event listeners ---
   window.addEventListener("DOMContentLoaded", () => {
-    // Load saved language preference
     const savedLanguage = localStorage.getItem("language") || "en";
     currentLanguage = savedLanguage;
-    
+
     loadPage();
     initLanguageSwitcher();
     initThemeSwitcher();
   });
   window.addEventListener("hashchange", loadPage);
 
-  // === THEME SWITCHER LOGIC ===
   function initThemeSwitcher() {
     const themeBtn = document.getElementById("theme-btn");
     const moonIcon = document.querySelector(".moon-icon");
     const sunIcons = document.querySelectorAll(".sun-icon");
+    const bgVideoEl = document.querySelector("#background-video video");
     
     if (!themeBtn) return;
 
-    // Load saved theme preference
     const savedTheme = localStorage.getItem("theme") || "dark";
     applyTheme(savedTheme);
 
@@ -382,13 +145,20 @@
     function applyTheme(theme) {
       if (theme === "light") {
         document.body.classList.add("light-theme");
-        // When in light mode show the moon icon (so clicking it switches to dark)
+        if (bgVideoEl) {
+          bgVideoEl.pause();
+        }
         if (moonIcon) moonIcon.style.display = "block";
         sunIcons.forEach(icon => icon.style.display = "none");
         if (themeBtn) themeBtn.setAttribute("aria-pressed", "true");
       } else {
         document.body.classList.remove("light-theme");
-        // When in dark mode show the sun icon (so clicking it switches to light)
+        if (bgVideoEl && bgVideoEl.paused) {
+          const playPromise = bgVideoEl.play();
+          if (playPromise && typeof playPromise.catch === "function") {
+            playPromise.catch(() => {});
+          }
+        }
         if (moonIcon) moonIcon.style.display = "none";
         sunIcons.forEach(icon => icon.style.display = "block");
         if (themeBtn) themeBtn.setAttribute("aria-pressed", "false");
@@ -396,7 +166,6 @@
     }
   }
 
-  // === LANGUAGE SWITCHER LOGIC ===
   function initLanguageSwitcher() {
     const langBtn = document.getElementById("language-btn");
     const langMenu = document.getElementById("language-menu");
@@ -428,8 +197,9 @@
           currentLanguage = selectedLang;
           localStorage.setItem("language", selectedLang);
           
-          // Apply translations with smooth animation
-          applyTranslations(currentLanguage, true);
+          if (window.pageTransition && typeof window.pageTransition.applyTranslations === "function") {
+            window.pageTransition.applyTranslations(currentLanguage, true);
+          }
           
           console.log(`Language changed to: ${selectedLang}`);
         }
@@ -438,7 +208,5 @@
       });
     });
 
-    // Apply initial translations without animation
-    applyTranslations(currentLanguage, false);
   }
 })();
