@@ -1,0 +1,112 @@
+/* HOME PORTAL RESPONSIVE SYSTEM */
+
+.home-portal-animation {
+  width: var(--portal-size);
+  height: var(--portal-size);
+  top: 50%;
+  left: 50%;
+  transform: translate(
+      calc(-50% + var(--portal-x-offset)),
+      calc(-50% + var(--portal-y-offset))
+    )
+    scale(var(--scale-portal));
+  transform-origin: center center;
+  transition:
+    transform 0.3s ease-in-out,
+    width 0.3s ease-in-out;
+}
+
+@media (max-width: 1024px) {
+  :root {
+    --scale-global: 1.0;
+    --scale-portal: 0.95;
+    --portal-size: 900px;
+    --portal-y-offset: -0.5vh;
+    --portal-x-offset: 0vw;
+  }
+}
+
+@media (max-width: 768px) {
+  :root {
+    --scale-global: 1.0;
+    --scale-portal: 0.85;
+    --portal-size: 750px;
+    --portal-y-offset: -0.5vh;
+    --portal-x-offset: 0vw;
+  }
+}
+
+@media (max-width: 480px) {
+  :root {
+    --scale-global: 0.95;
+    --scale-portal: 0.75;
+    --portal-size: 550px;
+    --portal-y-offset: -1vh;
+    --portal-x-offset: 0vw;
+  }
+}
+
+@media (max-width: 360px) {
+  :root {
+    --scale-global: 0.9;
+    --scale-portal: 0.65;
+    --portal-size: 480px;
+    --portal-y-offset: -1.5vh;
+    --portal-x-offset: 0vw;
+  }
+
+  body {
+    padding: 0.5rem;
+  }
+
+  .page-container {
+    gap: 0.8rem;
+  }
+
+  .introduction-container {
+    gap: 0.5rem;
+  }
+}
+
+/* RESPONSIVE MOTION RING FINE-TUNING */
+
+@media (max-width: 1024px) {
+  :root {
+    --scale-blue:   1.15;
+    --scale-green:  0.15;
+    --scale-orange: 0.31;
+    --scale-red:    0.62;
+    --scale-yellow: 0.99;
+  }
+}
+
+@media (max-width: 768px) {
+  :root {
+    --scale-blue:   1.15;
+    --scale-green:  0.15;
+    --scale-orange: 0.30;
+    --scale-red:    0.63;
+    --scale-yellow: 0.99;
+  }
+}
+
+@media (max-width: 480px) {
+  :root {
+    --scale-blue:   1.15;
+    --scale-green:  0.15;
+    --scale-orange: 0.30;
+    --scale-red:    0.63;
+    --scale-yellow: 0.99;
+  }
+}
+
+/* BEARING-SPECIFIC RESPONSIVE TWEAKS */
+
+@media (max-width: 768px) {
+  .home-portal-animation {
+    width: 340px;
+    height: 340px;
+  }
+  .portal-bearing-balls { animation-duration: 12s; }
+  .portal-cogwheel { animation-duration: 25s; }
+}

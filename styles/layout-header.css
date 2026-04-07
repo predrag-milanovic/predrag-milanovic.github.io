@@ -1,6 +1,4 @@
-/* ====================================== */
-/*  HEADER: Theme + Language Switcher     */
-/* ====================================== */
+/* HEADER: Theme + Language Switcher */
 
 #site-header {
   position: fixed;
@@ -19,7 +17,6 @@
   gap: 1rem;
 }
 
-/* === Theme Switcher === */
 .theme-switcher {
   position: relative;
 }
@@ -52,7 +49,6 @@
   stroke: #ffffff;
 }
 
-/* === Language Switcher === */
 .language-switcher {
   position: relative;
 }
@@ -84,7 +80,6 @@
   stroke: #ffffff;
 }
 
-/* === Dropdown === */
 .language-menu {
   position: absolute;
   top: 130%;
@@ -107,57 +102,6 @@
 .language-menu li {
   display: flex;
   align-items: center;
-  /* tightened horizontal gap for closer flag/text spacing */
-  gap: 0.35rem;
-  color: #ffff99;
-  /* slightly reduced vertical padding for a denser menu */
-  padding: 0.35rem 0.6rem;
-  cursor: pointer;
-  font-size: 1rem;
-  line-height: 1.05; /* helps align text with em-sized flag */
-  transition: background 0.2s ease, color 0.2s ease;
-}
-
-.language-menu li:hover {
-  background: rgba(255, 255, 255, 0.1);
-  color: #ffffff;
-}
-
-.flag-icon {
-  /* Use em-based height so the flag scales with font-size and vertically
-     centers reliably next to the text. Keep width:auto to preserve aspect. */
-  /* slightly smaller in dark mode so visual weight matches light mode */
-  height: 0.95em;
-  width: auto;
-  border-radius: 2px;
-  display: inline-block;
-  margin: 0;
-  align-self: center;
-}
-
-.language-menu li span {
-  display: inline-block; /* ensures line-height applies */
-  line-height: 1.05; /* match the flag's em-based height for vertical centering */
-  vertical-align: middle;
-}
-
-/* (Footer light-theme handled in layout-footer.css) */
-
-/* LANGUAGE MENU - adapt to light theme so dropdown matches light background */
-body.light-theme .language-menu {
-  background-color: #d0d0d0; /* same light page background */
-  border: 1px solid rgba(0,0,0,0.08); /* subtle dark border */
-  box-shadow: 0 6px 14px rgba(0,0,0,0.12); /* lighter shadow for light bg */
-}
-
-/* Explicitly copy the base/dark-mode language-menu properties into
-   light mode so flags, icons and text render and align identically.
-   This ensures only the dropdown background is light while layout
-   and icon/text behavior match dark mode. */
-body.light-theme .language-menu li {
-  display: flex;
-  align-items: center;
-  /* match the base rule: tightened horizontal gap */
   gap: 0.35rem;
   color: #ffff99;
   padding: 0.35rem 0.6rem;
@@ -167,164 +111,25 @@ body.light-theme .language-menu li {
   transition: background 0.2s ease, color 0.2s ease;
 }
 
-body.light-theme .language-menu li:hover {
+.language-menu li:hover {
   background: rgba(255, 255, 255, 0.1);
   color: #ffffff;
 }
 
-body.light-theme .flag-icon {
-  height: 1em;
+.flag-icon {
+  height: 0.95em;
   width: auto;
   border-radius: 2px;
   display: inline-block;
-  vertical-align: middle;
-  align-self: center; /* ensure flex centering */
   margin: 0;
+  align-self: center;
 }
 
-body.light-theme .language-icon {
-  /* Do not override icon sizing in light mode — keep sizes controlled
-     by the base rules and responsive media queries so icons do not
-     jump between themes at different breakpoints. */
-  fill: none;
-  stroke: currentColor;
-  transition: transform 0.3s ease, stroke 0.3s ease;
-}
-
-body.light-theme .language-btn {
-  background: none;
-  border: none;
-  cursor: pointer;
-  color: #ffff99;
-  transition: color 0.3s ease, transform 0.2s ease;
-  padding: 0.25rem;
-}
-
-body.light-theme .language-btn:hover {
-  color: #ffffff;
-  transform: scale(1.05);
-}
-
-body.light-theme .language-btn:hover .language-icon {
-  transform: scale(1.2);
-  stroke: #ffffff;
-}
-
-/* Removed light-theme language-menu item overrides so base rules apply */
-
-/* Ensure icons inside the language menu use the same base rendering as dark mode.
-   Do not apply color-transforming filters here — let the SVG stroke/fill and
-   inherited `color` carry the visual appearance so the icon properties are
-   identical between themes except for color. */
-/* language-icon light-theme overrides removed so base (dark-mode)
-   properties are used */
-
-
-/* Header control icons/text match bearing glow in light theme */
-/* header/language-btn light-theme color overrides removed - inherit base */
-
-/* Flags are full-color SVG images and should use the same properties as
-   the base (dark-mode) `.flag-icon`. Remove light-theme-specific
-   overrides so they inherit dark-mode properties and only the color
-   of surrounding text changes. */
-
-/* Explicitly apply the base/dark-mode flag properties in light theme so
-  alignment and sizing are identical regardless of theme. */
-/* flag light-theme sizing overrides removed - flags use base .flag-icon */
-
-/* 📱 Responsive */
-@media (max-width: 768px) {
-  #site-header {
-    top: 0.5rem;
-    right: 1rem;
-  }
-
-  .theme-icon,
-  .language-icon {
-    width: 26px;
-    height: 26px;
-  }
-
-  .language-menu li {
-    font-size: 0.9rem;
-  }
-}
-
-@media (max-width: 480px) {
-  #site-header {
-    top: 0.3rem;
-    right: 0.5rem;
-  }
-
-  .theme-icon,
-  .language-icon {
-    width: 22px;
-    height: 22px;
-  }
-
-  .language-menu {
-    min-width: 140px;
-    right: -0.5rem; /* Adjust to prevent overflow */
-  }
-
-  .language-menu li {
-    font-size: 0.85rem;
-    padding: 0.3rem 0.6rem;
-  }
-
-  .flag-icon {
-    height: 0.95em;
-    width: auto;
-  }
-}
-
-@media (max-width: 360px) {
-  #site-header {
-    top: 0.25rem;
-    right: 0.25rem;
-  }
-
-  .theme-icon,
-  .language-icon {
-    width: 20px;
-    height: 20px;
-  }
-
-  .language-menu {
-    min-width: 130px;
-    right: -0.75rem;
-  }
-
-  .language-menu li {
-    font-size: 0.8rem;
-    padding: 0.25rem 0.5rem;
-  }
-
-  .flag-icon {
-    height: 0.9em;
-    width: auto;
-  }
+.language-menu li span {
+  display: inline-block;
+  line-height: 1.05;
+  vertical-align: middle;
 }
 
 /* Ensure header controls keep the same color and text-shadow as dark theme in light mode */
 /* Removed header/light-theme icon/text overrides so base styles apply */
-
-/* Light-mode: add a soft black glow behind header icons (theme, language, flags)
-   to increase contrast on the light background without changing icon colors. */
-body.light-theme #site-header .theme-icon,
-body.light-theme #site-header .language-icon {
-  /* Keep glow for header control icons */
-  filter: drop-shadow(0 0 10px rgba(0,0,0,0.75));
-}
-
-/* Do NOT apply glow to icons inside the language dropdown menu */
-body.light-theme #site-header .language-menu .flag-icon,
-body.light-theme #site-header .language-menu .language-icon {
-  filter: none !important;
-}
-
-/* Slightly stronger glow on hover for header controls only (not dropdown items) */
-body.light-theme #site-header .theme-btn:hover .theme-icon,
-body.light-theme #site-header .language-btn:hover .language-icon {
-  filter: drop-shadow(0 0 14px rgba(0,0,0,0.85));
-}

@@ -1,0 +1,75 @@
+/* Light theme overrides for header and language menu */
+
+body.light-theme .language-menu {
+	background-color: #d0d0d0;
+	border: 1px solid rgba(0,0,0,0.08);
+	box-shadow: 0 6px 14px rgba(0,0,0,0.12);
+}
+
+body.light-theme .language-menu li {
+	display: flex;
+	align-items: center;
+	gap: 0.35rem;
+	color: #ffff99;
+	padding: 0.35rem 0.6rem;
+	cursor: pointer;
+	font-size: 1rem;
+	line-height: 1.05;
+	transition: background 0.2s ease, color 0.2s ease;
+}
+
+body.light-theme .language-menu li:hover {
+	background: rgba(255, 255, 255, 0.1);
+	color: #ffffff;
+}
+
+body.light-theme .flag-icon {
+	height: 1em;
+	width: auto;
+	border-radius: 2px;
+	display: inline-block;
+	vertical-align: middle;
+	align-self: center;
+	margin: 0;
+}
+
+body.light-theme .language-icon {
+	fill: none;
+	stroke: currentColor;
+	transition: transform 0.3s ease, stroke 0.3s ease;
+}
+
+body.light-theme .language-btn {
+	background: none;
+	border: none;
+	cursor: pointer;
+	color: #ffff99;
+	transition: color 0.3s ease, transform 0.2s ease;
+	padding: 0.25rem;
+}
+
+body.light-theme .language-btn:hover {
+	color: #ffffff;
+	transform: scale(1.05);
+}
+
+body.light-theme .language-btn:hover .language-icon {
+	transform: scale(1.2);
+	stroke: #ffffff;
+}
+
+body.light-theme #site-header .theme-icon,
+body.light-theme #site-header .language-icon {
+	filter: drop-shadow(0 0 10px rgba(0,0,0,0.75));
+}
+
+body.light-theme #site-header .language-menu .flag-icon,
+body.light-theme #site-header .language-menu .language-icon {
+	filter: none !important;
+}
+
+body.light-theme #site-header .theme-btn:hover .theme-icon,
+body.light-theme #site-header .language-btn:hover .language-icon {
+	filter: drop-shadow(0 0 14px rgba(0,0,0,0.85));
+}
+

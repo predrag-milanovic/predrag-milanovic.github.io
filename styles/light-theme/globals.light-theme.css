@@ -1,0 +1,33 @@
+/* Light theme overrides for global layout and social icons */
+
+body.light-theme #page-content,
+body.light-theme .page-container {
+	background: transparent;
+}
+
+body.light-theme {
+	background: #d0d0d0;
+}
+
+body.light-theme #site-footer {
+	background-color: #d0d0d0;
+}
+
+body.light-theme .social-link {
+	color: #ffff99;
+	text-shadow: 2px 2px 2px #000;
+}
+
+body.light-theme .social-link .icon {
+	filter: brightness(0) saturate(100%)
+					invert(88%) sepia(37%) saturate(528%)
+					hue-rotate(7deg) brightness(108%) contrast(104%)
+					drop-shadow(2px 2px 2px #000);
+	transition: transform 0.3s ease, filter 0.3s ease;
+}
+
+body.light-theme .social-link:hover .icon {
+	transform: scale(1.2);
+	filter: brightness(0) saturate(100%) invert(100%);
+}
+

@@ -1,8 +1,5 @@
-/* ==================================== */
-/* HOME PORTAL - MOTION OUTLINE SYSTEM  */
-/* ==================================== */
+/* HOME PORTAL - MOTION OUTLINE SYSTEM */
 
-/* --- Base outline setup (aligned with bearings) --- */
 .portal-outline {
   position: absolute;
   top: 0;
@@ -16,7 +13,6 @@
   mix-blend-mode: screen;
 }
 
-/* --- Independent scaling via CSS variables --- */
 :root {
   --scale-blue: 1.15;
   --scale-green: 0.15;
@@ -25,9 +21,7 @@
   --scale-yellow: 0.99;
 }
 
-/* ================================================== */
-/* ===  BLUE GROUP                                  === */
-/* ================================================== */
+/* BLUE GROUP */
 .portal-blue,
 .portal-blue-semi {
   transform: scale(var(--scale-blue));
@@ -47,9 +41,7 @@
   to   { transform: scale(var(--scale-blue)) rotate(360deg); }
 }
 
-/* ================================================== */
-/* ===  GREEN GROUP                                 === */
-/* ================================================== */
+/* GREEN GROUP */
 .portal-green,
 .portal-green-semi {
   transform: scale(var(--scale-green));
@@ -70,9 +62,7 @@
   to   { transform: scale(var(--scale-green)) rotate(-360deg); } /* counter rotation */
 }
 
-/* ================================================== */
-/* ===  ORANGE GROUP                                === */
-/* ================================================== */
+/* ORANGE GROUP */
 .portal-orange,
 .portal-orange-semi {
   transform: scale(var(--scale-orange));
@@ -93,9 +83,7 @@
   to   { transform: scale(var(--scale-orange)) rotate(360deg); }
 }
 
-/* ================================================== */
-/* ===  RED GROUP                                   === */
-/* ================================================== */
+/* RED GROUP */
 .portal-red,
 .portal-red-semi {
   transform: scale(var(--scale-red));
@@ -116,9 +104,7 @@
   to   { transform: scale(var(--scale-red)) rotate(-360deg); } /* counter rotation */
 }
 
-/* ================================================== */
-/* ===  YELLOW GROUP                                === */
-/* ================================================== */
+/* YELLOW GROUP */
 .portal-yellow,
 .portal-yellow-semi {
   transform: scale(var(--scale-yellow));
@@ -139,15 +125,4 @@
   to   { transform: scale(var(--scale-yellow)) rotate(360deg); }
 }
 
-/* ================================================== */
-/* ===  RESPONSIVE SCALING (optional)               === */
-/* ================================================== */
-@media (max-width: 768px) {
-  :root {
-    --scale-blue: 0.85;
-    --scale-green: 0.9;
-    --scale-orange: 0.8;
-    --scale-red: 0.85;
-    --scale-yellow: 0.95;
-  }
-}
+/* Responsive scaling is defined in styles/global-responsive-base-system/responsive.css */

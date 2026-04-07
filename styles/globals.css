@@ -17,72 +17,29 @@ body {
   min-height: 100vh;
   padding: 1rem;
   -webkit-font-smoothing: antialiased;
-	overflow-x: hidden; /* avoid horizontal scroll from fixed animation */
-  /* per-request: remove per-selector transitions here so a single unified
-     transition rule can control timing for body/header/footer together */
+	overflow-x: hidden;
 }
 
-/* Keep the home page as a fixed, non-scrolling viewport so the
-   portal animation behaves as originally designed. Other pages
-   (blog, cad, etc.) can scroll normally. */
 body.home-active {
 	overflow-y: hidden;
 }
 
-/* Ensure all primary visible layers transition their backgrounds/colors
-   with the exact same timing so mode changes feel synchronous. */
-/* Unified transition block below controls timing for all primary layers. */
-/* Unified transition: a single rule controlling body/header/footer timing.
-   This replaces individual `transition` properties on those selectors so
-   they all change at the exact same speed. */
-/* Remove transitions from the page-level containers that the user asked
-   to be instantaneous: html, body, header and footer. This prevents
-   per-element timing mismatches. */
-/* Unified transition for the primary page layers. This ensures the
-   header, footer, body and main content animate together with identical
-   timing and avoids the perception of mismatched speeds. Tuned to 0.18s. */
 html, body, #site-header, #site-footer, #page-content, .page-container, #portal-animation-container {
-  transition: background 0.18s ease, color 0.18s ease, opacity 0.18s ease;
+  transition: background 0.45s ease, color 0.45s ease, opacity 0.45s ease;
   will-change: background, color, opacity;
 }
 
-/* Ensure page wrapper elements visually follow the body background when
-   theme class is toggled. Some pages render their own containers above the
-   body background; make them inherit so the background change is visible. */
-/* Ensure page content and container are transparent so the `body`
-   background is visible in both dark and light mode. This prevents
-   their own backgrounds from masking the body background. */
 #page-content,
 .page-container {
   background: transparent;
 }
 
-/* Remove any inherited background setting for theme toggles; body
-   background controls the visible page color. */
-body.light-theme #page-content,
-body.light-theme .page-container {
-  background: transparent;
-}
-/* Make the body background itself switch to a light gray in light mode. */
-body.light-theme {
-  background: #d0d0d0;
-}
-/* Ensure footer background matches page background in light mode */
-body.light-theme #site-footer {
-  background-color: #d0d0d0;
-}
-
 /* === LANGUAGE-SPECIFIC STYLING === */
 
-/* German language adjustments */
 body.lang-de .tagline {
-  font-size: clamp(0.95rem, 3.2vw, 1.4rem); /* Slightly smaller for longer German text */
-  line-height: 1.4; /* Better line spacing for German compound words */
+  font-size: clamp(0.95rem, 3.2vw, 1.4rem);
+  line-height: 1.4;
 }
-
-/* Responsive adjustments for German keep using the global responsive
-   typography and layout rules. Additional breakpoint-specific overrides
-   are no longer necessary and were removed to simplify behavior. */
 
 /* Shared page container */
 .page-container {
@@ -93,7 +50,7 @@ body.lang-de .tagline {
   max-width: 960px;
   width: 100%;
   position: relative;
-  z-index: 1; /* content above animation */
+  z-index: 1;
 }
 
 /* On the home page, center the intro + socials within the container */
@@ -111,12 +68,10 @@ h1, h2, p, span, a {
 /* Language Transition Effects */
 /* ========================= */
 
-/* Smooth text transitions for language switching */
 .intro, .name, .tagline, .social-link span, .social-link .icon {
   transition: opacity 0.3s ease;
 }
 
-/* Introduction container smooth transitions */
 .introduction-container {
   transition: margin-bottom 0.3s ease, gap 0.3s ease;
 }
@@ -124,8 +79,9 @@ h1, h2, p, span, a {
 /* ========================= */
 /* Persistent Background     */
 /* ========================= */
+
 #portal-animation-container {
-  position: fixed; /* fills entire screen behind content */
+  position: fixed;
   top: 0;
   left: 0;
   width: 100%;
@@ -133,23 +89,17 @@ h1, h2, p, span, a {
   pointer-events: none;
   overflow: hidden;
   z-index: 0;
-  opacity: 0;                 /* default invisible */
-    /* portal opacity is controlled by the unified transition above so
-      remove the separate timing here to avoid mismatched durations. */
+  opacity: 0;
 }
 
-/* Immediate hard-hide class (used on non-home) */
 .portal-hidden {
-  display: none !important;   /* prevents any flash mid-transition */
+  display: none !important;
 }
 
-/* Show animation only on Home */
 body.home-active #portal-animation-container {
-  opacity: 1;                 /* fade in when home-active is added */
+  opacity: 1;
 }
 
-/* When navigating away from Home, fade the portal out while keeping
-   layout centered (home-active remains for the content fade). */
 body.portal-fade-out #portal-animation-container {
   opacity: 0;
 }
@@ -163,14 +113,14 @@ body.portal-fade-out #portal-animation-container {
   align-items: center;
   gap: 1.5rem;
   flex-wrap: nowrap;
-  transition: gap 0.3s ease, justify-content 0.3s ease; /* Smooth transitions */
+  transition: gap 0.3s ease, justify-content 0.3s ease;
 }
 
 .social-box {
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: opacity 0.3s ease; /* Smooth fade for blog button hide/show */
+  transition: opacity 0.3s ease;
 }
 
 .social-link {
@@ -190,58 +140,26 @@ body.portal-fade-out #portal-animation-container {
   transform: scale(1.05);
 }
 
-/* External SVG icons */
 .icon {
   width: 30px;
   height: 30px;
   flex-shrink: 0;
   filter: brightness(0) saturate(100%)
           invert(88%) sepia(37%) saturate(528%)
-          hue-rotate(7deg) brightness(108%) contrast(104%);
-  transition: transform 0.3s ease, filter 0.3s ease;
-}
-
-/* Make social icons cast a shadow matching the site's text shadow */
-.icon {
-  filter: brightness(0) saturate(100%)
-          invert(88%) sepia(37%) saturate(528%)
           hue-rotate(7deg) brightness(108%) contrast(104%)
           drop-shadow(2px 2px 2px #000);
+  transition: transform 0.3s ease, filter 0.3s ease;
 }
 
 .social-link:hover .icon {
   transform: scale(1.2);
-  filter: brightness(0) saturate(100%) invert(100%); /* white on hover */
-}
-
-/* Light theme: make social icons use the same color and shadow as social text */
-body.light-theme .social-link {
-  color: #ffff99; /* same as dark-theme social text */
-  text-shadow: 2px 2px 2px #000;
-}
-
-body.light-theme .social-link .icon {
-  /* Match dark-mode icon properties so social icons look identical */
-  filter: brightness(0) saturate(100%)
-          invert(88%) sepia(37%) saturate(528%)
-          hue-rotate(7deg) brightness(108%) contrast(104%)
-          drop-shadow(2px 2px 2px #000);
-  transition: transform 0.3s ease, filter 0.3s ease;
-}
-
-/* Preserve hover behavior (turn icon white) even in light theme */
-body.light-theme .social-link:hover .icon {
-  transform: scale(1.2);
-  filter: brightness(0) saturate(100%) invert(100%); /* white on hover */
+  filter: brightness(0) saturate(100%) invert(100%);
 }
 
 /* ========================= */
 /* Global scrollbar behavior  */
 /* ========================= */
 
-/* Hide scrollbars globally while keeping pages scrollable.
-   This prevents the brief scrollbar flash between page transitions
-   (e.g. switching between Home and CAD Portfolio). */
 body::-webkit-scrollbar {
   width: 0;
   height: 0;
@@ -257,7 +175,7 @@ body::-webkit-scrollbar-thumb {
 }
 
 body {
-  scrollbar-width: none;              /* Firefox */
+  scrollbar-width: none;
   scrollbar-color: transparent transparent;
 }
 
@@ -307,83 +225,4 @@ body {
 .back-link:focus-visible {
   color: #ffffff;
   transform: translateX(-3px);
-}
-
-/* 📱 Responsive Design */
-@media (max-width: 768px) {
-  .page-container {
-    max-width: 100%;
-    padding: 0 1rem;
-    align-items: center; /* Center alignment for consistency */
-  }
-
-  .introduction-container {
-    align-items: center; /* Center the introduction */
-    text-align: center; /* Center the text */
-  }
-
-  .socials-container {
-    align-self: center; /* Center align socials */
-    justify-content: center; /* Center the social buttons */
-  }
-}
-
-@media (max-width: 480px) {
-  .page-container {
-    padding: 0 0.75rem;
-    gap: 0.8rem;
-    align-items: center; /* Center alignment */
-  }
-
-  .introduction-container {
-    gap: 0.5rem;
-    align-items: center; /* Center the introduction */
-    text-align: center; /* Center the text */
-  }
-
-  .socials-container {
-    align-self: center; /* Center align socials */
-    justify-content: center; /* Center the social buttons */
-  }
-
-  .tagline {
-    font-size: clamp(0.75rem, 2.6vw, 1rem);
-  }
-
-  .intro {
-    font-size: clamp(0.8rem, 2.4vw, 0.95rem);
-  }
-}
-
-@media (max-width: 360px) {
-  .page-container {
-    padding: 0 0.5rem;
-    gap: 0.6rem;
-    align-items: center; /* Center alignment for both languages */
-  }
-
-  .introduction-container {
-    gap: 0.4rem;
-    width: 100%; /* Full width to match socials */
-    align-items: center; /* Center the introduction */
-    text-align: center; /* Center the text */
-  }
-
-  .socials-container {
-    align-self: center; /* Center align socials */
-    width: 100%; /* Full width */
-    justify-content: center; /* Center the social buttons */
-  }
-
-  .tagline {
-    font-size: clamp(0.7rem, 2.3vw, 0.9rem);
-  }
-
-  .intro {
-    font-size: clamp(0.75rem, 2.1vw, 0.85rem);
-  }
-
-  body {
-    padding: 0.5rem;
-  }
 }

@@ -1,16 +1,13 @@
-/* Back container for blog */
 .back-container {
   margin-bottom: 0rem;
 }
 
-/* Blog posts container */
 .blog-posts {
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
 }
 
-/* Each post */
 .blog-post {
   padding: 1rem;
   border-left: 3px solid #CCAA22;

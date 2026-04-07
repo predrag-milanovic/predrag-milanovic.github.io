@@ -1,0 +1,28 @@
+/* Light theme overrides for portal bearing + cogwheel */
+
+body.light-theme .portal-bearing-inner,
+body.light-theme .portal-bearing-outer {
+	filter:
+		drop-shadow(0 0 6px #FFD966)
+		invert(39%) sepia(7%) saturate(1286%)
+		hue-rotate(175deg) brightness(110%) contrast(95%);
+	transition: filter 300ms ease, opacity 300ms ease;
+}
+
+body.light-theme .portal-cogwheel {
+	filter:
+		invert(39%) sepia(7%) saturate(1286%)
+		hue-rotate(175deg) brightness(110%) contrast(95%);
+	transition: filter 300ms ease, opacity 300ms ease;
+}
+
+@media (max-width: 480px) {
+	body.light-theme .portal-bearing-inner,
+	body.light-theme .portal-bearing-outer {
+		filter:
+			drop-shadow(0 0 4px #FFD966)
+			invert(39%) sepia(7%) saturate(1100%)
+			hue-rotate(175deg) brightness(106%) contrast(92%);
+	}
+}
+

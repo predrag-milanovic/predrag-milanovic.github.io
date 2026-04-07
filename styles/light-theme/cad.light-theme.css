@@ -1,0 +1,76 @@
+/* Light theme overrides for CAD portfolio page */
+
+/* Header / Back link */
+body.light-theme .cad-header {
+	background: #d0d0d0;
+	border-bottom-color: rgba(148, 163, 184, 0.5);
+	box-shadow: 0 15px 5px #d0d0d0; /* soft fade at bottom edge */
+}
+
+/* In light theme, replace the heavy global text-shadow on the CAD page
+	with a very subtle shadow so text stays clear on the light background. */
+body.light-theme .cad-page,
+body.light-theme .cad-page * {
+	text-shadow: 0 1px 1px rgba(0, 0, 0, 0.28);
+}
+
+/* Light-theme color refinements for better contrast on CAD page */
+body.light-theme .cad-title {
+	color: #111827; /* deep slate for strong contrast on light gray */
+}
+
+body.light-theme .cad-subtitle {
+	color: #4b4b00; /* match description tone while remaining readable */
+}
+
+body.light-theme .cad-back-link {
+	color: #111827;
+	background: rgba(255, 255, 224, 0.96);
+	border: 1px solid rgba(148, 163, 184, 0.7);
+}
+
+/* Model card (glassmorphism) */
+body.light-theme .cad-card {
+	background: #d0d0d0;
+	box-shadow: none;
+	border: 1px solid #000000b0;
+}
+
+/* Model viewer wrapper */
+body.light-theme .cad-viewer-wrapper model-viewer {
+	background: radial-gradient(circle at top, #ffffe0, #d0d0d0 55%, #b0b0b0 100%);
+}
+
+body.light-theme .cad-viewer-overlay {
+	background:
+		linear-gradient(135deg, rgba(208, 208, 208, 0.96), rgba(128, 128, 128, 0.9));
+	color: #ccaa22;
+}
+
+body.light-theme .cad-viewer-error {
+	background: rgba(185, 28, 28, 0.95);
+}
+
+body.light-theme .cad-software-badge {
+	background: rgba(255, 255, 224, 0.96);
+	color: #4b4b00;
+}
+
+body.light-theme .cad-description {
+	color: #4b4b00;
+}
+
+body.light-theme .cad-meta-chip {
+	background: rgba(255, 255, 224, 0.95);
+	color: #4b4b00;
+}
+
+body.light-theme .cad-tag {
+	background: rgba(15, 23, 42, 0.92);
+	color: #ffff99;
+}
+
+body.light-theme .cad-size-indicator {
+	color: #7a6a00;
+}
+

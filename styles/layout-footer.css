@@ -1,14 +1,10 @@
-/* ====================================== */
-/*  FOOTER LAYOUT                        */
-/*  Author: Predrag Milanović             */
-/*  Description: Persistent site footer   */
-/* ====================================== */
+/* FOOTER LAYOUT */
 
 #site-footer {
   width: 100%;
   text-align: center;
   color: #ffff99;
-  background-color: #2f2f2f; /* same as body background */
+  background-color: #000000;
   text-shadow: 2px 2px 2px #000;
   font-size: 0.95rem;
   padding: 0.75rem 0;
@@ -16,11 +12,9 @@
   bottom: 0;
   left: 0;
   z-index: 10;
-  box-shadow: 0 -5px 5px #2f2f2f; /* soft fade-out at top edge */
-  /* Match the global theme transition timing, including shadow, so
-     background and drop shadow change smoothly together on toggle. */
-  transition: background-color 0.18s ease, color 0.18s ease,
-              opacity 0.18s ease, box-shadow 0.18s ease;
+  box-shadow: 0 -5px 5px #2f2f2f;
+  transition: background-color 0.45s ease, color 0.45s ease,
+              opacity 0.45s ease, box-shadow 0.45s ease;
 }
 
 #site-footer p {
@@ -32,31 +26,4 @@
 #site-footer a {
   color: #ccaa22;
   text-decoration: none;
-}
-
-/* === LIGHT THEME - SAME BACKGROUND AS MAIN === */
-body.light-theme #site-footer {
-  /* keep same text color as dark theme and match text shadow */
-  color: #ffff99; /* same as dark-mode primary text */
-  background-color: #d0d0d0; /* light grayish background */
-  text-shadow: 2px 2px 2px #000; /* same shadow as dark-mode text */
-  box-shadow: 0 -5px 5px #d0d0d0; /* soft fade-out at top edge */
-}
-
-body.light-theme #site-footer a {
-  color: #ffff99; /* same as dark theme links */
-  text-shadow: 2px 2px 2px #000; /* keep text drop-shadow */
-}
-
-/* Footer icons in light theme: apply a black glow behind the icon
-   (use drop-shadow with zero offset + blur) instead of the usual drop-shadow */
-body.light-theme #site-footer .icon,
-body.light-theme #site-footer a .icon {
-  filter: drop-shadow(0 0 10px rgba(0,0,0,0.85)); /* black glow */
-  fill: currentColor;
-  stroke: currentColor;
-}
-
-body.light-theme #site-footer a:hover {
-  color: #ffffff; /* hover white */
 }

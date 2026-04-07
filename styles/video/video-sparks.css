@@ -1,0 +1,24 @@
+/* Background video system */
+
+#background-video {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	overflow: hidden;
+	z-index: -1;
+}
+
+#background-video video {
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+	opacity: 0.45;
+	object-position: center 90%;
+}
+
+body.light-theme #background-video {
+	opacity: 0;
+	pointer-events: none;
+}

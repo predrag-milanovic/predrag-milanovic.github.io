@@ -1,0 +1,6 @@
+/* Light theme overrides for home portal animation */
+
+@import url("./animation-home-portal-responsive-system.css");
+@import url("./animation-home-portal.light-theme/animation-home-bearing.light-theme.css");
+@import url("./animation-home-portal.light-theme/animation-home-motion-outline.light-theme.css");
+
