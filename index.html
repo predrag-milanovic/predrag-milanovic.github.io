@@ -44,19 +44,41 @@
 
   <!-- Global + dynamic CSS (remove duplicates) -->
   <link id="global-style" href="styles/globals.css" rel="stylesheet">
+  <link id="video-style" href="styles/video/video-sparks.css" rel="stylesheet">
   <link id="page-style" rel="stylesheet">
   <link id="footer-style" href="styles/layout-footer.css" rel="stylesheet">
   <link id="header-style" href="styles/layout-header.css" rel="stylesheet">
   <link id="anim-style" rel="stylesheet">
-  <link id="responsive-style" href="styles/responsive.css" rel="stylesheet">
+  <link id="responsive-style" href="styles/global-responsive-base-system/responsive.css" rel="stylesheet">
+
+  <!-- Light theme override styles (always loaded, gated by body.light-theme) -->
+  <link id="global-style-light" href="styles/light-theme/globals.light-theme.css" rel="stylesheet">
+  <link id="page-style-light" rel="stylesheet">
+  <link id="footer-style-light" href="styles/light-theme/layout-footer.light-theme.css" rel="stylesheet">
+  <link id="header-style-light" href="styles/light-theme/layout-header.light-theme.css" rel="stylesheet">
+  <link id="responsive-style-light" href="styles/global-responsive-base-system/responsive.light-theme.css" rel="stylesheet">
   
   <!-- Scripts (no duplicates) -->
   <script src="scripts/pagesConfig.js"></script>
+  <!-- Centralized page + portal transition logic (used by main.js) -->
+  <script src="scripts/pagesTransition.js" defer></script>
   <script src="scripts/main.js" defer></script>
   <script src="scripts/cad-model-viewer.js" defer></script>
 </head>
 
 <body>
+  <div id="background-video">
+    <video
+      src="https://res.cloudinary.com/dxtkvy9b4/video/upload/e_reverse/v1775485737/48569-454825064_medium_gyacd1.mp4"
+      autoplay
+      muted
+      loop
+      playsinline
+      disablepictureinpicture
+      disableremoteplayback
+    ></video>
+  </div>
+
     <!-- === HEADER === -->
   <header id="site-header">
     <div class="header-right">
