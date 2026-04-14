@@ -18,9 +18,9 @@
 
 @media (max-width: 1024px) {
   :root {
-    /* Slightly shrink portal on small laptops */
-    --scale-portal: 0.85;
-    --portal-size: 600px;
+    --scale-global: 1.0;
+    --scale-portal: 0.95;
+    --portal-size: 900px;
     --portal-y-offset: -0.5vh;
     --portal-x-offset: 0vw;
   }
@@ -28,9 +28,9 @@
 
 @media (max-width: 768px) {
   :root {
-    /* Further reduce portal scale for tablets */
-    --scale-portal: 0.75;
-    --portal-size: 520px;
+    --scale-global: 1.0;
+    --scale-portal: 0.85;
+    --portal-size: 750px;
     --portal-y-offset: -0.5vh;
     --portal-x-offset: 0vw;
   }
@@ -38,9 +38,9 @@
 
 @media (max-width: 480px) {
   :root {
-    /* Compact portal layout on mobile phones */
-    --scale-portal: 0.65;
-    --portal-size: 450px;
+    --scale-global: 0.95;
+    --scale-portal: 0.75;
+    --portal-size: 550px;
     --portal-y-offset: -1vh;
     --portal-x-offset: 0vw;
   }
@@ -48,9 +48,9 @@
 
 @media (max-width: 360px) {
   :root {
-    /* Extra small phones: smallest portal scale */
-    --scale-portal: 0.6;
-    --portal-size: 400px;
+    --scale-global: 0.9;
+    --scale-portal: 0.65;
+    --portal-size: 480px;
     --portal-y-offset: -1.5vh;
     --portal-x-offset: 0vw;
   }
@@ -109,4 +109,21 @@
   }
   .portal-bearing-balls { animation-duration: 12s; }
   .portal-cogwheel { animation-duration: 25s; }
+}
+
+/* On smaller phones, make the portal a bit larger than
+   the generic tablet override above. These rules come
+   later, so they override the 340px size when applicable. */
+@media (max-width: 480px) {
+	.home-portal-animation {
+		width: 380px;
+		height: 380px;
+	}
+}
+
+@media (max-width: 360px) {
+	.home-portal-animation {
+		width: 360px;
+		height: 360px;
+	}
 }

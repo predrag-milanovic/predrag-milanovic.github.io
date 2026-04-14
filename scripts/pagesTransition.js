@@ -44,8 +44,24 @@
 		}
 	}
 
+	function restartPortalAnimations(portal) {
+		if (!portal) return;
+
+		const animationRoot = portal.querySelector(".home-portal-animation");
+		if (!animationRoot || !animationRoot.parentNode) return;
+
+		// Replace the animation root node with a cloned copy so that
+		// all CSS keyframe animations (motion rings + bearing/cogwheel)
+		// reliably restart when returning to the Home page, including on
+		// mobile browsers where animations can remain paused after a
+		// display:none toggle.
+		const clone = animationRoot.cloneNode(true);
+		animationRoot.parentNode.replaceChild(clone, animationRoot);
+	}
+
 	function enablePortal(portal) {
 		if (!portal) return;
+		restartPortalAnimations(portal);
 		portal.style.display = "block";
 		portal.classList.remove("portal-hidden");
 		document.body.classList.add("home-active");
@@ -57,11 +73,19 @@
 		if (!portal || nextPage !== "home") return;
 
 		if (animationHref) {
-			const animLink = document.createElement("link");
-			animLink.rel = "stylesheet";
-			animLink.id = ANIM_LINK_ID;
-			animLink.href = animationHref;
-			animLink.onload = () => {
+			// Reuse the existing anim-style link if present (declared in index.html),
+			// otherwise create it. This avoids duplicate IDs and makes sure we
+			// can reliably re-enable the portal when navigating back to Home.
+			let animLink = safeGetElement(ANIM_LINK_ID);
+			let isNew = false;
+			if (!animLink) {
+				animLink = document.createElement("link");
+				animLink.rel = "stylesheet";
+				animLink.id = ANIM_LINK_ID;
+				isNew = true;
+			}
+
+			const activatePortal = () => {
 				enablePortal(portal);
 				const responsiveLink = safeGetElement(RESPONSIVE_LINK_ID);
 				if (responsiveLink && responsiveLink.parentNode) {
@@ -69,7 +93,25 @@
 					document.head.appendChild(responsiveLink);
 				}
 			};
-			document.head.appendChild(animLink);
+
+			// If the href is changing, wait for the new stylesheet to load
+			// before enabling the portal. If it's already the same (e.g. user
+			// navigated away and back), enable immediately so mobile devices
+			// don't end up with a hidden, non-animated portal.
+			const currentHref = animLink.getAttribute("href");
+			if (currentHref !== animationHref) {
+				animLink.onload = () => {
+					animLink.onload = null;
+					activatePortal();
+				};
+				animLink.href = animationHref;
+			} else {
+				activatePortal();
+			}
+
+			if (isNew || !animLink.parentNode) {
+				document.head.appendChild(animLink);
+			}
 		} else {
 			enablePortal(portal);
 		}

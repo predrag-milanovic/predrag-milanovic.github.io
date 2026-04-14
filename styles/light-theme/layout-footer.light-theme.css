@@ -3,7 +3,6 @@ body.light-theme #site-footer {
 	color: #ffff99;
 	background-color: #d0d0d0;
 	text-shadow: 2px 2px 2px #000;
-	box-shadow: 0 -5px 5px #d0d0d0;
 }
 
 body.light-theme #site-footer a {
