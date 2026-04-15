@@ -15,19 +15,16 @@
 .portal-bearing-inner,
 .portal-bearing-outer {
   filter:
-    drop-shadow(0 0 5px #CCAA22)
-    invert(29%) sepia(7%) saturate(1286%)
-    hue-rotate(175deg) brightness(90%) contrast(85%);
+    drop-shadow(0 0 4px #0099ff)
+    invert(20%);
   z-index: 2;
-  opacity: 0.95;
+  opacity: 0.9;
 }
 
 .portal-bearing-balls {
   animation: rotate-bearing-balls 10s linear infinite;
   filter:
-    drop-shadow(0 0 1px #FFFF99)
-    invert(29%) sepia(7%) saturate(1286%)
-    hue-rotate(175deg) brightness(90%) contrast(85%);
+    drop-shadow(0 0 1px #FFFF99);
   opacity: 0.25;
   z-index: 1;
 }
@@ -35,8 +32,9 @@
 .portal-cogwheel {
   animation: rotate-cogwheel 20s linear infinite;
   filter:
-    invert(29%) sepia(7%) saturate(1286%)
-    hue-rotate(175deg) brightness(90%) contrast(85%);
+    drop-shadow(0 0 1px #0099ff)
+    invert(75%);
+  opacity: 0.35;
   z-index: 3; /* top of bearing group */
 }
 
