@@ -1,6 +1,3 @@
-/* ========================= */
-/* Reset + Global            */
-/* ========================= */
 * {
   margin: 0;
   padding: 0;
@@ -34,14 +31,11 @@ html, body, #site-header, #site-footer, #page-content, .page-container, #portal-
   background: transparent;
 }
 
-/* === LANGUAGE-SPECIFIC STYLING === */
-
 body.lang-de .tagline {
   font-size: clamp(0.95rem, 3.2vw, 1.4rem);
   line-height: 1.4;
 }
 
-/* Shared page container */
 .page-container {
   display: flex;
   flex-direction: column;
@@ -53,20 +47,14 @@ body.lang-de .tagline {
   z-index: 1;
 }
 
-/* On the home page, center the intro + socials within the container */
 body.home-active .page-container {
   align-items: center;
   text-align: center;
 }
 
-/* Shared text outline */
 h1, h2, p, span, a {
   text-shadow: 2px 2px 2px #000;
 }
-
-/* ========================= */
-/* Language Transition Effects */
-/* ========================= */
 
 .intro, .name, .tagline, .social-link span, .social-link .icon {
   transition: opacity 0.3s ease;
@@ -75,10 +63,6 @@ h1, h2, p, span, a {
 .introduction-container {
   transition: margin-bottom 0.3s ease, gap 0.3s ease;
 }
-
-/* ========================= */
-/* Persistent Background     */
-/* ========================= */
 
 #portal-animation-container {
   position: fixed;
@@ -104,9 +88,6 @@ body.portal-fade-out #portal-animation-container {
   opacity: 0;
 }
 
-/* ========================= */
-/* Social links + icons      */
-/* ========================= */
 .socials-container {
   display: flex;
   justify-content: center;
@@ -156,10 +137,6 @@ body.portal-fade-out #portal-animation-container {
   filter: brightness(0) saturate(100%) invert(100%);
 }
 
-/* ========================= */
-/* Global scrollbar behavior  */
-/* ========================= */
-
 body::-webkit-scrollbar {
   width: 0;
   height: 0;
@@ -179,9 +156,6 @@ body {
   scrollbar-color: transparent transparent;
 }
 
-/* ========================= */
-/* Fade-in / Fade-out effect */
-/* ========================= */
 #page-content {
   opacity: 0;
   z-index: 1;
@@ -209,7 +183,6 @@ body {
   opacity: 1;
 }
 
-/* Shared "back" link styling used on multiple pages (e.g. Blog, CAD) */
 .back-link {
   color: #ffff99;
   text-decoration: none;

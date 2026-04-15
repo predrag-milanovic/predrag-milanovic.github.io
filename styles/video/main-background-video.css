@@ -1,5 +1,3 @@
-/* Background video system */
-
 #background-video {
 	position: fixed;
 	top: 0;
@@ -17,7 +15,6 @@
 	opacity: 0.25;
 }
 
-/* Slight upward shift of background video on smaller breakpoints */
 @media (max-width: 1024px) {
 	#background-video {
 		top: -4vh;
@@ -27,26 +24,15 @@
 	}
 }
 
-@media (max-width: 768px) {
-	#background-video {
-		top: -5vh;
-	}
-	#background-video video {
-		object-position: center 80%;
-	}
-}
-
 @media (max-width: 480px) {
-	/* Disable background video on small screens */
-	#background-video {
-		display: none;
+	#background-video video {
+		transform: translateY(4vh);
 	}
 }
 
 @media (max-width: 360px) {
-	/* Explicitly keep video hidden on extra-small screens */
-	#background-video {
-		display: none;
+	#background-video video {
+		transform: translateY(6vh);
 	}
 }
 

@@ -1,10 +1,10 @@
 /* Light theme overrides for CAD portfolio page */
 
-/* Header / Back link */
+/* Header / Back link (keep transparent background in light mode) */
 body.light-theme .cad-header {
-	background: #d0d0d0;
+	background: transparent;
 	border-bottom-color: rgba(148, 163, 184, 0.5);
-	box-shadow: 0 15px 5px #d0d0d0; /* soft fade at bottom edge */
+	box-shadow: none;
 }
 
 /* In light theme, replace the heavy global text-shadow on the CAD page

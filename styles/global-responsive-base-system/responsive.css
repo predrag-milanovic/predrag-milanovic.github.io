@@ -1,5 +1,3 @@
-/* GLOBAL RESPONSIVE BASE SYSTEM */
-
 :root {
   --bp-mobile: 480px;
   --bp-small: 360px;
@@ -22,7 +20,7 @@
 
   --scale-global: 1.0;
   --scale-portal: 1.0;
-  --portal-size: 625px;
+	--portal-size: 625px;
   --portal-y-offset: 0vh;
   --portal-x-offset: 0vw;
 }
@@ -31,28 +29,27 @@ html {
   font-size: calc(var(--font-size-base) * var(--scale-global));
 }
 
-/* Global down-scaling of typography and footer on smaller screens */
 @media (max-width: 1024px) {
   :root {
-    --scale-global: 0.9;  /* 10% smaller */
+		--scale-global: 0.9;
   }
 }
 
 @media (max-width: 768px) {
   :root {
-    --scale-global: 0.95;  /* 20% smaller vs desktop */
+		--scale-global: 0.95;
   }
 }
 
 @media (max-width: 480px) {
   :root {
-    --scale-global: 0.9;  /* 30% smaller vs desktop */
+		--scale-global: 0.9;
   }
 }
 
 @media (max-width: 360px) {
   :root {
-    --scale-global: 0.85;  /* 40% smaller vs desktop */
+		--scale-global: 0.85;
   }
 }
 
@@ -177,8 +174,6 @@ img, svg {
   }
 }
 
-/* GLOBAL + HOME LAYOUT RESPONSIVE */
-
 @media (max-width: 768px) {
   .page-container {
     max-width: 100%;
@@ -202,7 +197,6 @@ img, svg {
     padding: 0 0.75rem;
     gap: 0.9rem;
     align-items: center;
-    /* Center intro block vertically near middle of portal */
     min-height: 100vh;
     justify-content: center;
   }
@@ -217,21 +211,17 @@ img, svg {
   .socials-container {
     align-self: center;
     justify-content: center;
-    /* Stack social links vertically under intro on mobile */
     flex-direction: column;
     align-items: stretch;
-		/* Add extra space below introduction container */
 		margin-top: 1.25rem;
   }
 
 
-  /* Enlarge all intro text on small phones */
   .name {
     font-size: clamp(2.2rem, 7.5vw, 3.6rem);
   }
 
   .tagline {
-    /* Make intro block visually larger on small phones */
     font-size: clamp(1.05rem, 3.2vw, 1.3rem);
   }
 
@@ -239,9 +229,6 @@ img, svg {
     font-size: clamp(1.1rem, 3.0vw, 1.3rem);
   }
 
-  /* On the home page, nudge the content slightly upward so
-     the introduction container visually aligns with the
-     center of the portal animation behind it. */
   body.home-active .page-container {
 		transform: translateY(10vh);
   }
@@ -270,16 +257,14 @@ img, svg {
     justify-content: center;
     flex-direction: column;
     align-items: stretch;
-		margin-top: 2.0rem;   /* Add extra space below introduction container on extra-small phones */
+    margin-top: 2.0rem;
   }
 
-  /* Keep intro prominent even on the smallest phones */
   .name {
     font-size: clamp(2.3rem, 8vw, 3.8rem);
   }
 
   .tagline {
-    /* Slightly larger intro text even on the smallest phones */
     font-size: clamp(1.1rem, 3.0vw, 1.35rem);
   }
 
@@ -290,16 +275,7 @@ img, svg {
   body {
     padding: 0.5rem;
   }
-
-  /* Fine-tune for extra-small phones: slightly reduce the
-     upward shift so the intro remains centered within the
-     smaller portal area. */
-  body.home-active .page-container {
-		transform: translateY(10vh);
-  }
 }
-
-/* SOCIAL LINK + ICON SCALING */
 
 @media (max-width: 1024px) {
   .social-link { font-size: 1.1rem; }
@@ -317,8 +293,6 @@ img, svg {
   .social-link { font-size: 0.85rem; }
   .icon { width: 18px; height: 18px; }
 }
-
-/* HEADER RESPONSIVE */
 
 @media (max-width: 768px) {
   #site-header {
@@ -393,8 +367,6 @@ img, svg {
   }
 }
 
-/* RESPONSIVE FOOTER */
-
 #site-footer {
   font-size: calc(0.95rem * var(--scale-global));
   padding: calc(0.75rem * var(--scale-global)) 0;
@@ -403,8 +375,6 @@ img, svg {
   text-shadow: 2px 2px 2px #000;
   background: #2f2f2f;
 }
-
-/* CAD PAGE RESPONSIVE */
 
 @media (max-width: 768px) {
   .cad-page {
@@ -507,5 +477,5 @@ img, svg {
   }
 }
 
-/* (Portal motion ring responsive fine-tuning is defined in
-   styles/animation/animation-home-portal-responsive-system.css) */
+/* Portal motion ring responsive fine-tuning is defined in
+  styles/animation/animation-home-portal-responsive-system.css */

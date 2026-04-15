@@ -1,0 +1,43 @@
+#background-video-light-theme {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	overflow: hidden;
+	z-index: -1;
+	opacity: 0;
+	pointer-events: none;
+}
+
+#background-video-light-theme video {
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+	opacity: 0.25;
+	transform: translateY(-2vh);
+}
+
+@media (max-width: 1024px) {
+	#background-video-light-theme video {
+		transform: translateY(-3vh);
+	}
+}
+
+@media (max-width: 480px) {
+	#background-video-light-theme video {
+		transform: translateY(-2vh);
+	}
+}
+
+@media (max-width: 360px) {
+	#background-video-light-theme video {
+		transform: translateY(-2vh);
+	}
+}
+
+body.light-theme #background-video-light-theme {
+	opacity: 1;
+	pointer-events: none;
+}
+
