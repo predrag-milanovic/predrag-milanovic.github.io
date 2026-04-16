@@ -9,9 +9,6 @@
     )
     scale(var(--scale-portal));
   transform-origin: center center;
-  transition:
-    transform 0.3s ease-in-out,
-    width 0.3s ease-in-out;
 }
 
 @media (max-width: 1024px) {

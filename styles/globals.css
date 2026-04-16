@@ -22,7 +22,7 @@ body.home-active {
 }
 
 html, body, #site-header, #site-footer, #page-content, .page-container, #portal-animation-container {
-  transition: background 0.45s ease, color 0.45s ease, opacity 0.45s ease;
+  transition: background 0.45s ease, color 0.45s ease, opacity 0.75s ease;
   will-change: background, color, opacity;
 }
 
@@ -74,6 +74,7 @@ h1, h2, p, span, a {
   overflow: hidden;
   z-index: 0;
   opacity: 0;
+  transition: opacity 0.9s ease;
 }
 
 .portal-hidden {

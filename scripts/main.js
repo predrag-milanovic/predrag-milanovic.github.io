@@ -1,7 +1,8 @@
 
 (function () {
-  const FADE_OUT_MS = 450;
+  const FADE_OUT_MS = 700;
   let currentLanguage = "en";
+  let hasLoadedOnce = false;
 
   function loadPage() {
     const hash = (window.location.hash || "#home").replace(/^#/, "") || "home";
@@ -28,23 +29,27 @@
 
     document.title = pages[currentPage].title;
 
-    if (window.pageTransition && typeof window.pageTransition.fadeOutShell === "function") {
-      window.pageTransition.fadeOutShell({ container, header, footer });
-    } else {
-      [container, header, footer].forEach(el => {
-        if (el) el.classList.remove("loaded");
-      });
-    }
-    
-    // Delegate portal fade-out + animation stylesheet cleanup to portalAnimation core
-    if (window.portalAnimation && typeof window.portalAnimation.beforePageTransition === "function") {
-      window.portalAnimation.beforePageTransition({ portal, nextPage: currentPage });
+    const shouldFadeOut = hasLoadedOnce;
+
+    if (shouldFadeOut) {
+      if (window.pageTransition && typeof window.pageTransition.fadeOutShell === "function") {
+        window.pageTransition.fadeOutShell({ container, header, footer });
+      } else {
+        [container, header, footer].forEach(el => {
+          if (el) el.classList.remove("loaded");
+        });
+      }
+
+      // Delegate portal fade-out + animation stylesheet cleanup to portalAnimation core
+      if (window.portalAnimation && typeof window.portalAnimation.beforePageTransition === "function") {
+        window.portalAnimation.beforePageTransition({ portal, nextPage: currentPage });
+      }
     }
 
     // --- Step 2: Wait for fade-out before replacing content ---
     setTimeout(() => {
       // After fade-out, let the portalAnimation core handle hiding the portal
-      if (window.portalAnimation && typeof window.portalAnimation.afterFadeOut === "function") {
+      if (shouldFadeOut && window.portalAnimation && typeof window.portalAnimation.afterFadeOut === "function") {
         window.portalAnimation.afterFadeOut({ portal, nextPage: currentPage });
       }
 
@@ -62,6 +67,8 @@
           }
 
           const fadeInAll = () => {
+            hasLoadedOnce = true;
+
             if (currentPage === "cad") {
               document.body.classList.add("cad-active");
 
@@ -108,9 +115,10 @@
         })
         .catch(err => {
           console.error("Error loading page:", err);
+          hasLoadedOnce = true;
           container.innerHTML = "<h1>Error loading page</h1>";
         });
-    }, FADE_OUT_MS);
+    }, shouldFadeOut ? FADE_OUT_MS : 0);
   }
 
 

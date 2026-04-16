@@ -2,8 +2,8 @@
 (function () {
 	const ANIM_LINK_ID = "anim-style";
 	const RESPONSIVE_LINK_ID = "responsive-style";
-	const INSERT_DELAY_MS = 75;
-	const LANGUAGE_TRANSITION_MS = 450;
+	const INSERT_DELAY_MS = 140;
+	const LANGUAGE_TRANSITION_MS = 700;
 
 	function safeGetElement(id) {
 		if (!id) return null;
@@ -64,8 +64,16 @@
 		restartPortalAnimations(portal);
 		portal.style.display = "block";
 		portal.classList.remove("portal-hidden");
-		document.body.classList.add("home-active");
 		document.body.classList.remove("portal-fade-out");
+
+		// Stage class toggle to the next paint so opacity can animate from 0 -> 1
+		// even when the portal was previously display:none.
+		document.body.classList.remove("home-active");
+		requestAnimationFrame(() => {
+			requestAnimationFrame(() => {
+				document.body.classList.add("home-active");
+			});
+		});
 	}
 
 	function onHomePageLoaded(options) {
