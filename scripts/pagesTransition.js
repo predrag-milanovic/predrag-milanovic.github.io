@@ -1,28 +1,31 @@
-// Centralized page + portal transition logic
 (function () {
 	const ANIM_LINK_ID = "anim-style";
 	const RESPONSIVE_LINK_ID = "responsive-style";
 	const INSERT_DELAY_MS = 140;
 	const LANGUAGE_TRANSITION_MS = 700;
+	const LANG_CLASSES = ["lang-en", "lang-de", "lang-af", "lang-sr"];
+	const SOCIALS_TRANSITION = "gap 0.3s ease, justify-content 0.3s ease";
 
 	function safeGetElement(id) {
 		if (!id) return null;
 		return document.getElementById(id);
 	}
 
-	function fadeOutShell(options) {
+	function setShellLoaded(options, isLoaded) {
 		const { container, header, footer } = options || {};
 		[container, header, footer].forEach(el => {
-			if (el) el.classList.remove("loaded");
+			if (el) el.classList.toggle("loaded", isLoaded);
 		});
+	}
+
+	function fadeOutShell(options) {
+		setShellLoaded(options, false);
 	}
 
 	function fadeInShell(options) {
 		const { container, header, footer } = options || {};
 		setTimeout(() => {
-			[container, header, footer].forEach(el => {
-				if (el) el.classList.add("loaded");
-			});
+			setShellLoaded({ container, header, footer }, true);
 		}, INSERT_DELAY_MS);
 	}
 
@@ -50,11 +53,6 @@
 		const animationRoot = portal.querySelector(".home-portal-animation");
 		if (!animationRoot || !animationRoot.parentNode) return;
 
-		// Replace the animation root node with a cloned copy so that
-		// all CSS keyframe animations (motion rings + bearing/cogwheel)
-		// reliably restart when returning to the Home page, including on
-		// mobile browsers where animations can remain paused after a
-		// display:none toggle.
 		const clone = animationRoot.cloneNode(true);
 		animationRoot.parentNode.replaceChild(clone, animationRoot);
 	}
@@ -66,8 +64,6 @@
 		portal.classList.remove("portal-hidden");
 		document.body.classList.remove("portal-fade-out");
 
-		// Stage class toggle to the next paint so opacity can animate from 0 -> 1
-		// even when the portal was previously display:none.
 		document.body.classList.remove("home-active");
 		requestAnimationFrame(() => {
 			requestAnimationFrame(() => {
@@ -81,9 +77,6 @@
 		if (!portal || nextPage !== "home") return;
 
 		if (animationHref) {
-			// Reuse the existing anim-style link if present (declared in index.html),
-			// otherwise create it. This avoids duplicate IDs and makes sure we
-			// can reliably re-enable the portal when navigating back to Home.
 			let animLink = safeGetElement(ANIM_LINK_ID);
 			let isNew = false;
 			if (!animLink) {
@@ -102,10 +95,6 @@
 				}
 			};
 
-			// If the href is changing, wait for the new stylesheet to load
-			// before enabling the portal. If it's already the same (e.g. user
-			// navigated away and back), enable immediately so mobile devices
-			// don't end up with a hidden, non-animated portal.
 			const currentHref = animLink.getAttribute("href");
 			if (currentHref !== animationHref) {
 				animLink.onload = () => {
@@ -142,6 +131,22 @@
 			cvPath: "assets/cv/predrag-milanovic-cv.pdf",
 			showBlog: true
 		},
+		af: {
+			name: "Predrag Milanović",
+			intro: "Hallo, my naam is",
+			tagline: "en ek is 'n Meganiese en IT Ingenieur",
+			linkedin: "LinkedIn",
+			github: "GitHub",
+			cv: "CV",
+			cadPortfolio: "CAD Portfolio",
+			cadHeaderTitle: "CAD Portfolio",
+			cadHeaderSubtitle:
+				"'n Seleksie van 3D CAD-modelle wat deur my ingenieurloopbaan ontwikkel is.",
+			cadHeaderHome: "Tuis",
+			blog: "Blog",
+			cvPath: "assets/cv/predrag-milanovic-cv.pdf",
+			showBlog: true
+		},
 		de: {
 			name: "Predrag Milanović",
 			intro: "Hallo, mein Name ist",
@@ -156,7 +161,23 @@
 			cadHeaderHome: "Home",
 			blog: "Blog",
 			cvPath: "assets/cv/predrag-milanovic-lebenslauf.pdf",
-			showBlog: false
+			showBlog: true
+		},
+		sr: {
+			name: "Predrag Milanović",
+			intro: "Zdravo, moje ime je",
+			tagline: "i ja sam mašinski i IT inženjer",
+			linkedin: "LinkedIn",
+			github: "GitHub",
+			cv: "CV",
+			cadPortfolio: "CAD portfolio",
+			cadHeaderTitle: "CAD portfolio",
+			cadHeaderSubtitle:
+				"Izbor 3D CAD modela razvijenih tokom moje inženjerske karijere.",
+			cadHeaderHome: "Početna",
+			blog: "Blog",
+			cvPath: "assets/cv/predrag-milanovic-cv.pdf",
+			showBlog: true
 		}
 	};
 
@@ -164,23 +185,20 @@
 		const body = document.body;
 		const pageContainer = document.querySelector(".page-container");
 
-		body.classList.remove("lang-en", "lang-de");
+		body.classList.remove(...LANG_CLASSES);
 		body.classList.add(`lang-${language}`);
+
+		if (socialsContainer) {
+			socialsContainer.style.transition = SOCIALS_TRANSITION;
+		}
 
 		if (language === "de") {
 			if (socialsContainer) {
-				socialsContainer.style.transition = "gap 0.3s ease, justify-content 0.3s ease";
 				socialsContainer.style.justifyContent = "center";
-				socialsContainer.style.gap = "2rem";
-			}
-
-			if (pageContainer) {
-				pageContainer.style.transition = "max-width 0.3s ease";
-				pageContainer.style.maxWidth = "700px";
+				socialsContainer.style.gap = "1.5rem";
 			}
 		} else {
 			if (socialsContainer) {
-				socialsContainer.style.transition = "gap 0.3s ease, justify-content 0.3s ease";
 				socialsContainer.style.justifyContent = "";
 				socialsContainer.style.gap = "";
 			}
@@ -195,6 +213,26 @@
 	function applyTranslations(language, withAnimation = true) {
 		const trans = translations[language];
 		if (!trans) return;
+
+		const updateTranslatedContent = (textElements, socialElements, cvLink, blogBox, socialsContainer) => {
+			textElements.forEach(({ el, text }) => {
+				if (el) el.textContent = text;
+			});
+
+			socialElements.forEach(({ el, text }) => {
+				if (el) el.textContent = text;
+			});
+
+			if (cvLink) {
+				cvLink.href = trans.cvPath;
+			}
+
+			if (blogBox) {
+				blogBox.style.display = trans.showBlog ? "flex" : "none";
+			}
+
+			applyLanguageSpecificStyling(language, socialsContainer);
+		};
 
 		const textElements = [
 			{ el: document.querySelector(".name"), text: trans.name },
@@ -225,11 +263,18 @@
 		const blogBox = document.querySelector('a[href="#blog"]')?.closest(".social-box");
 		const socialsContainer = document.querySelector(".socials-container");
 
+		if (withAnimation && blogBox && trans.showBlog) {
+			blogBox.style.display = "flex";
+		}
+
 		if (withAnimation) {
 			const allElements = [...textElements, ...socialElements]
 				.map(item => item.el)
 				.filter(Boolean);
 			const allAnimatedElements = [...allElements, ...iconElements];
+			if (blogBox) {
+				allAnimatedElements.push(blogBox);
+			}
 			const fadeTargets = [...allAnimatedElements];
 			if (cadPage && !fadeTargets.includes(cadPage)) {
 				fadeTargets.push(cadPage);
@@ -248,30 +293,7 @@
 			}
 
 			setTimeout(() => {
-				textElements.forEach(({ el, text }) => {
-					if (el) el.textContent = text;
-				});
-
-				socialElements.forEach(({ el, text }) => {
-					if (el) el.textContent = text;
-				});
-
-				if (cvLink) {
-					cvLink.href = trans.cvPath;
-				}
-
-				if (blogBox) {
-					if (trans.showBlog) {
-						blogBox.style.display = "flex";
-						setTimeout(() => {
-							blogBox.style.opacity = "1";
-						}, 50);
-					} else {
-						blogBox.style.display = "none";
-					}
-				}
-
-				applyLanguageSpecificStyling(language, socialsContainer);
+				updateTranslatedContent(textElements, socialElements, cvLink, blogBox, socialsContainer);
 
 				setTimeout(() => {
 					fadeTargets.forEach(el => {
@@ -279,30 +301,10 @@
 							el.style.opacity = "1";
 						}
 					});
-
-					if (blogBox && trans.showBlog) {
-						blogBox.style.opacity = "1";
-					}
 				}, 50);
 			}, LANGUAGE_TRANSITION_MS);
 		} else {
-			textElements.forEach(({ el, text }) => {
-				if (el) el.textContent = text;
-			});
-
-			socialElements.forEach(({ el, text }) => {
-				if (el) el.textContent = text;
-			});
-
-			if (cvLink) {
-				cvLink.href = trans.cvPath;
-			}
-
-			if (blogBox) {
-				blogBox.style.display = trans.showBlog ? "flex" : "none";
-			}
-
-			applyLanguageSpecificStyling(language, socialsContainer);
+			updateTranslatedContent(textElements, socialElements, cvLink, blogBox, socialsContainer);
 		}
 	}
 
