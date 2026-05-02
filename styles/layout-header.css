@@ -82,7 +82,7 @@
 
 .language-menu {
   position: absolute;
-  top: 130%;
+  top: calc(100% + 0.35rem);
   right: 0;
   background-color: #2f2f2f;
   border: 1px solid rgba(255, 255, 153, 0.3);
@@ -92,6 +92,7 @@
   min-width: 160px;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
   z-index: 25;
+  transform-origin: top right;
   transition: opacity 0.2s ease, transform 0.2s ease;
 }
 
@@ -117,7 +118,7 @@
 }
 
 .flag-icon {
-  height: 0.95em;
+  height: 1.35em;
   width: auto;
   border-radius: 2px;
   display: inline-block;

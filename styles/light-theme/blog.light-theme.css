@@ -1,18 +1,5 @@
 /* Light theme overrides for blog page */
 
-/* Header styling for consistency with CAD portfolio */
-body.light-theme .cad-header {
-	background: transparent;
-	box-shadow: none;
-}
-
-/* Text styling */
-body.light-theme .cad-page,
-body.light-theme .cad-page * {
-	text-shadow: 0 1px 1px rgba(0, 0, 0, 0.28);
-}
-
-/* Home button - unified light theme styling */
 body.light-theme .cad-back-link {
 	color: #111827;
 	background: rgba(255, 255, 224, 0.96);
@@ -26,4 +13,16 @@ body.light-theme .cad-back-link:focus-visible {
 	transform: translateX(-3px);
 	background: rgba(255, 255, 224, 1);
 	border-color: rgba(148, 163, 184, 0.9);
+}
+
+body.light-theme .blog-post,
+body.light-theme .post-date,
+body.light-theme .post-title,
+body.light-theme .post-desc {
+	text-shadow: 1px 0.25px 0.25px rgba(0, 0, 0, 0.5);
+}
+
+body.light-theme .post-date,
+body.light-theme .post-desc {
+	color: #4b4b00;
 }

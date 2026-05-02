@@ -2,6 +2,24 @@
   margin-bottom: 0rem;
 }
 
+.cad-back-link {
+  font-size: 0.9rem;
+  padding: 0.3rem 0.9rem;
+  border-radius: 999px;
+  background: #2f2f2f;
+  border: 1px solid rgba(255, 255, 153, 0.7);
+  white-space: nowrap;
+  line-height: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.cad-back-link:hover,
+.cad-back-link:focus-visible {
+  transform: translateX(-3px);
+}
+
 .blog-posts {
   display: flex;
   flex-direction: column;
