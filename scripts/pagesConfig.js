@@ -12,7 +12,28 @@ const pages = {
     path: "pages/blog.html",
     css: "styles/blog.css",
     cssLight: "styles/light-theme/blog.light-theme.css",
-    route: "blog"
+    route: "blog-en"
+  },
+  "blog-de": {
+    title: "Predrag Milanović - Blog",
+    path: "pages/blog.html",
+    css: "styles/blog.css",
+    cssLight: "styles/light-theme/blog.light-theme.css",
+    route: "blog-de"
+  },
+  "blog-af": {
+    title: "Predrag Milanović - Blog",
+    path: "pages/blog.html",
+    css: "styles/blog.css",
+    cssLight: "styles/light-theme/blog.light-theme.css",
+    route: "blog-af"
+  },
+  "blog-sr": {
+    title: "Predrag Milanović - Blog",
+    path: "pages/blog.html",
+    css: "styles/blog.css",
+    cssLight: "styles/light-theme/blog.light-theme.css",
+    route: "blog-sr"
   },
   cad: {
     title: "Predrag Milanović - CAD Portfolio",
