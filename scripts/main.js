@@ -4,16 +4,29 @@
   let currentLanguage = "en";
   let hasLoadedOnce = false;
 
+  function setShellLoaded(elements, isLoaded) {
+    elements.forEach(el => {
+      if (el) el.classList.toggle("loaded", isLoaded);
+    });
+  }
+
+  function getPageByHash(hash) {
+    const matchedPage = Object.keys(pages).find(key => hash === pages[key].route);
+    if (matchedPage) return matchedPage;
+
+    if (hash === "blog") {
+      const localizedBlogPage = `blog-${currentLanguage}`;
+      if (pages[localizedBlogPage]) return localizedBlogPage;
+      if (pages.blog) return "blog";
+    }
+
+    return "home";
+  }
+
   function loadPage() {
     const hash = (window.location.hash || "#home").replace(/^#/, "") || "home";
-    let currentPage = "home";
-
-    for (const key in pages) {
-      if (hash === pages[key].route) {
-      currentPage = key;
-      break;
-      }
-    }
+    const currentPage = getPageByHash(hash);
+    const pageConfig = pages[currentPage];
 
     const container = document.getElementById("page-content");
     const pageStyle = document.getElementById("page-style");
@@ -21,49 +34,45 @@
     const portal = document.getElementById("portal-animation-container");
     const header = document.getElementById("site-header");
     const footer = document.getElementById("site-footer");
+    const shellElements = [container, header, footer];
+    const pageTransition = window.pageTransition;
+    const portalAnimation = window.portalAnimation;
 
     if (!container || !pageStyle) {
       console.error("Required layout elements missing for loadPage; aborting route change.");
       return;
     }
 
-    document.title = pages[currentPage].title;
+    document.title = pageConfig.title;
 
     const shouldFadeOut = hasLoadedOnce;
 
     if (shouldFadeOut) {
-      if (window.pageTransition && typeof window.pageTransition.fadeOutShell === "function") {
-        window.pageTransition.fadeOutShell({ container, header, footer });
+      if (pageTransition && typeof pageTransition.fadeOutShell === "function") {
+        pageTransition.fadeOutShell({ container, header, footer });
       } else {
-        [container, header, footer].forEach(el => {
-          if (el) el.classList.remove("loaded");
-        });
+        setShellLoaded(shellElements, false);
       }
 
-      // Delegate portal fade-out + animation stylesheet cleanup to portalAnimation core
-      if (window.portalAnimation && typeof window.portalAnimation.beforePageTransition === "function") {
-        window.portalAnimation.beforePageTransition({ portal, nextPage: currentPage });
+      if (portalAnimation && typeof portalAnimation.beforePageTransition === "function") {
+        portalAnimation.beforePageTransition({ portal, nextPage: currentPage });
       }
     }
 
-    // --- Step 2: Wait for fade-out before replacing content ---
     setTimeout(() => {
-      // After fade-out, let the portalAnimation core handle hiding the portal
-      if (shouldFadeOut && window.portalAnimation && typeof window.portalAnimation.afterFadeOut === "function") {
-        window.portalAnimation.afterFadeOut({ portal, nextPage: currentPage });
+      if (shouldFadeOut && portalAnimation && typeof portalAnimation.afterFadeOut === "function") {
+        portalAnimation.afterFadeOut({ portal, nextPage: currentPage });
       }
 
-      // Reset CAD page body state before loading new content
       document.body.classList.remove("cad-active");
 
-      // --- Step 3: Load new page content ---
-      fetch(pages[currentPage].path)
+      fetch(pageConfig.path)
         .then(r => r.text())
         .then(html => {
           container.innerHTML = html;
 
-          if (window.pageTransition && typeof window.pageTransition.applyTranslations === "function") {
-            window.pageTransition.applyTranslations(currentLanguage, false);
+          if (pageTransition && typeof pageTransition.applyTranslations === "function") {
+            pageTransition.applyTranslations(currentLanguage, false);
           }
 
           const fadeInAll = () => {
@@ -77,35 +86,30 @@
               }
             }
 
-            if (window.pageTransition && typeof window.pageTransition.fadeInShell === "function") {
-              window.pageTransition.fadeInShell({ container, header, footer });
+            if (pageTransition && typeof pageTransition.fadeInShell === "function") {
+              pageTransition.fadeInShell({ container, header, footer });
             } else {
-              [container, header, footer].forEach(el => {
-                if (el) el.classList.add("loaded");
-              });
+              setShellLoaded(shellElements, true);
             }
           };
 
-          // --- Step 4: Handle portal animation for Home page via portalAnimation core ---
-          if (window.portalAnimation && typeof window.portalAnimation.onHomePageLoaded === "function") {
-            window.portalAnimation.onHomePageLoaded({
+          if (portalAnimation && typeof portalAnimation.onHomePageLoaded === "function") {
+            portalAnimation.onHomePageLoaded({
               portal,
-              animationHref: pages[currentPage].animation,
+              animationHref: pageConfig.animation,
               nextPage: currentPage
             });
           }
 
-          // --- Step 5: Apply page-specific CSS then fade in ---
-          if (pages[currentPage].css) {
+          if (pageConfig.css) {
             pageStyle.onload = fadeInAll;
-            pageStyle.href = pages[currentPage].css;
+            pageStyle.href = pageConfig.css;
           } else {
             fadeInAll();
           }
 
-          // Apply page-specific light-theme overrides (if configured)
           if (pageStyleLight) {
-            const lightHref = pages[currentPage].cssLight;
+            const lightHref = pageConfig.cssLight;
             if (lightHref) {
               pageStyleLight.href = lightHref;
             } else {
@@ -137,6 +141,7 @@
     const moonIcon = document.querySelector(".moon-icon");
     const sunIcons = document.querySelectorAll(".sun-icon");
     const bgVideoEl = document.querySelector("#background-video video");
+    const body = document.body;
     
     if (!themeBtn) return;
 
@@ -144,7 +149,7 @@
     applyTheme(savedTheme);
 
     themeBtn.addEventListener("click", () => {
-      const currentTheme = document.body.classList.contains("light-theme") ? "light" : "dark";
+      const currentTheme = body.classList.contains("light-theme") ? "light" : "dark";
       const newTheme = currentTheme === "dark" ? "light" : "dark";
       applyTheme(newTheme);
       localStorage.setItem("theme", newTheme);
@@ -152,15 +157,15 @@
 
     function applyTheme(theme) {
       if (theme === "light") {
-        document.body.classList.add("light-theme");
+        body.classList.add("light-theme");
         if (bgVideoEl) {
           bgVideoEl.pause();
         }
         if (moonIcon) moonIcon.style.display = "block";
         sunIcons.forEach(icon => icon.style.display = "none");
-        if (themeBtn) themeBtn.setAttribute("aria-pressed", "true");
+        themeBtn.setAttribute("aria-pressed", "true");
       } else {
-        document.body.classList.remove("light-theme");
+        body.classList.remove("light-theme");
         if (bgVideoEl && bgVideoEl.paused) {
           const playPromise = bgVideoEl.play();
           if (playPromise && typeof playPromise.catch === "function") {
@@ -169,7 +174,7 @@
         }
         if (moonIcon) moonIcon.style.display = "none";
         sunIcons.forEach(icon => icon.style.display = "block");
-        if (themeBtn) themeBtn.setAttribute("aria-pressed", "false");
+        themeBtn.setAttribute("aria-pressed", "false");
       }
     }
   }
@@ -179,22 +184,20 @@
     const langMenu = document.getElementById("language-menu");
     if (!langBtn || !langMenu) return;
 
+    const setLanguageMenuOpen = isOpen => {
+      langMenu.classList.toggle("hidden", !isOpen);
+      langBtn.setAttribute("aria-expanded", isOpen ? "true" : "false");
+    };
+
     langBtn.addEventListener("click", e => {
       e.stopPropagation();
-      const isOpen = !langMenu.classList.contains("hidden");
-      if (isOpen) {
-        langMenu.classList.add("hidden");
-        langBtn.setAttribute("aria-expanded", "false");
-      } else {
-        langMenu.classList.remove("hidden");
-        langBtn.setAttribute("aria-expanded", "true");
-      }
+      const isOpen = langMenu.classList.contains("hidden");
+      setLanguageMenuOpen(isOpen);
     });
 
     document.addEventListener("click", e => {
       if (!langMenu.classList.contains("hidden") && !langBtn.contains(e.target)) {
-        langMenu.classList.add("hidden");
-        langBtn.setAttribute("aria-expanded", "false");
+        setLanguageMenuOpen(false);
       }
     });
 
@@ -208,13 +211,9 @@
           if (window.pageTransition && typeof window.pageTransition.applyTranslations === "function") {
             window.pageTransition.applyTranslations(currentLanguage, true);
           }
-          
-          console.log(`Language changed to: ${selectedLang}`);
         }
-        langMenu.classList.add("hidden");
-        langBtn.setAttribute("aria-expanded", "false");
+        setLanguageMenuOpen(false);
       });
     });
-
   }
 })();
