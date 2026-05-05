@@ -23,6 +23,10 @@ body.light-theme .cad-subtitle {
 	color: #4b4b00; /* match description tone while remaining readable */
 }
 
+body.light-theme .cad-controls-intro {
+	color: #3f3f00;
+}
+
 body.light-theme .cad-back-link {
 	color: #111827;
 	background: rgba(255, 255, 224, 0.96);
