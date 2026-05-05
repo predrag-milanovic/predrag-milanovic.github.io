@@ -1,0 +1,13 @@
+{
+  "models": [
+    {
+      "id": "simple-shell-and-tube-heat-exchanger",
+      "title": "Simple Shell and Tube Heat Exchanger",
+      "description": "Baseline model of a horizontal heat exchanger for thermal transfer applications.",
+      "software": "Autodesk Inventor",
+      "file": "assets/cad/models/simple_shell_and_tube_heat_exchanger/simple-shell-and-tube-heat-exchanger.glb",
+      "metadata": {
+      }
+    }
+  ]
+}
