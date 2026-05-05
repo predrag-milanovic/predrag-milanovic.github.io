@@ -82,6 +82,7 @@ window.initCadPortfolio = function () {
 			file,
 			sizeMB,
 			metadata = {},
+			controlsHint = '',
 			tags = []
 		} = model;
 
@@ -92,6 +93,7 @@ window.initCadPortfolio = function () {
 		);
 		const safeSoftware = escapeHtml(software || 'Other');
 		const safeFile = escapeHtml(file || '');
+		const controlsHintText = String(controlsHint || '').trim();
 
 		const card = document.createElement('article');
 		card.className = 'cad-card';
@@ -113,7 +115,6 @@ window.initCadPortfolio = function () {
 		modelViewer.setAttribute('exposure', '0.9');
 		modelViewer.setAttribute('environment-image', 'neutral');
 		modelViewer.setAttribute('ar', '');
-		modelViewer.setAttribute('disable-zoom', '');
 
 		const overlay = document.createElement('div');
 		overlay.className = 'cad-viewer-overlay';
@@ -185,15 +186,27 @@ window.initCadPortfolio = function () {
 		const footerRow = document.createElement('div');
 		footerRow.className = 'cad-footer-row';
 
-		const tagContainer = document.createElement('div');
-		tagContainer.className = 'cad-tags';
+		let leftFooterContent = null;
+		if (controlsHintText) {
+			const hint = document.createElement('p');
+			hint.className = 'cad-controls-hint';
+			hint.textContent = controlsHintText;
+			leftFooterContent = hint;
+		} else {
+			const tagContainer = document.createElement('div');
+			tagContainer.className = 'cad-tags';
 
-		tags.slice(0, 4).forEach((tag) => {
-			const span = document.createElement('span');
-			span.className = 'cad-tag';
-			span.textContent = escapeHtml(tag);
-			tagContainer.appendChild(span);
-		});
+			tags.slice(0, 4).forEach((tag) => {
+				const span = document.createElement('span');
+				span.className = 'cad-tag';
+				span.textContent = escapeHtml(tag);
+				tagContainer.appendChild(span);
+			});
+
+			if (tagContainer.childElementCount > 0) {
+				leftFooterContent = tagContainer;
+			}
+		}
 
 		const sizeIndicator = document.createElement('span');
 		sizeIndicator.className = 'cad-size-indicator';
@@ -203,7 +216,9 @@ window.initCadPortfolio = function () {
 			sizeIndicator.textContent = '< 10 MB';
 		}
 
-		footerRow.appendChild(tagContainer);
+		if (leftFooterContent) {
+			footerRow.appendChild(leftFooterContent);
+		}
 		footerRow.appendChild(sizeIndicator);
 
 		card.appendChild(viewerWrapper);
