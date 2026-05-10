@@ -9,48 +9,121 @@
 window.initCadPortfolio = function () {
 	const grid = document.getElementById('cad-grid');
 	if (!grid) return;
+	const wrapper = document.querySelector('.cad-grid-wrapper');
 
-	const loadingEl = document.getElementById('cad-loading');
-	const errorEl = document.getElementById('cad-error');
-	const emptyEl = document.getElementById('cad-empty');
+	const statusElements = {
+		loading: document.getElementById('cad-loading'),
+		error: document.getElementById('cad-error'),
+		empty: document.getElementById('cad-empty')
+	};
 	let allModels = [];
+	let wheelHandlerInstalled = false;
+	let scrollAnimationFrameId = 0;
+	let targetScrollTop = 0;
 
-	function setStatus({ loading = false, error = false, empty = false }) {
-		if (loadingEl) loadingEl.hidden = !loading;
-		if (errorEl) errorEl.hidden = !error;
-		if (emptyEl) emptyEl.hidden = !empty;
+	function createElement(tag, className = '', attrs = {}) {
+		const el = document.createElement(tag);
+		if (className) el.className = className;
+		Object.entries(attrs).forEach(([key, value]) => {
+			el.setAttribute(key, value);
+		});
+		return el;
 	}
 
-	function escapeHtml(value) {
-		return String(value)
-			.replace(/&/g, '&amp;')
-			.replace(/</g, '&lt;')
-			.replace(/>/g, '&gt;')
-			.replace(/"/g, '&quot;')
-			.replace(/'/g, '&#039;');
+	function createModelId(value) {
+		return String(value || 'model')
+			.toLowerCase()
+			.trim()
+			.replace(/[^a-z0-9]+/g, '-')
+			.replace(/^-+|-+$/g, '') || 'model';
+	}
+
+	function setStatus(status) {
+		Object.entries(statusElements).forEach(([key, el]) => {
+			if (el) el.hidden = key !== status;
+		});
+	}
+
+	function createMetaChip(text) {
+		const chip = createElement('span', 'cad-meta-chip');
+		chip.textContent = String(text);
+		return chip;
+	}
+
+	function clamp(value, min, max) {
+		return Math.min(Math.max(value, min), max);
+	}
+
+	function getMaxScrollTop() {
+		return Math.max(0, wrapper.scrollHeight - wrapper.clientHeight);
+	}
+
+	function normalizeWheelDelta(event) {
+		if (!wrapper) return 0;
+
+		if (event.deltaMode === WheelEvent.DOM_DELTA_PAGE) {
+			return event.deltaY * wrapper.clientHeight;
+		}
+
+		if (event.deltaMode === WheelEvent.DOM_DELTA_LINE) {
+			return event.deltaY * 16;
+		}
+
+		return event.deltaY;
+	}
+
+	function animateWrapperScroll() {
+		if (!wrapper) return;
+
+		const currentScrollTop = wrapper.scrollTop;
+		const delta = targetScrollTop - currentScrollTop;
+
+		if (Math.abs(delta) < 0.5) {
+			wrapper.scrollTop = targetScrollTop;
+			scrollAnimationFrameId = 0;
+			return;
+		}
+
+		wrapper.scrollTop = currentScrollTop + delta * 0.2;
+		scrollAnimationFrameId = window.requestAnimationFrame(animateWrapperScroll);
+	}
+
+	function setupGlobalWheel() {
+		if (!wrapper || wheelHandlerInstalled) return;
+		wheelHandlerInstalled = true;
+		targetScrollTop = wrapper.scrollTop;
+
+		document.addEventListener('wheel', (event) => {
+			const target = event.target instanceof Element ? event.target : null;
+			if (target && target.closest('model-viewer')) return;
+
+			const deltaY = normalizeWheelDelta(event);
+			if (!deltaY) return;
+
+			event.preventDefault();
+			targetScrollTop = clamp(targetScrollTop + deltaY, 0, getMaxScrollTop());
+
+			if (!scrollAnimationFrameId) {
+				scrollAnimationFrameId = window.requestAnimationFrame(animateWrapperScroll);
+			}
+		}, { passive: false, capture: true });
 	}
 
 	async function loadModels() {
 		try {
-			setStatus({ loading: true, error: false, empty: false });
-
+			setStatus('loading');
 			const response = await fetch('assets/cad/models.json', {
 				cache: 'no-cache'
 			});
 
-			if (!response.ok) {
-				throw new Error('Network response was not ok');
-			}
+			if (!response.ok) throw new Error('Network response was not ok');
 
 			const data = await response.json();
 			allModels = Array.isArray(data.models) ? data.models : [];
-
 			render();
 		} catch (err) {
 			console.error('Failed to load CAD models:', err);
-			setStatus({ loading: false, error: true, empty: false });
-		} finally {
-			if (loadingEl) loadingEl.hidden = true;
+			setStatus('error');
 		}
 	}
 
@@ -58,18 +131,15 @@ window.initCadPortfolio = function () {
 		grid.innerHTML = '';
 
 		if (!allModels.length) {
-			setStatus({ loading: false, error: false, empty: true });
+			setStatus('empty');
 			return;
 		}
 
-		setStatus({ loading: false, error: false, empty: false });
-
+		setStatus('idle');
 		const fragment = document.createDocumentFragment();
-
 		allModels.forEach((model) => {
 			fragment.appendChild(createCard(model));
 		});
-
 		grid.appendChild(fragment);
 	}
 
@@ -86,150 +156,92 @@ window.initCadPortfolio = function () {
 			tags = []
 		} = model;
 
-		const safeId = escapeHtml(id || title || 'model');
-		const safeTitle = escapeHtml(title || 'CAD Model');
-		const safeDescription = escapeHtml(
-			description || 'Mechanical CAD model visualized for the web.'
-		);
-		const safeSoftware = escapeHtml(software || 'Other');
-		const safeFile = escapeHtml(file || '');
+		const safeId = createModelId(id || title);
+		const safeTitle = String(title || 'CAD Model');
+		const safeDescription = String(description || 'Mechanical CAD model visualized for the web.');
+		const safeSoftware = String(software || 'Other');
+		const safeFile = String(file || '');
 		const controlsHintText = String(controlsHint || '').trim();
 
-		const card = document.createElement('article');
-		card.className = 'cad-card';
-		card.setAttribute('data-id', safeId);
-		card.setAttribute('data-software', safeSoftware.toLowerCase());
-		card.setAttribute('tabindex', '0');
-		card.setAttribute('aria-labelledby', safeId + '-title');
-
-		const viewerWrapper = document.createElement('div');
-		viewerWrapper.className = 'cad-viewer-wrapper';
-
-		const modelViewer = document.createElement('model-viewer');
-		modelViewer.setAttribute('src', safeFile);
-		modelViewer.setAttribute('alt', safeTitle + ' 3D model');
-		modelViewer.setAttribute('loading', 'lazy');
-		modelViewer.setAttribute('camera-controls', '');
-		modelViewer.setAttribute('touch-action', 'pan-y');
-		modelViewer.setAttribute('shadow-intensity', '0.8');
-		modelViewer.setAttribute('exposure', '0.9');
-		modelViewer.setAttribute('environment-image', 'neutral');
-		modelViewer.setAttribute('ar', '');
-
-		const overlay = document.createElement('div');
-		overlay.className = 'cad-viewer-overlay';
-		overlay.innerHTML =
-			'<span class="spinner" aria-hidden="true"></span>' +
-			'<span class="cad-viewer-hint">Loading 3D preview…</span>';
-
-		const errorOverlay = document.createElement('div');
-		errorOverlay.className = 'cad-viewer-error';
-		errorOverlay.textContent =
-			'Model preview failed to load. The file may be missing or too large.';
-
-		modelViewer.addEventListener('load', () => {
-			overlay.classList.add('hidden');
+		// Card container
+		const card = createElement('article', 'cad-card', {
+			'data-id': safeId,
+			'data-software': safeSoftware.toLowerCase(),
+			tabindex: '0',
+			'aria-labelledby': safeId + '-title'
 		});
 
-		modelViewer.addEventListener('error', () => {
-			overlay.classList.add('hidden');
-			errorOverlay.classList.add('visible');
+		// Viewer wrapper with model-viewer and overlays
+		const viewerWrapper = createElement('div', 'cad-viewer-wrapper');
+		const modelViewer = createElement('model-viewer', '', {
+			src: safeFile,
+			alt: safeTitle + ' 3D model',
+			loading: 'lazy',
+			'camera-controls': '',
+			'touch-action': 'pan-y',
+			'shadow-intensity': '0.8',
+			exposure: '0.9',
+			'environment-image': 'neutral'
 		});
 
-		viewerWrapper.appendChild(modelViewer);
-		viewerWrapper.appendChild(overlay);
-		viewerWrapper.appendChild(errorOverlay);
+		const overlay = createElement('div', 'cad-viewer-overlay');
+		overlay.innerHTML = '<span class="spinner" aria-hidden="true"></span><span class="cad-viewer-hint">Loading 3D preview…</span>';
 
-		const header = document.createElement('div');
-		header.className = 'cad-card-header';
+		const errorOverlay = createElement('div', 'cad-viewer-error');
+		errorOverlay.textContent = 'Model preview failed to load. The file may be missing or too large.';
 
-		const titleEl = document.createElement('h2');
-		titleEl.className = 'cad-title';
-		titleEl.id = safeId + '-title';
+		modelViewer.addEventListener('load', () => overlay.classList.add('hidden'));
+		modelViewer.addEventListener('error', () => errorOverlay.classList.add('visible'));
+
+		viewerWrapper.append(modelViewer, overlay, errorOverlay);
+
+		// Header with title and software badge
+		const header = createElement('div', 'cad-card-header');
+		const titleEl = createElement('h2', 'cad-title', { id: safeId + '-title' });
 		titleEl.textContent = safeTitle;
-
-		const badge = document.createElement('span');
-		badge.className = 'cad-software-badge';
+		const badge = createElement('span', 'cad-software-badge');
 		badge.textContent = safeSoftware;
+		header.append(titleEl, badge);
 
-		header.appendChild(titleEl);
-		header.appendChild(badge);
-
-		const descEl = document.createElement('p');
-		descEl.className = 'cad-description';
+		// Description
+		const descEl = createElement('p', 'cad-description');
 		descEl.textContent = safeDescription;
 
-		const metaRow = document.createElement('div');
-		metaRow.className = 'cad-meta';
+		// Metadata row
+		const metaRow = createElement('div', 'cad-meta');
+		['category', 'material', 'year'].forEach((key) => {
+			if (metadata[key]) {
+				metaRow.appendChild(createMetaChip(key === 'year' ? String(metadata[key]) : metadata[key]));
+			}
+		});
 
-		if (metadata.category) {
-			const chip = document.createElement('span');
-			chip.className = 'cad-meta-chip';
-			chip.textContent = escapeHtml(metadata.category);
-			metaRow.appendChild(chip);
-		}
+		// Footer row
+		const footerRow = createElement('div', 'cad-footer-row');
 
-		if (metadata.material) {
-			const chip = document.createElement('span');
-			chip.className = 'cad-meta-chip';
-			chip.textContent = escapeHtml(metadata.material);
-			metaRow.appendChild(chip);
-		}
-
-		if (metadata.year) {
-			const chip = document.createElement('span');
-			chip.className = 'cad-meta-chip';
-			chip.textContent = escapeHtml(String(metadata.year));
-			metaRow.appendChild(chip);
-		}
-
-		const footerRow = document.createElement('div');
-		footerRow.className = 'cad-footer-row';
-
-		let leftFooterContent = null;
 		if (controlsHintText) {
-			const hint = document.createElement('p');
-			hint.className = 'cad-controls-hint';
+			const hint = createElement('p', 'cad-controls-hint');
 			hint.textContent = controlsHintText;
-			leftFooterContent = hint;
-		} else {
-			const tagContainer = document.createElement('div');
-			tagContainer.className = 'cad-tags';
-
+			footerRow.appendChild(hint);
+		} else if (tags.length > 0) {
+			const tagContainer = createElement('div', 'cad-tags');
 			tags.slice(0, 4).forEach((tag) => {
-				const span = document.createElement('span');
-				span.className = 'cad-tag';
-				span.textContent = escapeHtml(tag);
+				const span = createElement('span', 'cad-tag');
+				span.textContent = String(tag);
 				tagContainer.appendChild(span);
 			});
-
-			if (tagContainer.childElementCount > 0) {
-				leftFooterContent = tagContainer;
-			}
+			footerRow.appendChild(tagContainer);
 		}
 
-		const sizeIndicator = document.createElement('span');
-		sizeIndicator.className = 'cad-size-indicator';
-		if (typeof sizeMB === 'number') {
-			sizeIndicator.textContent = `${sizeMB.toFixed(1)} MB`;
-		} else {
-			sizeIndicator.textContent = '< 10 MB';
-		}
-
-		if (leftFooterContent) {
-			footerRow.appendChild(leftFooterContent);
-		}
+		const sizeIndicator = createElement('span', 'cad-size-indicator');
+		sizeIndicator.textContent = typeof sizeMB === 'number' ? `${sizeMB.toFixed(1)} MB` : '< 10 MB';
 		footerRow.appendChild(sizeIndicator);
 
-		card.appendChild(viewerWrapper);
-		card.appendChild(header);
-		card.appendChild(descEl);
-		card.appendChild(metaRow);
-		card.appendChild(footerRow);
-
+		// Assemble card
+		card.append(viewerWrapper, header, descEl, metaRow, footerRow);
 		return card;
 	}
 
 	loadModels();
+	setupGlobalWheel();
 };
 

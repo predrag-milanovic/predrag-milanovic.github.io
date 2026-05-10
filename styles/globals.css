@@ -17,6 +17,26 @@ body {
 	overflow-x: hidden;
 }
 
+html {
+  overflow-x: hidden;
+  scrollbar-width: none;
+  scrollbar-color: transparent transparent;
+}
+
+html::-webkit-scrollbar {
+  width: 0;
+  height: 0;
+}
+
+html::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+html::-webkit-scrollbar-thumb {
+  background: transparent;
+  border: none;
+}
+
 body.home-active {
 	overflow-y: hidden;
 }

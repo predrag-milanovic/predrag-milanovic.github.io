@@ -128,6 +128,8 @@ body.cad-active .page-container {
 	flex: 1;
 	min-height: 0;
 	overflow-y: auto;
+	overscroll-behavior: contain;
+	scrollbar-gutter: stable;
 }
 
 .cad-grid {
@@ -181,7 +183,7 @@ body.cad-active .page-container {
 	position: relative;
 	border-radius: calc(var(--cad-radius-lg) - 0.3rem);
 	overflow: hidden;
-	aspect-ratio: 4 / 3;
+	aspect-ratio: 16 / 9;
 	margin-bottom: 0.7rem;
 }
 
@@ -190,6 +192,10 @@ body.cad-active .page-container {
 	height: 100%;
 	display: block;
 	background: radial-gradient(circle at top, #ffff9975, #2f2f2f 55%, #000 100%);
+}
+
+.cad-viewer-wrapper model-viewer::part(ar-button) {
+	display: none;
 }
 
 .cad-viewer-overlay {
@@ -320,6 +326,17 @@ body.cad-active .page-container {
 	font-size: 0.72rem;
 	color: #e5e5b0;
 	padding: 0.1rem 0.15rem 0.1rem 0;
+}
+
+@media (min-width: 1025px) {
+	.cad-grid {
+		align-items: center;
+	}
+
+	.cad-card {
+		width: 768px;
+		max-width: 768px;
+	}
 }
 
 /* =====================
