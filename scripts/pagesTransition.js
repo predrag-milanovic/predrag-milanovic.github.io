@@ -125,7 +125,7 @@
 			cadPortfolio: "CAD Portfolio",
 			cadHeaderTitle: "CAD Portfolio",
 			cadHeaderSubtitle:
-				"A selection of 3D CAD models developed throughout my engineering career.",
+				"A selection of 3D CAD models developed throughout my engineering career. More models and features will be added over time, so keep an eye on it.",
 			cadHeaderHome: "Home",
 			blog: "Blog",
 			cvPath: "assets/cv/predrag-milanovic-cv.pdf",
@@ -141,7 +141,7 @@
 			cadPortfolio: "CAD Portfolio",
 			cadHeaderTitle: "CAD Portfolio",
 			cadHeaderSubtitle:
-				"'n Seleksie van 3D CAD-modelle wat deur my ingenieurloopbaan ontwikkel is.",
+				"'n Seleksie van 3D CAD-modelle wat deur my ingenieurloopbaan ontwikkel is. Meer modelle en funksies sal mettertyd bygevoeg word, so hou dit dop.",
 			cadHeaderHome: "Tuis",
 			blog: "Blog",
 			cvPath: "assets/cv/predrag-milanovic-cv.pdf",
@@ -157,7 +157,7 @@
 			cadPortfolio: "CAD Portfolio",
 			cadHeaderTitle: "CAD-Portfolio",
 			cadHeaderSubtitle:
-				"Eine Auswahl von 3D-CAD-Modellen aus meiner bisherigen Ingenieurlaufbahn.",
+				"Eine Auswahl von 3D-CAD-Modellen aus meiner bisherigen Ingenieurlaufbahn. Weitere Modelle und Funktionen werden mit der Zeit hinzugefügt. Behalten Sie es im Auge.",
 			cadHeaderHome: "Home",
 			blog: "Blog",
 			cvPath: "assets/cv/predrag-milanovic-lebenslauf.pdf",
@@ -173,7 +173,7 @@
 			cadPortfolio: "CAD portfolio",
 			cadHeaderTitle: "CAD portfolio",
 			cadHeaderSubtitle:
-				"Izbor 3D CAD modela razvijenih tokom moje inženjerske karijere.",
+				"Izbor 3D CAD modela razvijenih tokom moje inženjerske karijere. Više modela i funkcija biće dodavano vremenom, pa pratite novosti.",
 			cadHeaderHome: "Početna",
 			blog: "Blog",
 			cvPath: "assets/cv/predrag-milanovic-cv.pdf",
