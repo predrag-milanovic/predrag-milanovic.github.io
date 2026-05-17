@@ -26,3 +26,7 @@ website. The list of models and their metadata is defined in:
 7. **Update `assets/cad/models.json`**:
    - Add or edit a model entry using the JSON template described in `assets/cad/README.md`,
      pointing `file` to your new GLB.
+
+## Quick Preview of Models
+
+If you want to view specific parts separately or quickly preview your own `.stl` files in the browser without setting up the full viewer, you can use the [glTF Viewer by Don McCurdy](https://gltf-viewer.donmccurdy.com/). Simply upload or drag-and-drop your `.glb` or `.stl` files to inspect them directly.
