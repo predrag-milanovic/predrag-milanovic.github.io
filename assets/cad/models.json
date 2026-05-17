@@ -1,6 +1,15 @@
 {
   "models": [
     {
+      "id": "simple-plate-heat-exchanger",
+      "title": "Simple Plate Heat Exchanger",
+      "description": "A compact plate heat exchanger with a partially visible movable frame, revealing the internal stack of corrugated plates. The design creates alternating flow channels for efficient heat transfer between two fluids without mixing.",
+      "software": "Fusion 360",
+      "file": "assets/cad/models/plate_heat_exchanger/simple-plate-heat-exchanger.glb",
+      "metadata": {
+      }
+    },
+    {
       "id": "simple-shell-and-tube-heat-exchanger",
       "title": "Simple Shell and Tube Heat Exchanger",
       "description": "Baseline model of a horizontal heat exchanger for thermal transfer applications.",
