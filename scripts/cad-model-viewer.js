@@ -150,7 +150,6 @@ window.initCadPortfolio = function () {
 			description,
 			software,
 			file,
-			sizeMB,
 			metadata = {},
 			controlsHint = '',
 			tags = []
@@ -231,10 +230,6 @@ window.initCadPortfolio = function () {
 			});
 			footerRow.appendChild(tagContainer);
 		}
-
-		const sizeIndicator = createElement('span', 'cad-size-indicator');
-		sizeIndicator.textContent = typeof sizeMB === 'number' ? `${sizeMB.toFixed(1)} MB` : '< 10 MB';
-		footerRow.appendChild(sizeIndicator);
 
 		// Assemble card
 		card.append(viewerWrapper, header, descEl, metaRow, footerRow);
