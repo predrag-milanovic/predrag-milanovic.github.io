@@ -322,12 +322,6 @@ body.cad-active .page-container {
 	color: #ffff99;
 }
 
-.cad-size-indicator {
-	font-size: 0.72rem;
-	color: #e5e5b0;
-	padding: 0.1rem 0.15rem 0.1rem 0;
-}
-
 @media (min-width: 1025px) {
 	.cad-grid {
 		align-items: center;
