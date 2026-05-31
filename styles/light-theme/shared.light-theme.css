@@ -1,0 +1,15 @@
+/* Shared light-theme overrides for pages that reuse the back link */
+
+body.light-theme .cad-back-link {
+	color: #444444;
+	background: rgba(255, 255, 224, 0.96);
+	border: 1px solid #e9e9ba;
+	text-shadow: none;
+}
+
+body.light-theme .cad-back-link:hover,
+body.light-theme .cad-back-link:focus-visible {
+	transform: translateX(-3px);
+	background: rgba(255, 255, 224, 1);
+	border-color: #e9e9ba;
+}

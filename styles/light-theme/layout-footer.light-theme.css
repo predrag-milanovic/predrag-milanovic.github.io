@@ -1,23 +1,18 @@
 /* Light theme overrides for footer */
 body.light-theme #site-footer {
-	color: #ffff99;
 	background-color: #d0d0d0;
-	text-shadow: 2px 2px 2px #000;
+	color: #444444;
+	text-shadow: none;
 }
 
 body.light-theme #site-footer a {
-	color: #ffff99;
-	text-shadow: 2px 2px 2px #000;
+	color: inherit;
+	text-shadow: none;
 }
 
-body.light-theme #site-footer .icon,
-body.light-theme #site-footer a .icon {
-	filter: drop-shadow(0 0 10px rgba(0,0,0,0.85));
-	fill: currentColor;
-	stroke: currentColor;
-}
-
-body.light-theme #site-footer a:hover {
-	color: #ffffff; /* hover white */
+body.light-theme #site-footer.loaded,
+body.light-theme #site-footer.loaded a,
+body.light-theme #site-footer.loaded p {
+	text-shadow: none;
 }
 

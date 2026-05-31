@@ -1,5 +1,5 @@
-/* Light theme overrides for home page (imports portal animation bearing tweaks) */
+/* Light theme overrides for home page (imports the bundled portal animation overrides) */
 
-@import url("../animation/animation-home-portal.light-theme/animation-home-bearing.light-theme.css");
+@import url("../animation/animation-home-portal.light-theme.css");
 
 

@@ -1,19 +1,6 @@
 /* Light theme overrides for blog page */
 
-body.light-theme .cad-back-link {
-	color: #111827;
-	background: rgba(255, 255, 224, 0.96);
-	border: 1px solid rgba(148, 163, 184, 0.7);
-	transition: transform 180ms ease-out, background 180ms ease-out, border-color 180ms ease-out;
-	text-shadow: none;
-}
-
-body.light-theme .cad-back-link:hover,
-body.light-theme .cad-back-link:focus-visible {
-	transform: translateX(-3px);
-	background: rgba(255, 255, 224, 1);
-	border-color: rgba(148, 163, 184, 0.9);
-}
+@import url("./shared.light-theme.css");
 
 body.light-theme .blog-post,
 body.light-theme .post-date,
