@@ -1,6 +1,16 @@
 {
   "models": [
     {
+      "id": "modular-drone",
+      "title": "Modular Drone",
+      "description": "A modular UAV platform. The design serves as a versatile baseline for DIY open-source drone builds, allowing users to modify and iterate on the structure while maintaining a reliable core architecture.",
+      "software": "Fusion 360 / FreeCAD",
+      "file": "assets/cad/models/modular_drone/modular-drone.glb",
+      "metadata": {
+        "category": "Aerial Vehicles"
+      }
+    },
+    {
       "id": "simple-plate-heat-exchanger",
       "title": "Simple Plate Heat Exchanger",
       "description": "A compact plate heat exchanger with a partially visible movable frame, revealing the internal stack of corrugated plates. The design creates alternating flow channels for efficient heat transfer between two fluids without mixing.",
