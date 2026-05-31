@@ -11,7 +11,12 @@
   <meta property="og:url" content="https://predrag-milanovic.com">
   <meta property="og:type" content="website">
 
-  <title id="page-title">Predrag Milanović</title>
+  <link rel="preconnect" href="https://res.cloudinary.com">
+  <link rel="dns-prefetch" href="https://res.cloudinary.com">
+  <link rel="preconnect" href="https://unpkg.com">
+  <link rel="dns-prefetch" href="https://unpkg.com">
+
+  <title>Predrag Milanović</title>
 
   <!-- Critical base styles inline so Safari has correct colors/icons
        even before external stylesheets finish loading (reduces the
@@ -60,7 +65,7 @@
   <link id="responsive-style-light" href="styles/global-responsive-base-system/responsive.light-theme.css" rel="stylesheet">
   
   <!-- Scripts (no duplicates) -->
-  <script src="scripts/pagesConfig.js"></script>
+  <script src="scripts/pagesConfig.js" defer></script>
   <!-- Centralized page + portal transition logic (used by main.js) -->
   <script src="scripts/pagesTransition.js" defer></script>
   <script src="scripts/main.js" defer></script>
@@ -70,25 +75,27 @@
 </head>
 
 <body>
-  <div id="background-video">
+  <div id="background-video" aria-hidden="true" role="presentation">
     <video
       src="https://res.cloudinary.com/dxtkvy9b4/video/upload/v1776245430/main-background-video_nxqxzw.mp4"
       autoplay
       muted
       loop
       playsinline
+      preload="metadata"
       disablepictureinpicture
       disableremoteplayback
     ></video>
   </div>
 
-	<div id="background-video-light-theme">
+	<div id="background-video-light-theme" aria-hidden="true" role="presentation">
 		<video
 			src="https://res.cloudinary.com/dxtkvy9b4/video/upload/v1776245525/main-light-background-video_df3yne.mp4"
 			autoplay
 			muted
 			loop
 			playsinline
+			preload="metadata"
 			disablepictureinpicture
 			disableremoteplayback
 		></video>
