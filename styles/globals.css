@@ -67,6 +67,10 @@ body.lang-de .tagline {
   z-index: 1;
 }
 
+body:not(.cad-active) .page-container {
+  padding: clamp(4.25rem, 8vh, 5.5rem) 0 clamp(5rem, 8vh, 6rem);
+}
+
 body.home-active .page-container {
   align-items: center;
   text-align: center;

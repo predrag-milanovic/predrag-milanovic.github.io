@@ -10,6 +10,6 @@ body.light-theme .social-link {
 
 body.light-theme #site-header .theme-icon,
 body.light-theme #site-header .language-icon {
-	color: #e9e9ba;
+	color: inherit;
 }
 
