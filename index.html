@@ -102,46 +102,70 @@
 	</div> 
 
     <!-- === HEADER === -->
-  <header id="site-header">
-    <div class="header-right">
-      <!-- Theme Switcher -->
-      <div class="theme-switcher">
-        <button id="theme-btn" class="theme-btn" aria-label="Toggle theme" aria-pressed="false">
-          <svg class="theme-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-            <path class="moon-icon" d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z" fill="currentColor"/>
-            <circle class="sun-icon" cx="12" cy="12" r="5" fill="currentColor" style="display: none;"/>
-            <path class="sun-icon" d="M12 1v2m0 18v2M4.22 4.22l1.42 1.42m12.72 12.72l1.42 1.42M1 12h2m18 0h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42" stroke="currentColor" stroke-width="2" fill="none" style="display: none;"/>
-          </svg>
-        </button>
-      </div>
+  <header id="site-header" class="font-machina">
+    <a href="https://predrag-milanovic.com/" class="site-logo" aria-label="Predrag Milanović">
+      <span class="site-logo-mark" aria-hidden="true">PM</span>
+      <span class="sr-only">Predrag Milanović</span>
+    </a>
 
-      <!-- Language Switcher -->
-      <div class="language-switcher">
-        <button id="language-btn" class="language-btn" aria-label="Change language" aria-haspopup="true" aria-expanded="false">
-          <svg class="language-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-            <circle cx="12" cy="12" r="10" fill="none" stroke="currentColor" stroke-width="2"/>
-            <path d="M2 12h20M12 2a15 15 0 010 20M12 2a15 15 0 000 20" stroke="currentColor" stroke-width="1.5" fill="none"/>
-          </svg>
-        </button>
+    <div class="header-menu-shell">
+      <button
+        id="header-menu-btn"
+        class="header-menu-btn font-machina"
+        type="button"
+        aria-label="Open menu"
+        aria-haspopup="true"
+        aria-controls="header-menu-panel"
+        aria-expanded="false"
+      >
+        <span>Menu</span>
+        <svg class="opened-menu-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <path d="M4 7h16M4 12h16M4 17h16" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"/>
+        </svg>
+      </button>
 
-        <ul id="language-menu" class="language-menu hidden" role="menu">
-          <li data-lang="en" role="menuitem">
-            <img src="assets/icons/flags/en-au.svg" alt="English" class="flag-icon">
-            <span>English</span> 
-          </li>
-          <li data-lang="de" role="menuitem">
-            <img src="assets/icons/flags/de.svg" alt="Deutsch" class="flag-icon">
-            <span>Deutsch</span>
-          </li>
-          <li data-lang="af" role="menuitem">
-            <img src="assets/icons/flags/za.svg" alt="Afrikaans" class="flag-icon">
-            <span>Afrikaans</span>
-          </li>
-          <li data-lang="sr" role="menuitem">
-            <img src="assets/icons/flags/rs.svg" alt="Serbian" class="flag-icon">
-            <span>Srpski</span>
-          </li>
-        </ul>
+      <div id="header-menu-panel" class="header-menu-panel hidden" aria-label="Header menu">
+        <!-- Theme Switcher -->
+        <div class="header-menu-action theme-switcher">
+          <button id="theme-btn" class="theme-btn" aria-label="Toggle theme" aria-pressed="false">
+            <svg class="theme-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+              <path class="moon-icon" d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z" fill="currentColor"/>
+              <circle class="sun-icon" cx="12" cy="12" r="5" fill="currentColor" style="display: none;"/>
+              <path class="sun-icon" d="M12 1v2m0 18v2M4.22 4.22l1.42 1.42m12.72 12.72l1.42 1.42M1 12h2m18 0h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42" stroke="currentColor" stroke-width="2" fill="none" style="display: none;"/>
+            </svg>
+          </button>
+          <span class="header-control-label">Toggle Mode</span>
+        </div>
+
+        <!-- Language Switcher -->
+        <div class="header-menu-action language-switcher">
+          <button id="language-btn" class="language-btn" aria-label="Change language" aria-haspopup="true" aria-expanded="false">
+            <svg class="language-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+              <circle cx="12" cy="12" r="10" fill="none" stroke="currentColor" stroke-width="2"/>
+              <path d="M2 12h20M12 2a15 15 0 010 20M12 2a15 15 0 000 20" stroke="currentColor" stroke-width="1.5" fill="none"/>
+            </svg>
+          </button>
+          <span class="header-control-label">Language</span>
+
+          <ul id="language-menu" class="language-menu hidden" role="menu">
+            <li data-lang="en" role="menuitem">
+              <span>English</span>
+              <img src="assets/icons/flags/en-au.svg" alt="English" class="flag-icon">
+            </li>
+            <li data-lang="de" role="menuitem">
+              <span>Deutsch</span>
+              <img src="assets/icons/flags/de.svg" alt="Deutsch" class="flag-icon">
+            </li>
+            <li data-lang="af" role="menuitem">
+              <span>Afrikaans</span>
+              <img src="assets/icons/flags/za.svg" alt="Afrikaans" class="flag-icon">
+            </li>
+            <li data-lang="sr" role="menuitem">
+              <span>Srpski</span>
+              <img src="assets/icons/flags/rs.svg" alt="Serbian" class="flag-icon">
+            </li>
+          </ul>
+        </div>
       </div>
     </div>
   </header>

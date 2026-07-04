@@ -131,10 +131,55 @@
     currentLanguage = savedLanguage;
 
     loadPage();
+    initHeaderMenu();
     initLanguageSwitcher();
     initThemeSwitcher();
   });
   window.addEventListener("hashchange", loadPage);
+
+  function initHeaderMenu() {
+    const menuBtn = document.getElementById("header-menu-btn");
+    const menuPanel = document.getElementById("header-menu-panel");
+    const langMenu = document.getElementById("language-menu");
+    const langBtn = document.getElementById("language-btn");
+
+    if (!menuBtn || !menuPanel) return;
+
+    const closeInnerMenus = () => {
+      if (langMenu) {
+        langMenu.classList.add("hidden");
+      }
+      if (langBtn) {
+        langBtn.setAttribute("aria-expanded", "false");
+      }
+    };
+
+    const setMenuOpen = isOpen => {
+      menuPanel.classList.toggle("hidden", !isOpen);
+      menuBtn.setAttribute("aria-expanded", isOpen ? "true" : "false");
+
+      if (!isOpen) {
+        closeInnerMenus();
+      }
+    };
+
+    menuBtn.addEventListener("click", event => {
+      event.stopPropagation();
+      setMenuOpen(menuPanel.classList.contains("hidden"));
+    });
+
+    document.addEventListener("click", event => {
+      if (!menuPanel.classList.contains("hidden") && !menuPanel.contains(event.target) && !menuBtn.contains(event.target)) {
+        setMenuOpen(false);
+      }
+    });
+
+    document.addEventListener("keydown", event => {
+      if (event.key === "Escape") {
+        setMenuOpen(false);
+      }
+    });
+  }
 
   function initThemeSwitcher() {
     const themeBtn = document.getElementById("theme-btn");
