@@ -3,6 +3,49 @@
   const FADE_OUT_MS = 700;
   let currentLanguage = "en";
   let hasLoadedOnce = false;
+  let currentPage = "home";
+  let headerMenuBtn = null;
+  let headerMenuPanel = null;
+  let languageMenu = null;
+  let languageBtn = null;
+
+  function closeHeaderMenu() {
+    if (headerMenuPanel) {
+      headerMenuPanel.classList.add("hidden");
+    }
+
+    if (headerMenuBtn) {
+      headerMenuBtn.setAttribute("aria-expanded", "false");
+    }
+
+    if (languageMenu) {
+      languageMenu.classList.add("hidden");
+    }
+
+    if (languageBtn) {
+      languageBtn.setAttribute("aria-expanded", "false");
+    }
+  }
+
+  function updateHeaderMenuState(pageName) {
+    if (!headerMenuBtn) return;
+
+    const isHomePage = pageName === "home";
+
+    headerMenuBtn.disabled = !isHomePage;
+    headerMenuBtn.setAttribute("aria-disabled", isHomePage ? "false" : "true");
+    headerMenuBtn.setAttribute("tabindex", isHomePage ? "0" : "-1");
+    headerMenuBtn.classList.toggle("is-disabled", !isHomePage);
+
+    const menuShell = headerMenuBtn.closest(".header-menu-shell");
+    if (menuShell) {
+      menuShell.classList.toggle("is-hidden", !isHomePage);
+    }
+
+    if (!isHomePage) {
+      closeHeaderMenu();
+    }
+  }
 
   function setShellLoaded(elements, isLoaded) {
     elements.forEach(el => {
@@ -25,7 +68,7 @@
 
   function loadPage() {
     const hash = (window.location.hash || "#home").replace(/^#/, "") || "home";
-    const currentPage = getPageByHash(hash);
+    currentPage = getPageByHash(hash);
     const pageConfig = pages[currentPage];
 
     const container = document.getElementById("page-content");
@@ -37,6 +80,8 @@
     const shellElements = [container, header, footer];
     const pageTransition = window.pageTransition;
     const portalAnimation = window.portalAnimation;
+
+    updateHeaderMenuState(currentPage);
 
     if (!container || !pageStyle) {
       console.error("Required layout elements missing for loadPage; aborting route change.");
@@ -132,51 +177,52 @@
 
     loadPage();
     initHeaderMenu();
+    updateHeaderMenuState(currentPage);
     initLanguageSwitcher();
     initThemeSwitcher();
   });
   window.addEventListener("hashchange", loadPage);
 
   function initHeaderMenu() {
-    const menuBtn = document.getElementById("header-menu-btn");
-    const menuPanel = document.getElementById("header-menu-panel");
-    const langMenu = document.getElementById("language-menu");
-    const langBtn = document.getElementById("language-btn");
+    headerMenuBtn = document.getElementById("header-menu-btn");
+    headerMenuPanel = document.getElementById("header-menu-panel");
+    languageMenu = document.getElementById("language-menu");
+    languageBtn = document.getElementById("language-btn");
 
-    if (!menuBtn || !menuPanel) return;
+    if (!headerMenuBtn || !headerMenuPanel) return;
 
     const closeInnerMenus = () => {
-      if (langMenu) {
-        langMenu.classList.add("hidden");
+      if (languageMenu) {
+        languageMenu.classList.add("hidden");
       }
-      if (langBtn) {
-        langBtn.setAttribute("aria-expanded", "false");
+      if (languageBtn) {
+        languageBtn.setAttribute("aria-expanded", "false");
       }
     };
 
     const setMenuOpen = isOpen => {
-      menuPanel.classList.toggle("hidden", !isOpen);
-      menuBtn.setAttribute("aria-expanded", isOpen ? "true" : "false");
+      headerMenuPanel.classList.toggle("hidden", !isOpen);
+      headerMenuBtn.setAttribute("aria-expanded", isOpen ? "true" : "false");
 
       if (!isOpen) {
         closeInnerMenus();
       }
     };
 
-    menuBtn.addEventListener("click", event => {
+    headerMenuBtn.addEventListener("click", event => {
       event.stopPropagation();
-      setMenuOpen(menuPanel.classList.contains("hidden"));
+      setMenuOpen(headerMenuPanel.classList.contains("hidden"));
     });
 
     document.addEventListener("click", event => {
-      if (!menuPanel.classList.contains("hidden") && !menuPanel.contains(event.target) && !menuBtn.contains(event.target)) {
+      if (!headerMenuPanel.classList.contains("hidden") && !headerMenuPanel.contains(event.target) && !headerMenuBtn.contains(event.target)) {
         setMenuOpen(false);
       }
     });
 
     document.addEventListener("keydown", event => {
       if (event.key === "Escape") {
-        setMenuOpen(false);
+        closeHeaderMenu();
       }
     });
   }
@@ -257,7 +303,7 @@
             window.pageTransition.applyTranslations(currentLanguage, true);
           }
         }
-        setLanguageMenuOpen(false);
+        closeHeaderMenu();
       });
     });
   }

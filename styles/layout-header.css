@@ -113,6 +113,10 @@
   margin-left: auto;
 }
 
+.header-menu-shell.is-hidden {
+  display: none;
+}
+
 .header-menu-btn {
   display: inline-flex;
   align-items: center;
