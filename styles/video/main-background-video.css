@@ -1,9 +1,9 @@
 #background-video {
 	position: fixed;
-	top: 0;
-	left: 0;
-	width: 100%;
-	height: 100%;
+	inset: 0;
+	width: 100vw;
+	height: 100dvh;
+	min-height: 100vh;
 	overflow: hidden;
 	z-index: -1;
 }
@@ -16,23 +16,20 @@
 }
 
 @media (max-width: 1024px) {
-	#background-video {
-		top: -4vh;
-	}
 	#background-video video {
-		object-position: center 85%;
+		object-position: center center;
 	}
 }
 
 @media (max-width: 480px) {
 	#background-video video {
-		transform: translateY(4vh);
+		transform: none;
 	}
 }
 
 @media (max-width: 360px) {
 	#background-video video {
-		transform: translateY(6vh);
+		transform: none;
 	}
 }
 
