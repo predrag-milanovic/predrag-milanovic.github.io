@@ -274,6 +274,10 @@
         sunIcons.forEach(icon => icon.style.display = "block");
         themeBtn.setAttribute("aria-pressed", "false");
       }
+
+      if (window.pageTransition && typeof window.pageTransition.applyTranslations === "function") {
+        window.pageTransition.applyTranslations(currentLanguage, false);
+      }
     }
   }
 
