@@ -402,13 +402,15 @@ img, svg {
   }
 
   .language-menu {
-    min-width: 140px;
+    width: fit-content;
+    min-width: 0;
     right: 0;
+    padding: 0.22rem 0.3rem;
   }
 
   .language-menu li {
     font-size: 0.85rem;
-    padding: 0.3rem 0.6rem;
+    padding: 0.22rem 0.4rem;
   }
 
   .flag-icon {
@@ -461,13 +463,15 @@ img, svg {
   }
 
   .language-menu {
-    min-width: 130px;
+    width: fit-content;
+    min-width: 0;
     right: 0;
+    padding: 0.2rem 0.28rem;
   }
 
   .language-menu li {
     font-size: 0.8rem;
-    padding: 0.25rem 0.5rem;
+    padding: 0.2rem 0.35rem;
   }
 
   .flag-icon {
@@ -504,12 +508,13 @@ img, svg {
 
 @media (max-width: 480px) {
   .cad-page {
-    padding: 1.5rem 1rem 2rem;
+    padding: 2rem 1rem 2rem;
   }
 
   .cad-header {
     gap: 0;
     padding: 0.6rem 0.7rem;
+    margin-top: 0.35rem;
   }
 
   .cad-header-main h1 {
@@ -554,12 +559,13 @@ img, svg {
 
 @media (max-width: 360px) {
   .cad-page {
-    padding: 1.25rem 0.75rem 1.75rem;
+    padding: 1.75rem 0.75rem 1.75rem;
     gap: 0.6rem;
   }
 
   .cad-header {
     gap: 0;
+    margin-top: 0.3rem;
   }
 
   .cad-header-main h1 {
