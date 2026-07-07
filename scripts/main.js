@@ -70,6 +70,7 @@
     const hash = (window.location.hash || "#home").replace(/^#/, "") || "home";
     currentPage = getPageByHash(hash);
     const pageConfig = pages[currentPage];
+    const isHomePage = currentPage === "home";
 
     const container = document.getElementById("page-content");
     const pageStyle = document.getElementById("page-style");
@@ -81,7 +82,9 @@
     const pageTransition = window.pageTransition;
     const portalAnimation = window.portalAnimation;
 
-    updateHeaderMenuState(currentPage);
+    if (!isHomePage) {
+      updateHeaderMenuState(currentPage);
+    }
 
     if (!container || !pageStyle) {
       console.error("Required layout elements missing for loadPage; aborting route change.");
@@ -135,6 +138,10 @@
               pageTransition.fadeInShell({ container, header, footer });
             } else {
               setShellLoaded(shellElements, true);
+            }
+
+            if (isHomePage) {
+              updateHeaderMenuState(currentPage);
             }
           };
 
