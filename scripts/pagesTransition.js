@@ -122,6 +122,7 @@
 			linkedin: "LinkedIn",
 			github: "GitHub",
 			cv: "CV",
+			siteLogoBackLabel: "Back to Home",
 			cadPortfolio: "CAD Portfolio",
 			cadHeaderTitle: "CAD Portfolio",
 			cadHeaderSubtitle:
@@ -138,6 +139,7 @@
 			linkedin: "LinkedIn",
 			github: "GitHub",
 			cv: "CV",
+			siteLogoBackLabel: "Terug na Tuis",
 			cadPortfolio: "CAD Portfolio",
 			cadHeaderTitle: "CAD Portfolio",
 			cadHeaderSubtitle:
@@ -154,6 +156,7 @@
 			linkedin: "LinkedIn",
 			github: "GitHub",
 			cv: "Lebenslauf",
+			siteLogoBackLabel: "Zur Startseite",
 			cadPortfolio: "CAD Portfolio",
 			cadHeaderTitle: "CAD-Portfolio",
 			cadHeaderSubtitle:
@@ -170,6 +173,7 @@
 			linkedin: "LinkedIn",
 			github: "GitHub",
 			cv: "CV",
+			siteLogoBackLabel: "Nazad na početnu",
 			cadPortfolio: "CAD portfolio",
 			cadHeaderTitle: "CAD portfolio",
 			cadHeaderSubtitle:
@@ -213,6 +217,21 @@
 	function applyTranslations(language, withAnimation = true) {
 		const trans = translations[language];
 		if (!trans) return;
+		const siteLogo = document.querySelector(".site-logo");
+		const siteLogoMark = document.querySelector(".site-logo-mark");
+		const isBackButtonPage = Boolean(document.querySelector(".cad-page") || document.querySelector(".blog-posts"));
+
+		if (siteLogo && siteLogoMark) {
+			if (isBackButtonPage) {
+				siteLogo.href = "#home";
+				siteLogo.setAttribute("aria-label", trans.siteLogoBackLabel);
+				siteLogoMark.textContent = `PM | ${trans.cadHeaderHome}`;
+			} else {
+				siteLogo.href = "https://predrag-milanovic.com/";
+				siteLogo.setAttribute("aria-label", trans.name);
+				siteLogoMark.textContent = "PM";
+			}
+		}
 
 		const updateTranslatedContent = (textElements, socialElements, cvLink, blogBox, socialsContainer) => {
 			textElements.forEach(({ el, text }) => {
@@ -239,8 +258,7 @@
 			{ el: document.querySelector(".intro"), text: trans.intro },
 			{ el: document.querySelector(".tagline"), text: trans.tagline },
 			{ el: document.querySelector("#cad-page-title"), text: trans.cadHeaderTitle },
-			{ el: document.querySelector(".cad-subtitle"), text: trans.cadHeaderSubtitle },
-			{ el: document.querySelector(".cad-back-link"), text: trans.cadHeaderHome }
+			{ el: document.querySelector(".cad-subtitle"), text: trans.cadHeaderSubtitle }
 		];
 
 		const socialElements = [
