@@ -1,18 +1,21 @@
 /* Light theme overrides for footer */
 body.light-theme #site-footer {
-	background: rgba(47, 47, 47, 0.42);
-	color: inherit;
-	text-shadow: 2px 2px 2px #000;
+	background: transparent;
+	text-shadow: none;
+	border: 0;
+	box-shadow: none;
+	backdrop-filter: none;
+	-webkit-backdrop-filter: none;
 }
 
 body.light-theme #site-footer a {
 	color: inherit;
-	text-shadow: inherit;
+	text-shadow: none;
 }
 
 body.light-theme #site-footer.loaded,
 body.light-theme #site-footer.loaded a,
 body.light-theme #site-footer.loaded p {
-	text-shadow: inherit;
+	text-shadow: none;
 }
 

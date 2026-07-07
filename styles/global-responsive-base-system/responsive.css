@@ -23,6 +23,7 @@
 	--portal-size: 625px;
   --portal-y-offset: 0vh;
   --portal-x-offset: 0vw;
+  --shared-text-size: 1.25rem;
 }
 
 html {
@@ -32,24 +33,28 @@ html {
 @media (max-width: 1024px) {
   :root {
 		--scale-global: 0.9;
+		--shared-text-size: 1.1rem;
   }
 }
 
 @media (max-width: 768px) {
   :root {
 		--scale-global: 0.95;
+		--shared-text-size: 1rem;
   }
 }
 
 @media (max-width: 480px) {
   :root {
 		--scale-global: 0.9;
+		--shared-text-size: 0.9rem;
   }
 }
 
 @media (max-width: 360px) {
   :root {
 		--scale-global: 0.85;
+		--shared-text-size: 0.85rem;
   }
 }
 
@@ -112,7 +117,6 @@ html {
   .page-container { width: var(--container-max-desktop); }
 }
 
-
 body {
   overflow-x: hidden;
 }
@@ -120,6 +124,39 @@ body {
 img, svg {
   max-width: 100%;
   height: auto;
+}
+
+.social-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: #ffff99;
+  text-decoration: none;
+  font-weight: 500;
+  font-size: var(--shared-text-size);
+  white-space: nowrap;
+  transition: color 0.3s ease, transform 0.2s ease;
+}
+
+.social-link:hover {
+  color: #ffffff;
+  transform: scale(1.05);
+}
+
+.icon {
+  width: 30px;
+  height: 30px;
+  flex-shrink: 0;
+  filter: brightness(0) saturate(100%)
+          invert(88%) sepia(37%) saturate(528%)
+          hue-rotate(7deg) brightness(108%) contrast(104%)
+          drop-shadow(2px 2px 2px #000);
+  transition: transform 0.3s ease, filter 0.3s ease;
+}
+
+.social-link:hover .icon {
+  transform: scale(1.2);
+  filter: brightness(0) saturate(100%) invert(100%);
 }
 
 @media (max-width: var(--bp-tablet)) {
@@ -151,7 +188,6 @@ img, svg {
     gap: 0.3rem;
     padding: 0.25rem 0.45rem;
     border-radius: 4px;
-    font-size: 0.8rem;
   }
 }
 @media (max-width: var(--bp-mobile)) {
@@ -278,40 +314,16 @@ img, svg {
 }
 
 @media (max-width: 1024px) {
-  .social-link { font-size: 1.1rem; }
   .icon { width: 26px; height: 26px; }
-  .header-control-label,
-  .header-menu-btn,
-  #site-footer {
-    font-size: 1.1rem;
-  }
 }
 @media (max-width: 768px) {
-  .social-link { font-size: 1rem; }
   .icon { width: 24px; height: 24px; }
-  .header-control-label,
-  .header-menu-btn,
-  #site-footer {
-    font-size: 1rem;
-  }
 }
 @media (max-width: 480px) {
-  .social-link { font-size: 0.9rem; }
   .icon { width: 20px; height: 20px; }
-  .header-control-label,
-  .header-menu-btn,
-  #site-footer {
-    font-size: 0.9rem;
-  }
 }
 @media (max-width: 360px) {
-  .social-link { font-size: 0.85rem; }
   .icon { width: 18px; height: 18px; }
-  .header-control-label,
-  .header-menu-btn,
-  #site-footer {
-    font-size: 0.85rem;
-  }
 }
 
 @media (max-width: 768px) {

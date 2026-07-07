@@ -13,10 +13,10 @@
   padding: 0.36rem 0.62rem;
   text-align: center;
   color: inherit;
+  font-size: var(--shared-text-size);
   background: rgba(47, 47, 47, 0.42);
   border-radius: 0.125rem;
   text-shadow: 2px 2px 2px #000;
-  font-size: 1.25rem;
   z-index: 100;
   backdrop-filter: blur(14px);
   -webkit-backdrop-filter: blur(14px);

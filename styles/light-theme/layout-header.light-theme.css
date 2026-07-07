@@ -1,2 +1,46 @@
-/* Header uses the same floating black treatment in both themes. */
+/* Light theme overrides for the shared floating header */
+
+body.light-theme #site-header {
+	background: transparent;
+	border: 0;
+	text-shadow: none;
+	box-shadow: none;
+	backdrop-filter: none;
+	-webkit-backdrop-filter: none;
+}
+
+body.light-theme #site-header * {
+	text-shadow: none;
+}
+
+body.light-theme #site-header .site-logo:hover,
+body.light-theme #site-header .site-logo:focus-visible,
+body.light-theme #site-header .header-menu-btn:hover,
+body.light-theme #site-header .header-menu-btn:focus-visible,
+body.light-theme #site-header .theme-btn:hover,
+body.light-theme #site-header .theme-btn:focus-visible,
+body.light-theme #site-header .language-btn:hover,
+body.light-theme #site-header .language-btn:focus-visible,
+body.light-theme #site-header .header-control-label:hover {
+	color: #1f1f1f;
+}
+
+body.light-theme #site-header .site-logo-mark {
+	background: transparent;
+}
+
+body.light-theme #site-header .header-menu-btn,
+body.light-theme #site-header .theme-btn,
+body.light-theme #site-header .language-btn {
+	border-color: rgba(255, 255, 255, 0.08);
+	background: transparent;
+}
+
+body.light-theme #site-header .header-control-label,
+body.light-theme #site-header .site-logo,
+body.light-theme #site-header .header-menu-btn,
+body.light-theme #site-header .theme-btn,
+body.light-theme #site-header .language-btn {
+	color: inherit;
+}
 
